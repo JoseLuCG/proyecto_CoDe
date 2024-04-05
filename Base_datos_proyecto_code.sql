@@ -60,3 +60,7 @@ idUSer INTEGER NOT NULL,
     FOREIGN KEY (exerciseName) REFERENCES ExerciseSet (exerciseName) ON UPDATE CASCADE,
     FOREIGN KEY (setNumber) REFERENCES ExerciseSet (setNumber) ON UPDATE CASCADE
 );
+
+/*
+	Duda: Preguntar por la tabla User_Set, si debe guardar la cantidad de sets que realiza el usuario.
+*/
