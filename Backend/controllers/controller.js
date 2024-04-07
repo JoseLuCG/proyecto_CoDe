@@ -9,59 +9,47 @@ exports.addUser = function (req, res) {
 
 //  checkLogin
 exports.checkLogin = (req, res) => {
-    mysqlConnection.connect();
-    mysqlConnection.query("insert into table.db values ('usuario','password'")
-    mysqlConnection.end();
-},
+    mysqlConnection.query("insert into table.db values ('usuario','password'");
+}
 
 
 
-    //  addUserEjercicio(cardio o fuerza)
-    exports.addUserEjercicio = (req, res) => {
-        mysqlConnection.connect();
-        mysqlConnection.query("insert into table.db values ('usuario','ejercicio'")
-        mysqlConnection.end();
-    },
+//  addUserEjercicio(cardio o fuerza)
+exports.addUserEjercicio = (req, res) => {
+    mysqlConnection.query("insert into table.db values ('usuario','ejercicio'");
+}
 
 
 
-    //  getUserCardio
-    exports.getUserCardio = (req, res) => {
-        mysqlConnection.connect();
-        mysqlConnection.query("select * from table.db where")
-        mysqlConnection.end();
-    },
+//  getUserCardio
+exports.getUserCardio = (req, res) => {
+    mysqlConnection.query("select * from table.db where");
+}
 
 
 
-    //getUserFuerza
-    exports.getUserFuerza = (req, res) => {
-        mysqlConnection.connect();
-        mysqlConnection.query("insert into table.db values ('usuario','password'")
-        mysqlConnection.end();
-    },
+//getUserFuerza
+exports.getUserFuerza = (req, res) => {
+    mysqlConnection.query("insert into table.db values ('usuario','password'");
+}
 
 
 
-    //removeUserEjercicio
-    exports.removeUserEjercicio = (req, res) => {
-        mysqlConnection.connect();
-        mysqlConnection.query("insert into table.db values ('usuario','password'")
-        mysqlConnection.end();
-    },
+//removeUserEjercicio
+exports.removeUserEjercicio = (req, res) => {
+    mysqlConnection.query("insert into table.db values ('usuario','password'");
+}
 
 
 
-    // ?? RemoveUser
-    exports.removeUser = (req, res) => {
-        mysqlConnection.connect();
-        mysqlConnection.query("delete from ");
-        mysqlConnection.end();
-    },
+// ?? RemoveUser
+exports.removeUser = (req, res) => {
+    mysqlConnection.query("delete from ");
+}
 
 
-    //  Test
-    exports.testPruebas = (req, res) => {
-        console.log("hola");
-        res.send("holaa, esto es una prueba");
-    }
+//  Test
+exports.testPruebas = (req, res) => {
+    console.log("hola");
+    res.send("holaa, esto es una prueba");
+}
