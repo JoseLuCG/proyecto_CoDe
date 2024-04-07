@@ -1,71 +1,69 @@
-import { mysqlConnection } from "../bdcon/bdcon"
-
+var mysql=require('../bdcon/bdcon.js');
+    
 //  addUser
-addUser = (req,res) => {
-    mysqlConnection.connect();
-    mysqlConnection.query("insert into table.db values ('usuario','password'")
-    mysqlConnection.end();
+    exports.addUser=function (req,res) {
+    mysql.connection.connect();
+    mysql.connection.query("insert into table.db values ('usuario','password'")
+    mysql.connection.end();
 }
 
 
 
 //  checkLogin
-checkLogin = (req,res) => {
+    exports.checkLogin = (req,res) => {
     mysqlConnection.connect();
     mysqlConnection.query("insert into table.db values ('usuario','password'")
     mysqlConnection.end();
-}
+},
 
 
 
 //  addUserEjercicio(cardio o fuerza)
-addUserEjercicio = (req,res) => {
+    exports.addUserEjercicio = (req,res) => {
     mysqlConnection.connect();
     mysqlConnection.query("insert into table.db values ('usuario','ejercicio'")
     mysqlConnection.end();
-}
+},
 
 
 
 //  getUserCardio
-getUserCardio = (req,res) => {
+exports.getUserCardio = (req,res) => {
     mysqlConnection.connect();
     mysqlConnection.query("select * from table.db where")
     mysqlConnection.end();
-}
+},
 
 
 
 //getUserFuerza
-getUserFuerza = (req,res) => {
+exports.getUserFuerza = (req,res) => {
     mysqlConnection.connect();
     mysqlConnection.query("insert into table.db values ('usuario','password'")
     mysqlConnection.end();
-}
+},
 
 
 
 //removeUserEjercicio
-removeUserEjercicio = (req,res) => {
+exports.removeUserEjercicio = (req,res) => {
     mysqlConnection.connect();
     mysqlConnection.query("insert into table.db values ('usuario','password'")
     mysqlConnection.end();
-}
+},
 
 
 
 // ?? RemoveUser
-removeUser = (req,res) => {
+exports.removeUser = (req,res) => {
     mysqlConnection.connect();
     mysqlConnection.query("delete from ");
     mysqlConnection.end();
-}
+},
 
 
 //  Test
-testPruebas = (req,res) => {
-    res.send("Holaa, Test");
+exports.testPruebas = (req,res) => {
+    console.log("hola");
+    res.send("holaa, esto es una prueba");
 }
-
-
-export {addUser,removeUser,checkLogin,addUserEjercicio,removeUserEjercicio,getUserCardio,getUserFuerza,testPruebas};

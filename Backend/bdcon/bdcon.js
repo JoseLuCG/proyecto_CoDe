@@ -5,8 +5,7 @@ var connection= mysql.createConnection({
     password:"pass"
 });
 
+exports.connection=connection;
 //connection.connect();
 
 //connection.end();
-
-export {connection as mysqlConnection};

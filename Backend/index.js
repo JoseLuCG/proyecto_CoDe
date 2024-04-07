@@ -1,14 +1,20 @@
-import { addUser,removeUser,checkLogin,addUserEjercicio,removeUserEjercicio,getUserCardio,getUserFuerza,testPruebas } from './controllers/controller';
-
 const express=require('express');
 const app=express();
+const port=3000;
 
-app.get("/addUser",addUser);
-app.delete("/removeUser",removeUser);
-app.get("/checkLogin",checkLogin);
-app.get("/addUserEjercicio",addUserEjercicio);
-app.get("/getUserCardio",getUserCardio);
-app.get("/getUserFuerza",getUserFuerza);
-app.delete("/removeEjercicio",removeUserEjercicio);
+const controllers=require('./controllers/controller.js');
 
-app.get("/test",testPruebas);
+app.get("/addUser",controllers.addUser);
+app.delete("/removeUser",controllers.removeUser);
+app.get("/checkLogin",controllers.checkLogin);
+app.get("/addUserEjercicio",controllers.addUserEjercicio);
+app.get("/getUserCardio",controllers.getUserCardio);
+app.get("/getUserFuerza",controllers.getUserFuerza);
+app.delete("/removeEjercicio",controllers.removeUserEjercicio);
+
+app.use("/test",controllers.testPruebas);
+
+
+app.listen(port, () => {
+    console.log("App listening on port ${port}");
+})
