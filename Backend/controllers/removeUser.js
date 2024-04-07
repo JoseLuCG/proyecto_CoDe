@@ -1,9 +1,9 @@
 import { mysqlConnection } from "../bdcon/bdcon"
 
-removeUserEjercicio = (req,res) => {
+removeUser = (req,res) => {
     mysqlConnection.connect();
     mysqlConnection.query("insert into table.db values ('usuario','password'")
     mysqlConnection.end();
 }
 
-export {removeUserEjercicio};
+export {removeUser};
