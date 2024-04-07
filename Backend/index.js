@@ -1,4 +1,4 @@
-import { addUser,removeUser,checkLogin,addUserEjercicio,removeUserEjercicio,getUserCardio,getUserFuerza,testpruebas } from './controllers/controller';
+import { addUser,removeUser,checkLogin,addUserEjercicio,removeUserEjercicio,getUserCardio,getUserFuerza,testPruebas } from './controllers/controller';
 
 const express=require('express');
 const app=express();
@@ -11,4 +11,4 @@ app.get("/getUserCardio",getUserCardio);
 app.get("/getUserFuerza",getUserFuerza);
 app.delete("/removeEjercicio",removeUserEjercicio);
 
-app.get("/test",testpruebas);
+app.get("/test",testPruebas);

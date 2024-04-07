@@ -68,4 +68,4 @@ testPruebas = (req,res) => {
 }
 
 
-export {addUser,removeUser,checkLogin,addUserEjercicio,removeUserEjercicio,getUserCardio,getUserFuerza,testpruebas};
+export {addUser,removeUser,checkLogin,addUserEjercicio,removeUserEjercicio,getUserCardio,getUserFuerza,testPruebas};
