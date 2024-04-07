@@ -1,10 +1,4 @@
-import {addUser} from "./controllers/addUser";
-import { checkLogin } from "./controllers/checkLogin";
-import { addUserEjercicio } from "./controllers/addUserEjercicio";
-import { getUserCardio } from "./controllers/getUserCardio";
-import { getUserFuerza } from "./controllers/getUserFuerza";
-import { removeUserEjercicio } from "./controllers/removeUserEjercicio";
-import { removeUser } from "./controllers/removeUser";
+import { addUser,removeUser,checkLogin,addUserEjercicio,removeUserEjercicio,getUserCardio,getUserFuerza,testpruebas } from './controllers/controller';
 
 const express=require('express');
 const app=express();
@@ -16,3 +10,5 @@ app.get("/addUserEjercicio",addUserEjercicio);
 app.get("/getUserCardio",getUserCardio);
 app.get("/getUserFuerza",getUserFuerza);
 app.delete("/removeEjercicio",removeUserEjercicio);
+
+app.get("/test",testpruebas);
