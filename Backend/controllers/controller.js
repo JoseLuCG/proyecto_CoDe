@@ -1,47 +1,47 @@
-import { mySqlConn } from "../bdcon/bdcon";
+import { mySqlConn } from "../bdcon/bdcon.js";
 
 //  addUser
-addUser = function (req, res) {
-  mySqlConn.query("insert into table.db values ('usuario','password'");
+function addUser(req, res) {
+  mySqlConn.query("insert into users (nameuser,passwd,lastnameuser,phonenumber) values ('joselu','abc123.','conde','667767585')");
 };
 
 //  checkLogin
-checkLogin = (req, res) => {
-  mySqlConn.query("insert into table.db values ('usuario','password'");
+function checkLogin(req, res) {
+  mySqlConn.query("select nameuser,passwd from users where nameuser='joselu' AND passwd='abc123.'");
 };
 
 //  addUserEjercicio(cardio o fuerza)
-addUserEjercicio = (req, res) => {
+function addUserEjercicio(req, res) {
   mySqlConn.query("insert into table.db values ('usuario','ejercicio'");
 };
 
 //  getUserCardio
-getUserCardio = (req, res) => {
+function getUserCardio(req, res) {
   mySqlConn.query("select * from table.db where");
 };
 
 //getUserFuerza
-getUserFuerza = (req, res) => {
+function getUserFuerza(req, res) {
   mySqlConn.query("insert into table.db values ('usuario','password'");
 };
 
 //removeUserEjercicio
-removeUserEjercicio = (req, res) => {
+function removeUserEjercicio(req, res) {
   mySqlConn.query("insert into table.db values ('usuario','password'");
 };
 
 // ?? RemoveUser
-removeUser = (req, res) => {
+function removeUser(req, res) {
   mySqlConn.query.query("delete from ");
 };
 
 //  Test
-testPruebas = (req, res) => {
+function testPruebas(req, res) {
   console.log("hola");
   res.send("holaa, esto es una prueba");
 };
 
-controllers.export = {
+export {
   addUser,
   checkLogin,
   removeUser,
@@ -49,4 +49,5 @@ controllers.export = {
   removeUserEjercicio,
   getUserCardio,
   getUserFuerza,
+  testPruebas
 };

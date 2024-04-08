@@ -7,6 +7,7 @@ USE wakeup;
 CREATE TABLE Users(
 	id INTEGER AUTO_INCREMENT NOT NULL,
     nameUser VARCHAR(40) NOT NULL,
+    passwd varchar(40) not null,
     lastNameUser VARCHAR(40) NOT NULL, 
     phoneNumber VARCHAR(9) NOT NULL,
     CONSTRAINT id_user PRIMARY KEY (id)
@@ -50,14 +51,13 @@ CREATE TABLE User_Cardio (
 );
 
 CREATE TABLE User_Set (
-idUSer INTEGER NOT NULL,
 	idUSer INTEGER NOT NULL,
     exerciseName VARCHAR(50) NOT NULL,
     setNumber INTEGER NOT NULL,
     exerciseDate DATE,
     PRIMARY KEY (idUser, exerciseName, setNumber),
     FOREIGN KEY (idUSer) REFERENCES Users (id) ON UPDATE CASCADE,
-    FOREIGN KEY (exerciseName) REFERENCES ExerciseSet (exerciseName) ON UPDATE CASCADE,
+    FOREIGN KEY (exerciseName) REFERENCES StrengthExercise (exerciseName) ON UPDATE CASCADE,
     FOREIGN KEY (setNumber) REFERENCES ExerciseSet (setNumber) ON UPDATE CASCADE
 );
 
