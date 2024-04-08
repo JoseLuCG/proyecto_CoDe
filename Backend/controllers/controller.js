@@ -2,37 +2,69 @@ import { mySqlConn } from "../bdcon/bdcon.js";
 
 //  addUser
 function addUser(req, res) {
-  mySqlConn.query("insert into users (nameuser,passwd,lastnameuser,phonenumber) values ('joselu','abc123.','conde','667767585')");
+  let sql = "insert into users (nameuser,passwd,lastnameuser,phonenumber) values ('joselu','abc123.','conde','667767585')";
+
+  mySqlConn.query(sql, function (err) {
+    if (err) res.write(err);
+    else res.write("Correcto");
+  });
 };
 
 //  checkLogin
 function checkLogin(req, res) {
-  mySqlConn.query("select nameuser,passwd from users where nameuser='joselu' AND passwd='abc123.'");
+  let sql = "select nameuser,passwd from users where nameuser='joselu' AND passwd='abc123.'";
+  mySqlConn.query(sql, function (err, rows) {
+    if (err) console.log(err);
+    else res.write(`Correcto`);
+    if (rows.length > 0) res.write("loggeado");
+    res.send();
+  });
+
 };
 
 //  addUserEjercicio(cardio o fuerza)
 function addUserEjercicio(req, res) {
-  mySqlConn.query("insert into table.db values ('usuario','ejercicio'");
+  let sql = "insert into table.db values ('usuario','ejercicio'"
+  mySqlConn.query(sql, function (err) {
+    if (err) console.log(err);
+    else res.send("Correcto");
+  });
 };
 
 //  getUserCardio
 function getUserCardio(req, res) {
-  mySqlConn.query("select * from table.db where");
+  let sql = "select * from userCardio where id=1";
+  mySqlConn.query(sql, function (err) {
+    if (err) console.log(err);
+    else res.send("Correcto");
+  });
 };
 
 //getUserFuerza
 function getUserFuerza(req, res) {
-  mySqlConn.query("insert into table.db values ('usuario','password'");
+  let sql = "select * from userFuerza where id=2";
+  mySqlConn.query(sql, function (err) {
+    if (err) console.log(err);
+    else res.send("Correcto");
+  });
 };
 
 //removeUserEjercicio
 function removeUserEjercicio(req, res) {
-  mySqlConn.query("insert into table.db values ('usuario','password'");
+  let sql = "delete from userejercicio where id=1";
+  mySqlConn.query(sql, function (err) {
+    if (err) console.log(err);
+    else res.send("Correcto");
+  });
 };
 
 // ?? RemoveUser
 function removeUser(req, res) {
-  mySqlConn.query.query("delete from ");
+  let sql = "delete from user where id=1";
+  mySqlConn.query(sql, function (err) {
+    if (err) console.log(err);
+    else res.send("Correcto");
+  });
 };
 
 //  Test

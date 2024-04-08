@@ -5,7 +5,7 @@ const app = express();
 const port = 3000;
 
 app.get("/addUser", controllers.addUser);
-app.delete("/removeUser", controllers.removeUser);
+app.get("/removeUser", controllers.removeUser);
 app.get("/checkLogin", controllers.checkLogin);
 app.get("/addUserEjercicio", controllers.addUserEjercicio);
 app.get("/getUserCardio", controllers.getUserCardio);
