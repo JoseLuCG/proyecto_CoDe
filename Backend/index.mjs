@@ -1,8 +1,7 @@
-const express = require('express');
+import express from "express";
+import { controllers } from "./controllers/controller.js";
 const app = express();
 const port = 3000;
-
-const controllers = require('./controllers/controller.js');
 
 app.get("/addUser", controllers.addUser);
 app.delete("/removeUser", controllers.removeUser);
@@ -14,7 +13,6 @@ app.delete("/removeEjercicio", controllers.removeUserEjercicio);
 
 app.use("/test", controllers.testPruebas);
 
-
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
-})
+  console.log(`App listening on port ${port}`);
+});
