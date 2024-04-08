@@ -1,22 +1,25 @@
+import { json } from "express";
 import { mySqlConn } from "../bdcon/bdcon.js";
 
 //  addUser
 function addUser(req, res) {
   let sql = "insert into users (nameuser,passwd,lastnameuser,phonenumber) values ('joselu','abc123.','conde','667767585')";
-
   mySqlConn.query(sql, function (err) {
-    if (err) res.write(err);
-    else res.write("Correcto");
+    if (err) console.log(err);
+    else console.log("Correcto");
+    res.send();
   });
 };
 
 //  checkLogin
 function checkLogin(req, res) {
-  let sql = "select nameuser,passwd from users where nameuser='joselu' AND passwd='abc123.'";
+  let sql = "select nameuser,passwd from users where nameuser='joselu' AND passwd='abc123.' limit 1";
   mySqlConn.query(sql, function (err, rows) {
     if (err) console.log(err);
-    else res.write(`Correcto`);
-    if (rows.length > 0) res.write("loggeado");
+    else {
+      if (rows.length > 0) res.write(JSON.stringify(rows));
+      else res.write("Usuario o Contraseña Incorrecto");
+    }
     res.send();
   });
 
@@ -35,8 +38,9 @@ function addUserEjercicio(req, res) {
 function getUserCardio(req, res) {
   let sql = "select * from userCardio where id=1";
   mySqlConn.query(sql, function (err) {
-    if (err) console.log(err);
-    else res.send("Correcto");
+    if (err) console.log(err, rows);
+    else res.write(JSON.stringify(rows));
+    res.send();
   });
 };
 
@@ -44,8 +48,9 @@ function getUserCardio(req, res) {
 function getUserFuerza(req, res) {
   let sql = "select * from userFuerza where id=2";
   mySqlConn.query(sql, function (err) {
-    if (err) console.log(err);
-    else res.send("Correcto");
+    if (err) console.log(err, rows);
+    else res.write(JSON.stringify(rows));
+    res.send();
   });
 };
 
