@@ -55,12 +55,7 @@ CREATE TABLE User_Set (
     exerciseName VARCHAR(50) NOT NULL,
     setNumber INTEGER NOT NULL,
     exerciseDate DATE,
-    PRIMARY KEY (idUser, exerciseName, setNumber),
+    PRIMARY KEY (idUser, setNumber, exerciseName),
     FOREIGN KEY (idUSer) REFERENCES Users (id) ON UPDATE CASCADE,
-    FOREIGN KEY (exerciseName) REFERENCES StrengthExercise (exerciseName) ON UPDATE CASCADE,
-    FOREIGN KEY (setNumber) REFERENCES ExerciseSet (setNumber) ON UPDATE CASCADE
+    FOREIGN KEY (exerciseName, setNumber) REFERENCES ExerciseSet (exerciseName, setNumber) ON UPDATE CASCADE
 );
-
-/*
-	Duda: Preguntar por la tabla User_Set, si debe guardar la cantidad de sets que realiza el usuario.
-*/
