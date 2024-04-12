@@ -4,8 +4,7 @@ import { mySqlConn } from "../bdcon/bdcon.js";
 //  addUser
 function addUser(req, res) {
   const {nameUSer, lastNameUser, passwd, phoneNumber} = req.body
-  let sql = `INSERT INTO Users (nameUser,lastNameUser,passwd,phoneNumber) 
-              values ("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
+  let sql = `CALL createUser("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else console.log("Correcto");
