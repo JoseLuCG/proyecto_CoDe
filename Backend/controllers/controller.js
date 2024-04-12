@@ -3,7 +3,9 @@ import { mySqlConn } from "../bdcon/bdcon.js";
 
 //  addUser
 function addUser(req, res) {
-  let sql = "insert into users (nameuser,passwd,lastnameuser,phonenumber) values ('joselu','abc123.','conde','667767585')";
+  const {nameUSer, lastNameUser, passwd, phoneNumber} = req.body
+  let sql = `INSERT INTO Users (nameUser,lastNameUser,passwd,phoneNumber) 
+              values ("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else console.log("Correcto");
@@ -65,7 +67,7 @@ function removeUserEjercicio(req, res) {
 
 // ?? RemoveUser
 function removeUser(req, res) {
-  let sql = "delete from user where id=1";
+  let sql = `delete from user where id=1`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else res.send("Correcto");
