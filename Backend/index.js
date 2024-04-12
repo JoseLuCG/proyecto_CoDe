@@ -6,7 +6,7 @@ const port = 3000;
 const jsonParser = express.json();
 
 app.post("/addUser", jsonParser, controllers.addUser);
-app.get("/removeUser", controllers.removeUser);
+app.delete("/removeUser", jsonParser, controllers.removeUser);
 app.get("/checkLogin", controllers.checkLogin);
 app.get("/addUserEjercicio", controllers.addUserEjercicio);
 app.get("/getUserCardio", controllers.getUserCardio);

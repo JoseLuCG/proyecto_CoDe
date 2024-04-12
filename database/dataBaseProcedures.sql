@@ -29,5 +29,3 @@ BEGIN
 		WHERE id = p_id;
 	COMMIT;
 END; $$
-
-CALL deleteUser(7);
