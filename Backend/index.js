@@ -3,8 +3,9 @@ import * as controllers from "./controllers/controller.js";
 
 const app = express();
 const port = 3000;
+const jsonParser = express.json();
 
-app.get("/addUser", controllers.addUser);
+app.post("/addUser", jsonParser, controllers.addUser);
 app.get("/removeUser", controllers.removeUser);
 app.get("/checkLogin", controllers.checkLogin);
 app.get("/addUserEjercicio", controllers.addUserEjercicio);
