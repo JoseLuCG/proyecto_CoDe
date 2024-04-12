@@ -7,8 +7,8 @@ USE wakeup;
 CREATE TABLE Users(
 	id INTEGER AUTO_INCREMENT NOT NULL,
     nameUser VARCHAR(40) NOT NULL,
+    lastNameUser VARCHAR(40) NOT NULL,
     passwd varchar(40) not null,
-    lastNameUser VARCHAR(40) NOT NULL, 
     phoneNumber VARCHAR(9) NOT NULL,
     CONSTRAINT id_user PRIMARY KEY (id)
 );
