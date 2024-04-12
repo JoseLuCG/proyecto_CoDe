@@ -66,7 +66,8 @@ function removeUserEjercicio(req, res) {
 
 // ?? RemoveUser
 function removeUser(req, res) {
-  let sql = `delete from user where id=1`;
+  const { id } = req.body
+  let sql = `CALL deleteUser(${id})`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else res.send("Correcto");
