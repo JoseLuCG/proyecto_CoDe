@@ -10,6 +10,7 @@ CREATE TABLE Users(
     lastNameUser VARCHAR(40) NOT NULL,
     passwd varchar(40) not null,
     phoneNumber VARCHAR(9) NOT NULL,
+    unique(phoneNumber),
     CONSTRAINT id_user PRIMARY KEY (id)
 );
 

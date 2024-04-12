@@ -1,7 +1,11 @@
 import { json } from "express";
 import { mySqlConn } from "../bdcon/bdcon.js";
 
-//  addUser
+/**
+ * Add a user to the database using a json in the request body.
+ * @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 function addUser(req, res) {
   const {nameUSer, lastNameUser, passwd, phoneNumber} = req.body
   let sql = `CALL createUser("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
@@ -64,7 +68,11 @@ function removeUserEjercicio(req, res) {
   });
 };
 
-// ?? RemoveUser
+/**
+ * Delete the user in he database, that corresponds with the id sent in the request body. 
+ * @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 function removeUser(req, res) {
   const { id } = req.body
   let sql = `CALL deleteUser(${id})`;
