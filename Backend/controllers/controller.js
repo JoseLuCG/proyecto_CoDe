@@ -16,7 +16,11 @@ function addUser(req, res) {
   });
 };
 
-//  checkLogin
+/**
+ * Log the user in the aplication.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 function checkLogin(req, res) {
   let sql = "select nameuser,passwd from users where nameuser='joselu' AND passwd='abc123.' limit 1";
   mySqlConn.query(sql, function (err, rows) {
