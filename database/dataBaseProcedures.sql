@@ -35,6 +35,7 @@ BEGIN
 	COMMIT;
 END; $$
 
+<<<<<<< HEAD
 /**/
 DELIMITER $$
 DROP FUNCTION IF EXISTS logUser; $$
@@ -58,3 +59,17 @@ BEGIN
 	COMMIT;
 END;$$
 
+=======
+DELIMITER $$
+DROP FUNCTION IF EXISTS logUser; $$
+CREATE FUNCTION logUser (p_phoneNumber VARCHAR(9), p_password VARCHAR(40)) RETURNS INT
+BEGIN 
+    DECLARE v_idUser INT default 0;
+    SELECT id 
+        INTO v_idUser
+        FROM Users
+        WHERE passwd = p_password
+        and phoneNumber = p_phoneNumber;
+    RETURN (v_idUser);
+END;$$
+>>>>>>> 1d2fc4f3d0a9a58a501095f7cfe430b861b39f82
