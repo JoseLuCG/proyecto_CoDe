@@ -5,3 +5,4 @@ select logUser('600000001', 'abc') as id;
 
 CALL addStrengthExecise ("Peso Muerto");
 CALL addStrengthExecise ("Bíceps Mancuernas");
+
