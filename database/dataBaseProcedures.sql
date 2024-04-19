@@ -37,6 +37,9 @@ BEGIN
 	COMMIT;
 END; $$
 
+/*
+	Function that log the user.
+*/
 DELIMITER $$
 DROP FUNCTION IF EXISTS logUser; $$
 CREATE FUNCTION logUser (p_phoneNumber VARCHAR(9), p_password VARCHAR(40)) RETURNS INT
@@ -49,3 +52,43 @@ BEGIN
         and phoneNumber = p_phoneNumber;
     RETURN (v_idUser);
 END;$$
+
+/*
+	Procedure that insert a new strength exercise.
+*/
+DELIMITER $$
+DROP PROCEDURE IF EXISTS addStrengthExecise; $$
+CREATE PROCEDURE addStrengthExecise (p_exerciseName VARCHAR(50))
+BEGIN
+	DECLARE v_existsExercise INT;
+    
+    SELECT COUNT(*) 
+		INTO v_existsExercise
+		FROM StrengthExercise
+        WHERE exerciseName = p_exerciseName;
+	
+    IF (v_existsExercise > 0) THEN
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'The exercise already exists';
+	ELSE 
+		INSERT INTO StrengthExercise(exerciseName)
+			VALUES(p_exerciseName);	
+    END IF;
+END; $$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
