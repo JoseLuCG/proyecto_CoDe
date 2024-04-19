@@ -1,4 +1,4 @@
-import { json } from "express";
+import e, { json } from "express";
 import { mySqlConn } from "../bdcon/bdcon.js";
 
 /**
@@ -36,6 +36,16 @@ function checkLogin(req, res) {
   });
 
 };
+
+function addStrengthExercise (req, res) {
+  const {exerciseName} = req.body;
+  let sql = `CALL addStrengthExecise("${exerciseName}")`;
+  mySqlConn.query(sql, (err)=>{
+    if (err) console.log(err);
+    else console.log("Correcto");
+    res.send();
+  });
+}
 
 //  addUserEjercicio(cardio o fuerza)
 function addUserEjercicio(req, res) {
@@ -99,6 +109,7 @@ export {
   addUser,
   checkLogin,
   removeUser,
+  addStrengthExercise,
   addUserEjercicio,
   removeUserEjercicio,
   getUserCardio,
