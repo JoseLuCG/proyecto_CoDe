@@ -7,7 +7,7 @@ import { mySqlConn } from "../bdcon/bdcon.js";
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function addUser(req, res) {
-  const {nameUSer, lastNameUser, passwd, phoneNumber} = req.body
+  const {nameUSer, lastNameUser, passwd, phoneNumber} = req.body;
   let sql = `CALL createUser("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
@@ -22,14 +22,17 @@ function addUser(req, res) {
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function checkLogin(req, res) {
-  let sql = "select nameuser,passwd from users where nameuser='joselu' AND passwd='abc123.' limit 1";
-  mySqlConn.query(sql, function (err, rows) {
-    if (err) console.log(err);
-    else {
-      if (rows.length > 0) res.write(JSON.stringify(rows));
-      else res.write("Usuario o Contraseña Incorrecto");
+  const { phoneNumber, passwd} = req.body;
+  let sql = `SELECT logUser("${phoneNumber}", "${passwd}") AS id`;
+  mySqlConn.query(sql, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.send(data);
+      console.log(data);
+      console.log("correcto");
     }
-    res.send();
   });
 
 };
