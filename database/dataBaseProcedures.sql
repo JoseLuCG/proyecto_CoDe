@@ -35,31 +35,6 @@ BEGIN
 	COMMIT;
 END; $$
 
-<<<<<<< HEAD
-/**/
-DELIMITER $$
-DROP FUNCTION IF EXISTS logUser; $$
-CREATE FUNCTION logUser (p_phoneNumber VARCHAR(9), p_password VARCHAR(40)) RETURNS INT
-BEGIN
-	DECLARE v_idUser INT;
-    
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		SHOW ERRORS;
-        ROLLBACK;
-	END;
-    
-	START TRANSACTION;
-		SELECT id 
-			INTO v_idUSer
-			FROM Users
-            WHERE passwd = 'abc'
-            and phoneNumber = '600000001';
-		RETURN (v_idUser);
-	COMMIT;
-END;$$
-
-=======
 DELIMITER $$
 DROP FUNCTION IF EXISTS logUser; $$
 CREATE FUNCTION logUser (p_phoneNumber VARCHAR(9), p_password VARCHAR(40)) RETURNS INT
@@ -72,4 +47,3 @@ BEGIN
         and phoneNumber = p_phoneNumber;
     RETURN (v_idUser);
 END;$$
->>>>>>> 1d2fc4f3d0a9a58a501095f7cfe430b861b39f82
