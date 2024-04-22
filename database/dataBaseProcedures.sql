@@ -1,8 +1,6 @@
 SET GLOBAL log_bin_trust_function_creators = 1;
 
-/*
-	Procedure that inserts a new user into the database
-*/
+/* Procedure that inserts a new user into the database. */
 DELIMITER $$
 DROP PROCEDURE IF EXISTS createUser; $$
 CREATE PROCEDURE createUser(p_name VARCHAR(40), p_lastName VARCHAR(40), p_password VARCHAR(40), p_phoneNumber VARCHAR(9))
@@ -18,9 +16,8 @@ BEGIN
 			VALUES (p_name, p_lastName, p_password, p_phoneNumber);
 	COMMIT;
 END; $$
-/*
-	Procedure that delete the user from the database that matches the id passed as a parameter.
-*/
+
+/* Procedure that delete the user from the database that matches the id passed as a parameter. */
 DELIMITER $$
 DROP PROCEDURE IF EXISTS deleteUser; $$
 CREATE PROCEDURE deleteUser (p_id INT)
@@ -37,9 +34,7 @@ BEGIN
 	COMMIT;
 END; $$
 
-/*
-	Function that log the user.
-*/
+/* Function that log the user. */
 DELIMITER $$
 DROP FUNCTION IF EXISTS logUser; $$
 CREATE FUNCTION logUser (p_phoneNumber VARCHAR(9), p_password VARCHAR(40)) RETURNS INT
@@ -53,9 +48,7 @@ BEGIN
     RETURN (v_idUser);
 END;$$
 
-/*
-	Procedure that insert a new strength exercise.
-*/
+/* Procedure that insert a new strength exercise. */
 DELIMITER $$
 DROP PROCEDURE IF EXISTS addStrengthExecise; $$
 CREATE PROCEDURE addStrengthExecise (p_exerciseName VARCHAR(50))
