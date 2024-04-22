@@ -51,6 +51,11 @@ function checkLogin(req, res) {
 
 }
 
+/**
+ * Add a strength exercise in data base.
+ * @param {*} req 
+ * @param {*} res 
+ */
 function addStrengthExercise (req, res) {
   const {exerciseName} = req.body;
   let sql = `CALL addStrengthExecise("${exerciseName}")`;
@@ -61,6 +66,11 @@ function addStrengthExercise (req, res) {
   });
 }
 
+/**
+ * Add a cardio exercise in data base.
+ * @param {*} req 
+ * @param {*} res 
+ */
 function addCardioExercise (req, res) {
   const {exerciseName} = req.body;
   let sql = `CALL addCardioExecise("${exerciseName}")`;
@@ -69,6 +79,15 @@ function addCardioExercise (req, res) {
     else console.log("Correcto");
     res.send();
   });
+}
+
+/**
+ * Add the registration of a user on a specific day.
+ * @param {*} req 
+ * @param {*} res 
+ */
+function addUserStrengthExercise (req, res) {
+
 }
 
 //  addUserEjercicio(cardio o fuerza)
@@ -121,6 +140,7 @@ export {
   removeUser,
   addStrengthExercise,
   addCardioExercise,
+  addUserStrengthExercise,
   addUserEjercicio,
   removeUserEjercicio,
   getUserCardio,

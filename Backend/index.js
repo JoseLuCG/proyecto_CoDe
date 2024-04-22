@@ -10,7 +10,7 @@ app.delete("/removeUser", jsonParser, controllers.removeUser);
 app.post("/checkLogin", jsonParser, controllers.checkLogin);
 app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise);
 app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise);
-
+app.post("/addUserStrengthExercise", jsonParser, controllers.addUserS);
 
 
 app.get("/addUserEjercicio", controllers.addUserEjercicio);
