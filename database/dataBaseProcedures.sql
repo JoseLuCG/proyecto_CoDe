@@ -90,8 +90,22 @@ BEGIN
     END IF;
 END; $$
 
-
-
+/* Procedure that add the registration of a user on a specific day. */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS addUserStrengthExercise; $$
+CREATE PROCEDURE addUserStrengthExercise (p_exerciseDate DATE, p_IdUser INT, p_setNumber INT, p_exerciseName VARCHAR(50), p_weight DOUBLE, p_repeats INT)
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		SHOW ERRORS;
+        ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO User_Strength (exerciseDate, idUser, setNumber, exerciseName, weight, repeats)
+			VALUES (p_exerciseDate, p_IdUser, p_setNumber, p_exerciseName, p_weight, p_repeats);
+	COMMIT;
+END; $$
 
 
 
