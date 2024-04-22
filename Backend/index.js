@@ -9,6 +9,9 @@ app.post("/addUser", jsonParser, controllers.addUser);
 app.delete("/removeUser", jsonParser, controllers.removeUser);
 app.post("/checkLogin", jsonParser, controllers.checkLogin);
 app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise);
+app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise);
+
+
 
 app.get("/addUserEjercicio", controllers.addUserEjercicio);
 app.get("/getUserCardio", controllers.getUserCardio);

@@ -17,6 +17,20 @@ function addUser(req, res) {
 };
 
 /**
+ * Delete the user in he database, that corresponds with the id sent in the request body. 
+ * @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
+function removeUser(req, res) {
+  const { id } = req.body
+  let sql = `CALL deleteUser(${id})`;
+  mySqlConn.query(sql, function (err) {
+    if (err) console.log(err);
+    else res.send("Correcto");
+  });
+};
+
+/**
  * Log the user in the aplication.
 * @param {*} req - Object represents the HTTP request query string. 
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
@@ -35,11 +49,21 @@ function checkLogin(req, res) {
     }
   });
 
-};
+}
 
 function addStrengthExercise (req, res) {
   const {exerciseName} = req.body;
   let sql = `CALL addStrengthExecise("${exerciseName}")`;
+  mySqlConn.query(sql, (err)=>{
+    if (err) console.log(err);
+    else console.log("Correcto");
+    res.send();
+  });
+}
+
+function addCardioExercise (req, res) {
+  const {exerciseName} = req.body;
+  let sql = `CALL addCardioExecise("${exerciseName}")`;
   mySqlConn.query(sql, (err)=>{
     if (err) console.log(err);
     else console.log("Correcto");
@@ -85,20 +109,6 @@ function removeUserEjercicio(req, res) {
   });
 };
 
-/**
- * Delete the user in he database, that corresponds with the id sent in the request body. 
- * @param {*} req - Object represents the HTTP request query string. 
- * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
- */
-function removeUser(req, res) {
-  const { id } = req.body
-  let sql = `CALL deleteUser(${id})`;
-  mySqlConn.query(sql, function (err) {
-    if (err) console.log(err);
-    else res.send("Correcto");
-  });
-};
-
 //  Test
 function testPruebas(req, res) {
   console.log("hola");
@@ -110,6 +120,7 @@ export {
   checkLogin,
   removeUser,
   addStrengthExercise,
+  addCardioExercise,
   addUserEjercicio,
   removeUserEjercicio,
   getUserCardio,
