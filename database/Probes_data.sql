@@ -26,3 +26,7 @@ select logUser('600000001', 'abc') as id;
 CALL addStrengthExecise ("Peso Muerto");
 CALL addStrengthExecise ("Bíceps Mancuernas");
 
+CALL addCardioExecise("Correr");
+CALL addCardioExecise("Caminar");
+CALL addCardioExecise("Nadar");
+CALL addCardioExecise("Escalera");

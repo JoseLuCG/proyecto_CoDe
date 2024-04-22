@@ -69,7 +69,26 @@ BEGIN
     END IF;
 END; $$
 
-
+/* Procedure that insert a new cardio exercise. */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS addCardioExecise; $$
+CREATE PROCEDURE addCardioExecise (p_exerciseName VARCHAR(50))
+BEGIN
+	DECLARE v_existsExercise INT;
+    
+    SELECT COUNT(*) 
+		INTO v_existsExercise
+		FROM CardioExercise
+        WHERE exerciseName = p_exerciseName;
+	
+    IF (v_existsExercise > 0) THEN
+		SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'The exercise already exists';
+	ELSE 
+		INSERT INTO CardioExercise(exerciseName)
+			VALUES(p_exerciseName);	
+    END IF;
+END; $$
 
 
 
