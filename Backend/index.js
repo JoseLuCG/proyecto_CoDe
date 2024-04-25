@@ -5,12 +5,12 @@ const app = express();
 const port = 3000;
 const jsonParser = express.json();
 
-app.post("/addUser", jsonParser, controllers.addUser);
-app.delete("/removeUser", jsonParser, controllers.removeUser);
-app.post("/checkLogin", jsonParser, controllers.checkLogin);
-app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise);
-app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise);
-app.post("/addUserStrengthExercise", jsonParser, controllers.addUserS);
+app.post("/addUser", jsonParser, controllers.addUser); //Proved. WORKS
+app.delete("/removeUser", jsonParser, controllers.removeUser); //Proved. WORKS
+app.post("/checkLogin", jsonParser, controllers.checkLogin); // Proved. WORKS
+app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise); // Proved. WORKS
+app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); // Proved. WORKS
+app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); 
 
 
 app.get("/addUserEjercicio", controllers.addUserEjercicio);

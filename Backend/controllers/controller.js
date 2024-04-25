@@ -87,7 +87,18 @@ function addCardioExercise (req, res) {
  * @param {*} res 
  */
 function addUserStrengthExercise (req, res) {
-
+  const {exerciseDate, idUser, setNumber, exerciseName, weight, repeats} = req.body;
+  let sql = `CALL addUserStrengthExercise(
+    '${exerciseDate}',
+    ${idUser},
+    ${setNumber},
+    '${exerciseName}',
+    ${weight}, 
+    ${repeats})`;
+  mySqlConn.query(sql, function (err){
+    if (err) console.log(err);
+    else res.send("Correcto");
+  });
 }
 
 //  addUserEjercicio(cardio o fuerza)
