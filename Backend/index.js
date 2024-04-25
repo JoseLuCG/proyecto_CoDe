@@ -10,8 +10,7 @@ app.delete("/removeUser", jsonParser, controllers.removeUser); //Proved. WORKS
 app.post("/checkLogin", jsonParser, controllers.checkLogin); // Proved. WORKS
 app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise); // Proved. WORKS
 app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); // Proved. WORKS
-app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); 
-
+app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); // Proved. WORKS
 
 app.get("/addUserEjercicio", controllers.addUserEjercicio);
 app.get("/getUserCardio", controllers.getUserCardio);

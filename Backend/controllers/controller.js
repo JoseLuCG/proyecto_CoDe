@@ -101,15 +101,6 @@ function addUserStrengthExercise (req, res) {
   });
 }
 
-//  addUserEjercicio(cardio o fuerza)
-function addUserEjercicio(req, res) {
-  let sql = "insert into table.db values ('usuario','ejercicio'"
-  mySqlConn.query(sql, function (err) {
-    if (err) console.log(err);
-    else res.send("Correcto");
-  });
-};
-
 //  getUserCardio
 function getUserCardio(req, res) {
   let sql = "select * from userCardio where id=1";
@@ -152,7 +143,6 @@ export {
   addStrengthExercise,
   addCardioExercise,
   addUserStrengthExercise,
-  addUserEjercicio,
   removeUserEjercicio,
   getUserCardio,
   getUserFuerza,
