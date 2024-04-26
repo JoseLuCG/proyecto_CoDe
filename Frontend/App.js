@@ -1,22 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import {Login} from './components/Login.js';
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>Holaa</Text>
-      <Login />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import { useState } from 'react';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import { styles } from './styles/Styles.js';
+import {Login} from './components/Login.js';
+import { UserLoggedView } from './components/UserLoggedView.js';
+
+export default function App() {
+  const [index, setIndex] = useState(0);
+  const [user, setUser] = useState ({name: 'Dario', apellidos: 'Lopez Gomez'});
+  const [ejerciciosCardio, setEjerciciosCardio] = useState(0);
+  const [ejerciciosFuerza, setEjerciciosFuerza] = useState(0);
+  if (index==0) {
+    return (
+      <View style={styles.container}>
+        <Text>Open up App.js to start working on your app!</Text>
+        <Text>Holaa</Text>
+        <Login />
+        <StatusBar style="auto" />
+      </View>
+    );
+  } else {
+    return (
+      <View>
+        <UserLoggedView />
+      </View>
+    );
+  }
+  
+}
