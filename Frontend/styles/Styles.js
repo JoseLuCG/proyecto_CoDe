@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     container: {
@@ -6,5 +6,8 @@ export const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    textinput: {
+      border:"solid 2px",
     },
   });

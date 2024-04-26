@@ -11,6 +11,19 @@ export default function App() {
   const [user, setUser] = useState ({name: 'Dario', apellidos: 'Lopez Gomez'});
   const [ejerciciosCardio, setEjerciciosCardio] = useState(0);
   const [ejerciciosFuerza, setEjerciciosFuerza] = useState(0);
+
+  function getEjerciciosCardio () {
+    fetch ("https://www.localhost:3000")
+      .then(response => response.json())
+      .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
+  }
+
+  function getEjerciciosFuerza () {
+    fetch ("https://www.localhost:3000")
+      .then(response => response.json())
+      .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
+  }
+
   if (index==0) {
     return (
       <View style={styles.container}>
