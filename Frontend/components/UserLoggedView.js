@@ -1,15 +1,17 @@
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
-export function UserLoggedView () {
+export function UserLoggedView() {
     return (
         <View>
+            <Text>Nombre: </Text>
+            <Text>Apellidos: </Text>
             <ExerciseFuerza />
             <ExerciseCardio />
         </View>
     );
 }
 
-export function ExerciseFuerza () {
+export function ExerciseFuerza() {
     return (
         <View>
             <Text>Fuerza Tipo: </Text>
@@ -20,7 +22,7 @@ export function ExerciseFuerza () {
     );
 }
 
-export function ExerciseCardio () {
+export function ExerciseCardio() {
     return (
         <View>
             <Text>Cardio Tipo: </Text>
