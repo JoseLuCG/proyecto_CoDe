@@ -12,6 +12,7 @@ export default function App() {
     const [ejerciciosCardio, setEjerciciosCardio] = useState(0);
     const [ejerciciosFuerza, setEjerciciosFuerza] = useState(0);
 
+    //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
     function getLoginID(loginID) {
         setIndex(loginID);
         fetch("https://www.localhost:3000/getUserIdData")

@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { Register } from './Register.js';
 export function Login(props) {
     const [seRegistra, setSeRegistra] = useState(false);
+    const [phone, setPhone] = useState("");
+    const [passwd, setPasswd] = useState("");
+
     function doLogin(passwdIn, phoneIn) {
 
         fetch("http://localhost:3000/loginUser", {
@@ -19,7 +22,8 @@ export function Login(props) {
             .then(response => response.json)
             .then(loginID => props.onLoginClick(loginID));
     }
-    function doRegister() {
+
+    function doRegister(nombre, apellidos, passwd, phone) {
         fetch("http://localhost:3000/addUser", {
             method: 'POST',
             headers: {
@@ -27,7 +31,7 @@ export function Login(props) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: 'Juan', surname: 'gomez', passwd: 'abc123.', phone: '999112233'
+                nameUser: nombre, lastNameUser: apellidos, passwd: passwd, phoneNumber: phone
             })
         })
         setSeRegistra(0);
@@ -39,9 +43,9 @@ export function Login(props) {
             <View style={styles.container}>
                 <Text><h1>Login</h1></Text>
                 <Text>Teléfono</Text>
-                <TextInput style={styles.textinput} />
+                <TextInput onChangeText={(text) => setPhone(text)} style={styles.textinput} />
                 <Text>Password</Text>
-                <TextInput style={styles.textinput} />
+                <TextInput onChangeText={(text) => setPasswd(text)} style={styles.textinput} />
                 <Button title='Entrar' onPress={() => doLogin()}>Entrar</Button>
                 <Button title='Registrarse' onPress={() => setSeRegistra(1)}>Registrarse</Button>
             </View>
@@ -49,7 +53,7 @@ export function Login(props) {
     } else {
         return (
             <View>
-                <Register onClickCrearUsuario={() => doRegister()} />
+                <Register onClickCrearUsuario={(nombre, apellidos, passwd, phone) => doRegister(nombre, apellidos, passwd, phone)} />
             </View>
         );
     }
