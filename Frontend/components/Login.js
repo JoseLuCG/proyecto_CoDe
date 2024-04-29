@@ -9,14 +9,14 @@ export function Login(props) {
 
     function doLogin(passwdIn, phoneIn) {
 
-        fetch("http://localhost:3000/loginUser", {
+        fetch("http://localhost:3000/checkLogin", {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                passwd: passwdIn, phone: phoneIn
+                passwd: passwdIn, phoneNumber: phoneIn
             })
         })
             .then(response => response.json)
@@ -24,16 +24,13 @@ export function Login(props) {
     }
 
     function doRegister(nombre, apellidos, passwd, phone) {
-        fetch("http://localhost:3000/addUser", {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                nameUser: nombre, lastNameUser: apellidos, passwd: passwd, phoneNumber: phone
-            })
-        })
+        console.log(nombre);
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nameUser: nombre, lastNameUser: apellidos, passwd: passwd, phoneNumber: phone })
+        };
+        fetch("http://127.0.0.1:3000/addUser", requestOptions)
         setSeRegistra(0);
 
     }
