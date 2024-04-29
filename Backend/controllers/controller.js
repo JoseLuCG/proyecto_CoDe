@@ -52,12 +52,12 @@ function checkLogin(req, res) {
 }
 
 /**
- * Add strength Exercise.
-* @param {*} req - Object represents the HTTP request query string. 
- * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ * Add a strength exercise in data base.
+ * @param {*} req 
+ * @param {*} res 
  */
-function addStrengthExercise(req, res) {
-  const { exerciseName } = req.body;
+function addStrengthExercise (req, res) {
+  const {exerciseName} = req.body;
   let sql = `CALL addStrengthExecise("${exerciseName}")`;
   mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
@@ -67,12 +67,12 @@ function addStrengthExercise(req, res) {
 }
 
 /**
- * Add Cardio Exercise.
-* @param {*} req - Object represents the HTTP request query string. 
- * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ * Add a cardio exercise in data base.
+ * @param {*} req 
+ * @param {*} res 
  */
-function addCardioExercise(req, res) {
-  const { exerciseName } = req.body;
+function addCardioExercise (req, res) {
+  const {exerciseName} = req.body;
   let sql = `CALL addCardioExecise("${exerciseName}")`;
   mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
@@ -81,14 +81,25 @@ function addCardioExercise(req, res) {
   });
 }
 
-//  addUserEjercicio(cardio o fuerza)
-function addUserEjercicio(req, res) {
-  let sql = "insert into table.db values ('usuario','ejercicio'"
-  mySqlConn.query(sql, function (err) {
+/**
+ * Add the registration of a user on a specific day.
+ * @param {*} req 
+ * @param {*} res 
+ */
+function addUserStrengthExercise (req, res) {
+  const {exerciseDate, idUser, setNumber, exerciseName, weight, repeats} = req.body;
+  let sql = `CALL addUserStrengthExercise(
+    '${exerciseDate}',
+    ${idUser},
+    ${setNumber},
+    '${exerciseName}',
+    ${weight}, 
+    ${repeats})`;
+  mySqlConn.query(sql, function (err){
     if (err) console.log(err);
     else res.send("Correcto");
   });
-};
+}
 
 /**
  * Get Object with list of Cardio Exercises of an User.
@@ -151,7 +162,7 @@ export {
   removeUser,
   addStrengthExercise,
   addCardioExercise,
-  addUserEjercicio,
+  addUserStrengthExercise,
   removeUserEjercicio,
   getUserCardio,
   getUserFuerza,

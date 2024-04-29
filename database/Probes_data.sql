@@ -30,3 +30,6 @@ CALL addCardioExecise("Correr");
 CALL addCardioExecise("Caminar");
 CALL addCardioExecise("Nadar");
 CALL addCardioExecise("Escalera");
+
+-- addUserStrengthExercise (exerciseDate,IdUser,setNumber,exerciseName,weight,repeats)
+CALL addUserStrengthExercise('2024-04-25',6,1,'Peso Muerto', 50, 10);
