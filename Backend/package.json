@@ -1,10 +1,13 @@
 {
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "generate-docs": "jsdoc -c .jsdoc.json"
   },
   "dependencies": {
+    "docdash": "^2.0.2",
     "express": "^4.19.2",
+    "jsdoc": "^4.0.2",
     "mysql": "^2.18.1"
   }
 }

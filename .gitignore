@@ -1,2 +1,5 @@
 Backend/node_modules/
+Backend/docs
+Backend/out
 Frontend/node_modules/
+Frontend/.expo/

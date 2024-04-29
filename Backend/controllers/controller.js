@@ -7,7 +7,7 @@ import { mySqlConn } from "../bdcon/bdcon.js";
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function addUser(req, res) {
-  const {nameUSer, lastNameUser, passwd, phoneNumber} = req.body;
+  const { nameUSer, lastNameUser, passwd, phoneNumber } = req.body;
   let sql = `CALL createUser("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
@@ -36,7 +36,7 @@ function removeUser(req, res) {
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function checkLogin(req, res) {
-  const { phoneNumber, passwd} = req.body;
+  const { phoneNumber, passwd } = req.body;
   let sql = `SELECT logUser("${phoneNumber}", "${passwd}") AS id`;
   mySqlConn.query(sql, (err, data) => {
     if (err) {
@@ -59,7 +59,7 @@ function checkLogin(req, res) {
 function addStrengthExercise (req, res) {
   const {exerciseName} = req.body;
   let sql = `CALL addStrengthExecise("${exerciseName}")`;
-  mySqlConn.query(sql, (err)=>{
+  mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
     else console.log("Correcto");
     res.send();
@@ -74,7 +74,7 @@ function addStrengthExercise (req, res) {
 function addCardioExercise (req, res) {
   const {exerciseName} = req.body;
   let sql = `CALL addCardioExecise("${exerciseName}")`;
-  mySqlConn.query(sql, (err)=>{
+  mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
     else console.log("Correcto");
     res.send();
@@ -101,6 +101,11 @@ function addUserStrengthExercise (req, res) {
   });
 }
 
+/**
+ * Get Object with list of Cardio Exercises of an User.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 //  getUserCardio
 function getUserCardio(req, res) {
   let sql = "select * from userCardio where id=1";
@@ -111,6 +116,11 @@ function getUserCardio(req, res) {
   });
 };
 
+/**
+ * Get Object with List of Strength exercises.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 //getUserFuerza
 function getUserFuerza(req, res) {
   let sql = "select * from userFuerza where id=2";
@@ -121,6 +131,11 @@ function getUserFuerza(req, res) {
   });
 };
 
+/**
+ * Remove Exercise from User.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 //removeUserEjercicio
 function removeUserEjercicio(req, res) {
   let sql = "delete from userejercicio where id=1";
@@ -130,6 +145,11 @@ function removeUserEjercicio(req, res) {
   });
 };
 
+/**
+ * Test Controller.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 //  Test
 function testPruebas(req, res) {
   console.log("hola");
