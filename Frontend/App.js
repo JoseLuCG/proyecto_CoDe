@@ -14,7 +14,8 @@ export default function App() {
 
     //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
     function getLoginID(loginID) {
-        setIndex(loginID);
+        setIndex(loginID.id);
+        console.log(loginID.id);
         fetch("https://www.localhost:3000/getUserIdData")
             .then(response => response.json())
             .then(userData => setUser(userData));
@@ -34,7 +35,7 @@ export default function App() {
     if (index == 0) {
         return (
             <View style={styles.container}>
-                <Login onLoginClick={(id) => getLoginID(id)} />
+                <Login onLoginClick={(loginID) => getLoginID(loginID)} />
                 <StatusBar style="auto" />
             </View>
         );

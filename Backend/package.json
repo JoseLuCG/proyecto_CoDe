@@ -5,6 +5,7 @@
     "generate-docs": "jsdoc -c .jsdoc.json"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "docdash": "^2.0.2",
     "express": "^4.19.2",
     "jsdoc": "^4.0.2",

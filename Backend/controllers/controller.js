@@ -7,8 +7,8 @@ import { mySqlConn } from "../bdcon/bdcon.js";
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function addUser(req, res) {
-  const { nameUSer, lastNameUser, passwd, phoneNumber } = req.body;
-  let sql = `CALL createUser("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
+  const { nameUser, lastNameUser, passwd, phoneNumber } = req.body;
+  let sql = `CALL createUser("${nameUser}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else console.log("Correcto");
@@ -56,8 +56,8 @@ function checkLogin(req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-function addStrengthExercise (req, res) {
-  const {exerciseName} = req.body;
+function addStrengthExercise(req, res) {
+  const { exerciseName } = req.body;
   let sql = `CALL addStrengthExecise("${exerciseName}")`;
   mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
@@ -71,8 +71,8 @@ function addStrengthExercise (req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-function addCardioExercise (req, res) {
-  const {exerciseName} = req.body;
+function addCardioExercise(req, res) {
+  const { exerciseName } = req.body;
   let sql = `CALL addCardioExecise("${exerciseName}")`;
   mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
@@ -86,8 +86,8 @@ function addCardioExercise (req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-function addUserStrengthExercise (req, res) {
-  const {exerciseDate, idUser, setNumber, exerciseName, weight, repeats} = req.body;
+function addUserStrengthExercise(req, res) {
+  const { exerciseDate, idUser, setNumber, exerciseName, weight, repeats } = req.body;
   let sql = `CALL addUserStrengthExercise(
     '${exerciseDate}',
     ${idUser},
@@ -95,7 +95,7 @@ function addUserStrengthExercise (req, res) {
     '${exerciseName}',
     ${weight}, 
     ${repeats})`;
-  mySqlConn.query(sql, function (err){
+  mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else res.send("Correcto");
   });
