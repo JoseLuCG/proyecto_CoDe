@@ -14,8 +14,8 @@ export default function App() {
 
     //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
     function getLoginID(loginID) {
-        setIndex(loginID.id);
-        console.log(loginID.id);
+        setIndex(loginID[0].id);
+        console.log(loginID[0].id);
         fetch("https://www.localhost:3000/getUserIdData")
             .then(response => response.json())
             .then(userData => setUser(userData));

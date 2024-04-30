@@ -11,15 +11,10 @@ export function Login(props) {
 
         fetch("http://localhost:3000/checkLogin", {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                passwd: passwdIn, phoneNumber: phoneIn
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ passwd: passwdIn, phoneNumber: phoneIn })
         })
-            .then(response => response.json)
+            .then(response => response.json())
             .then(loginID => props.onLoginClick(loginID));
     }
 
@@ -43,7 +38,7 @@ export function Login(props) {
                 <TextInput onChangeText={(text) => setPhone(text)} style={styles.textinput} />
                 <Text>Password</Text>
                 <TextInput onChangeText={(text) => setPasswd(text)} style={styles.textinput} />
-                <Button title='Entrar' onPress={() => doLogin()}>Entrar</Button>
+                <Button title='Entrar' onPress={() => doLogin(passwd, phone)}>Entrar</Button>
                 <Button title='Registrarse' onPress={() => setSeRegistra(1)}>Registrarse</Button>
             </View>
         );

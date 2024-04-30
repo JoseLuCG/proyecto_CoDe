@@ -43,8 +43,8 @@ function checkLogin(req, res) {
       console.log(err);
       res.sendStatus(500);
     } else {
-      res.send(data);
-      console.log(data);
+      res.send(JSON.stringify(data));
+      console.log(JSON.stringify(data));
       console.log("correcto");
     }
   });
