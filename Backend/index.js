@@ -21,8 +21,8 @@ app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); // Pr
 app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); // Proved. WORKS
 
 //app.get("/addUserEjercicio", controllers.addUserEjercicio);
-app.get("/getUserCardio", controllers.getUserCardio);
-app.get("/getUserFuerza", controllers.getUserFuerza);
+app.post("/getUserCardio", jsonParser, controllers.getUserCardio);
+app.post("/getUserFuerza", jsonParser, controllers.getUserFuerza);
 app.delete("/removeEjercicio", controllers.removeUserEjercicio);
 
 app.use("/test", controllers.testPruebas);

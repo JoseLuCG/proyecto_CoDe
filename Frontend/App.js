@@ -9,27 +9,40 @@ import { UserLoggedView } from './components/UserLoggedView.js';
 export default function App() {
     const [index, setIndex] = useState(0);
     const [user, setUser] = useState({ name: 'Dario', apellidos: 'Lopez Gomez' });
-    const [ejerciciosCardio, setEjerciciosCardio] = useState(0);
-    const [ejerciciosFuerza, setEjerciciosFuerza] = useState(0);
+    const [ejerciciosCardio, setEjerciciosCardio] = useState(new Array);
+    const [ejerciciosFuerza, setEjerciciosFuerza] = useState(new Array);
 
+    let entraVentanaLogin = false;
+    function entraLoggedView() {
+        setIndex(7)
+    }
     //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
     function getLoginID(loginID) {
-        setIndex(loginID[0].id);
-        console.log(loginID[0].id);
-        fetch("https://www.localhost:3000/getUserIdData")
-            .then(response => response.json())
-            .then(userData => setUser(userData));
+        var id = loginID[0].id;
+        setIndex(id);
+        getEjerciciosCardio(id);
+        getEjerciciosFuerza(id);
     }
-    function getEjerciciosCardio() {
-        fetch("https://www.localhost:3000")
+    function getEjerciciosCardio(id) {
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idUser: id })
+        };
+        fetch("http://localhost:3000/getUserCardio", requestOptions)
             .then(response => response.json())
             .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
     }
 
-    function getEjerciciosFuerza() {
-        fetch("https://www.localhost:3000")
+    function getEjerciciosFuerza(id) {
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idUser: id })
+        };
+        fetch("http://localhost:3000/getUserFuerza", requestOptions)
             .then(response => response.json())
-            .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
+            .then(ejerciciosFuerza => setEjerciciosFuerza(ejerciciosFuerza));
     }
 
     if (index == 0) {
@@ -42,7 +55,7 @@ export default function App() {
     } else {
         return (
             <View>
-                <UserLoggedView />
+                <UserLoggedView userCardio={ejerciciosCardio} userFuerza={ejerciciosFuerza} />
             </View>
         );
     }
