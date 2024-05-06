@@ -43,8 +43,8 @@ function checkLogin(req, res) {
       console.log(err);
       res.sendStatus(500);
     } else {
-      res.send(data);
-      console.log(data);
+      res.send(JSON.stringify(data));
+      console.log(JSON.stringify(data));
       console.log("correcto");
     }
   });
@@ -108,9 +108,10 @@ function addUserStrengthExercise(req, res) {
  */
 //  getUserCardio
 function getUserCardio(req, res) {
-  let sql = "select * from userCardio where id=1";
-  mySqlConn.query(sql, function (err) {
-    if (err) console.log(err, rows);
+  const { idUser } = req.body;
+  let sql = `select * from user_cardio where idUser=${idUser}`;
+  mySqlConn.query(sql, function (err, rows) {
+    if (err) console.log(err);
     else res.write(JSON.stringify(rows));
     res.send();
   });
@@ -123,11 +124,15 @@ function getUserCardio(req, res) {
  */
 //getUserFuerza
 function getUserFuerza(req, res) {
-  let sql = "select * from userFuerza where id=2";
-  mySqlConn.query(sql, function (err) {
-    if (err) console.log(err, rows);
-    else res.write(JSON.stringify(rows));
-    res.send();
+  const { idUser } = req.body;
+  let sql = `select * from user_strength where idUser=${idUser}`;
+  mySqlConn.query(sql, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.write(JSON.stringify(rows));
+      res.send();
+      console.log("GetFuerza Correcto" + idUser + JSON.stringify(rows));
+    }
   });
 };
 
