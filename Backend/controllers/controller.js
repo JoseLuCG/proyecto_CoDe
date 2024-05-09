@@ -162,7 +162,8 @@ function getUserFuerza(req, res) {
  */
 //removeUserEjercicio
 function removeUserEjercicio(req, res) {
-  let sql = "delete from userejercicio where id=1";
+  const {exerciseDate, idUser, exerciseName} = req.body;
+  let sql = `CALL deleteCardioExercise('${exerciseDate}', ${idUser}, '${exerciseName}');`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else res.send("Correcto");
