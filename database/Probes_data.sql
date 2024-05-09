@@ -33,3 +33,8 @@ CALL addCardioExecise("Escalera");
 
 -- addUserStrengthExercise (exerciseDate,IdUser,setNumber,exerciseName,weight,repeats)
 CALL addUserStrengthExercise('2024-04-25',6,1,'Peso Muerto', 50, 10);
+
+
+
+-- INSERT INTO User_Cardio (exerciseDate, idUser, exerciseName, intensity, exerciseTime, distance)
+CALL addUserCardioExercise('2024-04-16', 6, 'Correr', 5, '00:30:00', 2.30);
