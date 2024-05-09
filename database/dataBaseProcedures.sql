@@ -107,6 +107,23 @@ BEGIN
 	COMMIT;
 END; $$
 
+/**/
+DELIMITER $$
+DROP PROCEDURE IF EXISTS addUserCardioExercise; $$
+CREATE PROCEDURE addUserCardioExercise (p_exerciseDate DATE, p_IdUser INT, p_exerciseName VARCHAR(50), p_intensity DOUBLE, p_exerciseTime TIME, p_distance DOUBLE)
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		SHOW ERRORS;
+        ROLLBACK;
+	END;
+    
+    START TRANSACTION;
+		INSERT INTO User_Cardio (exerciseDate, idUser, exerciseName, intensity, exerciseTime, distance)
+			VALUES (p_exerciseDate, p_IdUser, p_exerciseName, p_intensity, p_exerciseTime, p_distance);
+	COMMIT;
+END; $$
+
 
 
 
