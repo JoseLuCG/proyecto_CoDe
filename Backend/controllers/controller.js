@@ -113,7 +113,7 @@ function addUserCardioExercise (req, res) {
     ${idUser},
     '${exerciseName}',
     ${intensity}, 
-    ${exerciseTime},
+    '${exerciseTime}',
     ${distance})`;
   mySqlConn.query(sql, function (err){
     if (err) console.log(err);
@@ -157,7 +157,7 @@ function getUserFuerza(req, res) {
 
 /**
  * Remove Exercise from User.
-* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} req - Object represents the HTTP request query string. 
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 //removeUserEjercicio
