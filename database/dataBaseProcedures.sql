@@ -124,9 +124,24 @@ BEGIN
 	COMMIT;
 END; $$
 
-
-
-
+/* Procedure thats eliminate a sxercise. */
+DELIMITER $$
+DROP PROCEDURE IF EXISTS deleteCardioExercise; $$
+CREATE PROCEDURE deleteCardioExercise (p_exerciseDate DATE, p_idUser INT, p_exerciseName VARCHAR(50))
+BEGIN
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		SHOW ERRORS;
+        ROLLBACK;
+	END;
+    
+	START TRANSACTION;
+		DELETE FROM User_Cardio
+			WHERE exerciseDate = p_exerciseDate
+            AND idUSer = p_idUser
+            AND exerciseName = p_exerciseName;
+	COMMIT;
+END; $$
 
 
 

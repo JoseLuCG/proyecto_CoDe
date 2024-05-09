@@ -38,3 +38,6 @@ CALL addUserStrengthExercise('2024-04-25',6,1,'Peso Muerto', 50, 10);
 
 -- INSERT INTO User_Cardio (exerciseDate, idUser, exerciseName, intensity, exerciseTime, distance)
 CALL addUserCardioExercise('2024-04-16', 6, 'Correr', 5, '00:30:00', 2.30);
+CALL addUserCardioExercise('2024-04-18', 6, 'Correr', 5, '00:30:00', 2.30);
+
+CALL deleteCardioExercise('2024-04-18', 6, 'Correr');
