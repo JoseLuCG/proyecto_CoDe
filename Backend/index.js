@@ -1,9 +1,17 @@
 import express from "express";
 import * as controllers from "./controllers/controller.js";
+import cors from "cors";
 
 const app = express();
 const port = 3000;
 const jsonParser = express.json();
+
+const corsOptions = {
+  origin: '*',//(https://your-client-app.com)
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.post("/addUser", jsonParser, controllers.addUser); //Proved. WORKS
 app.delete("/removeUser", jsonParser, controllers.removeUser); //Proved. WORKS

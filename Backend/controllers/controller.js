@@ -7,8 +7,8 @@ import { mySqlConn } from "../bdcon/bdcon.js";
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function addUser(req, res) {
-  const {nameUSer, lastNameUser, passwd, phoneNumber} = req.body;
-  let sql = `CALL createUser("${nameUSer}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
+  const { nameUser, lastNameUser, passwd, phoneNumber } = req.body;
+  let sql = `CALL createUser("${nameUser}", "${lastNameUser}", "${passwd}", "${phoneNumber}")`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else console.log("Correcto");
@@ -36,15 +36,15 @@ function removeUser(req, res) {
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function checkLogin(req, res) {
-  const { phoneNumber, passwd} = req.body;
+  const { phoneNumber, passwd } = req.body;
   let sql = `SELECT logUser("${phoneNumber}", "${passwd}") AS id`;
   mySqlConn.query(sql, (err, data) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
     } else {
-      res.send(data);
-      console.log(data);
+      res.send(JSON.stringify(data));
+      console.log(JSON.stringify(data));
       console.log("correcto");
     }
   });
@@ -56,10 +56,10 @@ function checkLogin(req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-function addStrengthExercise (req, res) {
-  const {exerciseName} = req.body;
+function addStrengthExercise(req, res) {
+  const { exerciseName } = req.body;
   let sql = `CALL addStrengthExecise("${exerciseName}")`;
-  mySqlConn.query(sql, (err)=>{
+  mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
     else console.log("Correcto");
     res.send();
@@ -71,10 +71,10 @@ function addStrengthExercise (req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-function addCardioExercise (req, res) {
-  const {exerciseName} = req.body;
+function addCardioExercise(req, res) {
+  const { exerciseName } = req.body;
   let sql = `CALL addCardioExecise("${exerciseName}")`;
-  mySqlConn.query(sql, (err)=>{
+  mySqlConn.query(sql, (err) => {
     if (err) console.log(err);
     else console.log("Correcto");
     res.send();
@@ -86,8 +86,8 @@ function addCardioExercise (req, res) {
  * @param {*} req 
  * @param {*} res 
  */
-function addUserStrengthExercise (req, res) {
-  const {exerciseDate, idUser, setNumber, exerciseName, weight, repeats} = req.body;
+function addUserStrengthExercise(req, res) {
+  const { exerciseDate, idUser, setNumber, exerciseName, weight, repeats } = req.body;
   let sql = `CALL addUserStrengthExercise(
     '${exerciseDate}',
     ${idUser},
@@ -95,7 +95,7 @@ function addUserStrengthExercise (req, res) {
     '${exerciseName}',
     ${weight}, 
     ${repeats})`;
-  mySqlConn.query(sql, function (err){
+  mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else res.send("Correcto");
   });
@@ -121,27 +121,45 @@ function addUserCardioExercise (req, res) {
   });
 }
 
-
-//  getUserCardio
+/**
+ * Get Object with list of Cardio Exercises of an User.
+ * @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 function getUserCardio(req, res) {
-  let sql = "select * from userCardio where id=1";
-  mySqlConn.query(sql, function (err) {
-    if (err) console.log(err, rows);
+  const { idUser } = req.body;
+  let sql = `select * from user_cardio where idUser=${idUser}`;
+  mySqlConn.query(sql, function (err, rows) {
+    if (err) console.log(err);
     else res.write(JSON.stringify(rows));
     res.send();
   });
 };
 
+/**
+ * Get Object with List of Strength exercises.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 //getUserFuerza
 function getUserFuerza(req, res) {
-  let sql = "select * from userFuerza where id=2";
-  mySqlConn.query(sql, function (err) {
-    if (err) console.log(err, rows);
-    else res.write(JSON.stringify(rows));
-    res.send();
+  const { idUser } = req.body;
+  let sql = `select * from user_strength where idUser=${idUser}`;
+  mySqlConn.query(sql, function (err, rows) {
+    if (err) console.log(err);
+    else {
+      res.write(JSON.stringify(rows));
+      res.send();
+      console.log("GetFuerza Correcto" + idUser + JSON.stringify(rows));
+    }
   });
 };
 
+/**
+ * Remove Exercise from User.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 //removeUserEjercicio
 function removeUserEjercicio(req, res) {
   let sql = "delete from userejercicio where id=1";
@@ -151,6 +169,11 @@ function removeUserEjercicio(req, res) {
   });
 };
 
+/**
+ * Test Controller.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
 //  Test
 function testPruebas(req, res) {
   console.log("hola");
