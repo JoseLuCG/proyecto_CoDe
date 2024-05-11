@@ -1,6 +1,33 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 export function UserLoggedView(props) {
+
+    function addCardio(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones) {
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ exerciseDate: fecha, idUser: props.id, exerciseName: tipo, intensity: intensidadOset, exerciseTime: tiempoOpeso, distance: distanciaOrepeticiones })
+        };
+        fetch("http://localhost:3000/addUserCardioExercise", requestOptions)
+            .then((response) => response.json)
+            .then(data => {
+                props.refreshCardio();
+            })
+    }
+
+    function addFuerza(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones) {
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ exerciseDate: fecha, idUser: props.id, exerciseName: tipo, setNumber: intensidadOset, weight: tiempoOpeso, repeats: distanciaOrepeticiones })
+        };
+        fetch("http://localhost:3000/addUserStrengthExercise", requestOptions)
+            .then((response) => response.json)
+            .then(data => {
+                props.refreshFuerza();
+            })
+    }
     const objetoCardio = props.userCardio;
     const objetoFuerza = props.userFuerza;
 
@@ -19,6 +46,7 @@ export function UserLoggedView(props) {
             </View>
         )
     });
+
     return (
         <View>
             <Text>Nombre: Hola</Text>
@@ -26,9 +54,16 @@ export function UserLoggedView(props) {
             <Text>Hola</Text>
             <Text>{mappedFuerzas}</Text>
             <Text>{mappedCardio}</Text>
+            <AnhadirEjercicioCardioFuerza clickAddCardio={(t, f, i, tt, d) => addCardio(t, f, i, tt, d)} clickAddFuerza={(t, f, i, tt, d) => addFuerza(t, f, i, tt, d)} />
+            <Button title="LOGOUT" />
         </View>
     );
 }
+
+
+
+
+
 
 export function ExerciseFuerza(props) {
     return (
@@ -38,6 +73,7 @@ export function ExerciseFuerza(props) {
             <Text>Peso: {props.weight}</Text>
             <Text>Repeticiones: {props.repeats}</Text>
             <Text>Numero Sets: {props.setNumber}</Text>
+            <Button title='Borrar Ejercicio' />
         </View>
     );
 }
@@ -49,6 +85,39 @@ export function ExerciseCardio(props) {
             <Text>Fecha: {props.exerciseDate}</Text>
             <Text>Intensidad: {props.intensity}</Text>
             <Text>Distancia: {props.distance}</Text>
+            <Button title="Borrar Ejercicio" />
         </View>
     );
+}
+
+
+
+
+
+
+export function AnhadirEjercicioCardioFuerza(props) {
+    const [tipo, setTipo] = useState("");
+    const [fecha, setFecha] = useState("");
+    const [intensidadOset, setIntensidadOset] = useState(0);
+    const [tiempoOpeso, setTiempoOpeso] = useState(0);
+    const [distanciaOrepeticiones, setDistanciaOrepeticiones] = useState(0);
+
+    return (
+        <View>
+            <Text>Añadir Ejercicio Cardio</Text>
+            <Text>Tipo:</Text>
+            <TextInput onChangeText={(text) => setTipo(text)} />
+            <Text>Fecha:</Text>
+            <TextInput onChangeText={(text) => setFecha(text)} />
+            <Text>Intensidad o Set:</Text>
+            <TextInput onChangeText={(text) => setIntensidadOset(text)} />
+            <Text>Tiempo o Peso</Text>
+            <TextInput onChangeText={(text) => setTiempoOpeso(text)} />
+            <Text>Distancia o Repeticiones:</Text>
+            <TextInput onChangeText={(text) => setDistanciaOrepeticiones(text)} />
+            <Button title="Add Cardio" onPress={() => props.clickAddCardio(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones)} />
+            <Button title="Add Fuerza" onPress={() => props.clickAddFuerza(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones)} />
+        </View>
+    );
+
 }

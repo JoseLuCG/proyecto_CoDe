@@ -55,7 +55,7 @@ export default function App() {
     } else {
         return (
             <View>
-                <UserLoggedView userCardio={ejerciciosCardio} userFuerza={ejerciciosFuerza} />
+                <UserLoggedView id={index} userCardio={ejerciciosCardio} userFuerza={ejerciciosFuerza} refreshCardio={() => getEjerciciosCardio(index)} refreshFuerza={() => getEjerciciosFuerza(index)} />
             </View>
         );
     }
