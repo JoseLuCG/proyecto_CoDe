@@ -16,6 +16,22 @@ export default function App() {
     function entraLoggedView() {
         setIndex(7)
     }
+
+    function borrarUsuario (id) {
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idUser: id })
+        };
+        fetch("http://localhost:3000/removeUser", requestOptions)
+            .then(response => response.json())
+            .then(data => setIndex(0));
+    }
+
+    function logoutUser () {
+        setIndex(0);
+    }
+
     //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
     function getLoginID(loginID) {
         var id = loginID[0].id;
@@ -43,6 +59,20 @@ export default function App() {
         fetch("http://localhost:3000/getUserFuerza", requestOptions)
             .then(response => response.json())
             .then(ejerciciosFuerza => setEjerciciosFuerza(ejerciciosFuerza));
+    }
+
+    function removeEjercicio (exerciseDate,idUser,exerciseName) {
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idUser: idUser,exerciseName: exerciseName, exerciseDate: exerciseDate })
+        };
+        fetch("http://localhost:3000/removeEjercicio", requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                getEjerciciosCardio(index);
+                getEjerciciosFuerza(index);
+            });
     }
 
     if (index == 0) {

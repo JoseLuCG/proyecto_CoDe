@@ -22,8 +22,8 @@ function addUser(req, res) {
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function removeUser(req, res) {
-  const { id } = req.body
-  let sql = `CALL deleteUser(${id})`;
+  const { idUser } = req.body
+  let sql = `CALL deleteUser(${idUser})`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else res.send("Correcto");
