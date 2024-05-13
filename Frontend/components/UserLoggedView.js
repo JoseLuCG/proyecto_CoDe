@@ -2,7 +2,15 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 export function UserLoggedView(props) {
-
+    /**
+     * Fetch Add a new Cardio Exercise to User on Backend/addUserCardioExercise
+     * @param {*} tipo Cardio Type
+     * @param {*} fecha Cardio Date
+     * @param {*} intensidadOset Cardio Intensity
+     * @param {*} tiempoOpeso Cardio Time
+     * @param {*} distanciaOrepeticiones Cardio Distance
+     * @method addCardio
+     */
     function addCardio(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones) {
         const requestOptions = {
             method: "POST",
@@ -16,6 +24,15 @@ export function UserLoggedView(props) {
             })
     }
 
+    /**
+     * Fetch Add a new Strength Exercise to User on Backend/addUserStrengthExercise
+     * @param {*} tipo Strength Type
+     * @param {*} fecha Strength Date
+     * @param {*} intensidadOset Strength Set
+     * @param {*} tiempoOpeso Strength Weight
+     * @param {*} distanciaOrepeticiones Strength Repetitions
+     * @method addStrength
+     */
     function addFuerza(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones) {
         const requestOptions = {
             method: "POST",
@@ -28,6 +45,8 @@ export function UserLoggedView(props) {
                 props.refreshFuerza();
             })
     }
+
+
     const objetoCardio = props.userCardio;
     const objetoFuerza = props.userFuerza;
 
@@ -107,7 +126,7 @@ export function AnhadirEjercicioCardioFuerza(props) {
             <Text>Añadir Ejercicio Cardio</Text>
             <Text>Tipo:</Text>
             <TextInput onChangeText={(text) => setTipo(text)} />
-            <Text>Fecha:</Text>
+            <Text>Fecha: |Year-month-day|</Text>
             <TextInput onChangeText={(text) => setFecha(text)} />
             <Text>Intensidad o Set:</Text>
             <TextInput onChangeText={(text) => setIntensidadOset(text)} />

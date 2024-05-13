@@ -17,7 +17,12 @@ export default function App() {
         setIndex(7)
     }
 
-    function borrarUsuario (id) {
+    /**
+     * Fetch Sends userId to remove from users on Backend/removeUser
+     * @param {*} id userId needed to remove user
+     * @method removeUser
+     */
+    function borrarUsuario(id) {
         const requestOptions = {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -28,17 +33,27 @@ export default function App() {
             .then(data => setIndex(0));
     }
 
-    function logoutUser () {
+    /**
+     * Log Out User
+     * @method logoutUser
+     */
+    function logoutUser() {
         setIndex(0);
     }
 
-    //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
+
     function getLoginID(loginID) {
         var id = loginID[0].id;
         setIndex(id);
         getEjerciciosCardio(id);
         getEjerciciosFuerza(id);
     }
+
+    /**
+     * Fetch Sends userID to Backend/getUserCardio and gets Cardio Exercises to update state
+     * @param {*} id ID of logged User
+     * @method getCardioExercises
+     */
     function getEjerciciosCardio(id) {
         const requestOptions = {
             method: "POST",
@@ -50,6 +65,11 @@ export default function App() {
             .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
     }
 
+    /**
+     * Fetch Sends userID to Backend/getUserStrength and gets Strength Exercises to update state
+     * @param {*} id 
+     * @method getStrengthExercises
+     */
     function getEjerciciosFuerza(id) {
         const requestOptions = {
             method: "POST",
@@ -61,11 +81,18 @@ export default function App() {
             .then(ejerciciosFuerza => setEjerciciosFuerza(ejerciciosFuerza));
     }
 
-    function removeEjercicio (exerciseDate,idUser,exerciseName) {
+    /**
+     * Fetch sends ExerciseDate, idUser and exerciseName to Delete exercise on Backend/removeUserExercise
+     * @param {*} exerciseDate the date of the exercise
+     * @param {*} idUser The Id of actual User
+     * @param {*} exerciseName The name of the Exercise
+     * @method removeExercise
+     */
+    function removeEjercicio(exerciseDate, idUser, exerciseName) {
         const requestOptions = {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUser: idUser,exerciseName: exerciseName, exerciseDate: exerciseDate })
+            body: JSON.stringify({ idUser: idUser, exerciseName: exerciseName, exerciseDate: exerciseDate })
         };
         fetch("http://localhost:3000/removeEjercicio", requestOptions)
             .then(response => response.json())

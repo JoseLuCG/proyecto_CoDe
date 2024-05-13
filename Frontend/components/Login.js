@@ -7,6 +7,13 @@ export function Login(props) {
     const [phone, setPhone] = useState("");
     const [passwd, setPasswd] = useState("");
 
+    //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
+    /**
+     * Fetch Sends Phone and Password to Backend/userLogin and get Login ID to update user Status
+     *  @param {*} passwdIn Password to Attempt to Log In
+     * @param {*} phoneIn Phone to Attempt to 
+     * @method doLogin
+     */
     function doLogin(passwdIn, phoneIn) {
 
         fetch("http://localhost:3000/checkLogin", {
@@ -18,6 +25,14 @@ export function Login(props) {
             .then(loginID => props.onLoginClick(loginID));
     }
 
+    /**
+     * Fetch Register a new User on Backend/createUser
+     * @param {*} nombre Name to create User
+     * @param {*} apellidos Surname to create User
+     * @param {*} passwd Password to create User
+     * @param {*} phone Unique Phone to create User (Primary Key)
+     * @method doRegister
+     */
     function doRegister(nombre, apellidos, passwd, phone) {
         console.log(nombre);
         const requestOptions = {
