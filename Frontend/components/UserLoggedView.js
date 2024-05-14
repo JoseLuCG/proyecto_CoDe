@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import {styles} from '../styles/Styles.js';
 
 export function UserLoggedView(props) {
     /**
@@ -52,9 +53,7 @@ export function UserLoggedView(props) {
 
     const mappedFuerzas = objetoFuerza.map((obj) => {
         return (
-
             <ExerciseFuerza exerciseName={obj.exerciseName} exerciseDate={obj.exerciseDate} weight={obj.weight} repeats={obj.repeats} setNumber={obj.setNumber} />
-
         )
     });
 
@@ -67,7 +66,7 @@ export function UserLoggedView(props) {
     });
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text>Nombre: Hola</Text>
             <Text>Apellidos: Holaaa</Text>
             <Text>Hola</Text>
@@ -92,7 +91,7 @@ export function ExerciseFuerza(props) {
             <Text>Peso: {props.weight}</Text>
             <Text>Repeticiones: {props.repeats}</Text>
             <Text>Numero Sets: {props.setNumber}</Text>
-            <Button title='Borrar Ejercicio' />
+            <Button title='Eliminar' />
         </View>
     );
 }
@@ -104,7 +103,7 @@ export function ExerciseCardio(props) {
             <Text>Fecha: {props.exerciseDate}</Text>
             <Text>Intensidad: {props.intensity}</Text>
             <Text>Distancia: {props.distance}</Text>
-            <Button title="Borrar Ejercicio" />
+            <Button title="Eliminar" />
         </View>
     );
 }
@@ -123,17 +122,17 @@ export function AnhadirEjercicioCardioFuerza(props) {
 
     return (
         <View>
-            <Text>Añadir Ejercicio Cardio</Text>
+            <Text><h1>Añadir Ejercicio</h1></Text>
             <Text>Tipo:</Text>
-            <TextInput onChangeText={(text) => setTipo(text)} />
+            <TextInput style={styles.textinput} onChangeText={(text) => setTipo(text)} />
             <Text>Fecha: |Year-month-day|</Text>
-            <TextInput onChangeText={(text) => setFecha(text)} />
+            <TextInput style={styles.textinput} onChangeText={(text) => setFecha(text)} />
             <Text>Intensidad o Set:</Text>
-            <TextInput onChangeText={(text) => setIntensidadOset(text)} />
+            <TextInput style={styles.textinput} onChangeText={(text) => setIntensidadOset(text)} />
             <Text>Tiempo o Peso</Text>
-            <TextInput onChangeText={(text) => setTiempoOpeso(text)} />
+            <TextInput style={styles.textinput} onChangeText={(text) => setTiempoOpeso(text)} />
             <Text>Distancia o Repeticiones:</Text>
-            <TextInput onChangeText={(text) => setDistanciaOrepeticiones(text)} />
+            <TextInput style={styles.textinput} onChangeText={(text) => setDistanciaOrepeticiones(text)} />
             <Button title="Add Cardio" onPress={() => props.clickAddCardio(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones)} />
             <Button title="Add Fuerza" onPress={() => props.clickAddFuerza(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones)} />
         </View>

@@ -128,7 +128,7 @@ function addUserCardioExercise (req, res) {
  */
 function getUserCardio(req, res) {
   const { idUser } = req.body;
-  let sql = `select * from user_cardio where idUser=${idUser}`;
+  let sql = `select * from User_Cardio where idUser=${idUser}`;
   mySqlConn.query(sql, function (err, rows) {
     if (err) console.log(err);
     else res.write(JSON.stringify(rows));
@@ -144,7 +144,7 @@ function getUserCardio(req, res) {
 //getUserFuerza
 function getUserFuerza(req, res) {
   const { idUser } = req.body;
-  let sql = `select * from user_strength where idUser=${idUser}`;
+  let sql = `select * from User_Strength where idUser=${idUser}`;
   mySqlConn.query(sql, function (err, rows) {
     if (err) console.log(err);
     else {
