@@ -1,19 +1,19 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import {styles} from '../styles/Styles.js';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
+import { styles } from '../styles/Styles.js';
 import * as fetchController from '../controllers/fetchController.js';
 
 export function UserLoggedView(props) {
-    
+
     function addCardio(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones) {
-        fetchController.addCardio(props.id,tipo,fecha,intensidadOset,tiempoOpeso,distanciaOrepeticiones)
-        .then(data => {
+        fetchController.addCardio(props.id, tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones)
+            .then(data => {
                 props.refreshCardio();
             });
     }
 
     function addFuerza(tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones) {
-        fetchController.addFuerza(props.id,tipo,fecha,intensidadOset,tiempoOpeso,distanciaOrepeticiones)
+        fetchController.addFuerza(props.id, tipo, fecha, intensidadOset, tiempoOpeso, distanciaOrepeticiones)
             .then(data => {
                 props.refreshFuerza();
             })
@@ -25,29 +25,31 @@ export function UserLoggedView(props) {
 
     const mappedFuerzas = objetoFuerza.map((obj) => {
         return (
-            <ExerciseFuerza onClickDelete={()=>props.onClickDeleteExercise(props.id,obj.exerciseDate,obj.exerciseName)} id={props.id} exerciseName={obj.exerciseName} exerciseDate={obj.exerciseDate} weight={obj.weight} repeats={obj.repeats} setNumber={obj.setNumber} />
+            <ExerciseFuerza onClickDelete={() => props.onClickDeleteExercise(props.id, obj.exerciseDate, obj.exerciseName)} id={props.id} exerciseName={obj.exerciseName} exerciseDate={obj.exerciseDate} weight={obj.weight} repeats={obj.repeats} setNumber={obj.setNumber} />
         )
     });
 
     const mappedCardio = objetoCardio.map((obj) => {
         return (
             <View>
-                <ExerciseCardio onClickDelete={()=>props.onClickDeleteExercise(props.id,obj.exerciseDate,obj.exerciseName)} id={props.id} exerciseName={obj.exerciseName} exerciseDate={obj.exerciseDate} intensity={obj.intensity} distance={obj.distance} />
+                <ExerciseCardio onClickDelete={() => props.onClickDeleteExercise(props.id, obj.exerciseDate, obj.exerciseName)} id={props.id} exerciseName={obj.exerciseName} exerciseDate={obj.exerciseDate} intensity={obj.intensity} distance={obj.distance} />
             </View>
         )
     });
 
     return (
-        <View>
+        <ScrollView style={styles.Container}>
             <Text>TÚ: {props.name} {props.lastName}, {props.phone}</Text>
             <br />
-            <Text>{mappedFuerzas}</Text>
-            <Text>{mappedCardio}</Text>
+            <h2>Ejercicios de Fuerza: </h2>
+            <View style={styles.items}>{mappedFuerzas}</View>
+            <h2>Ejercicios de Cardio: </h2>
+            <View style={styles.items}>{mappedCardio}</View>
             <AnhadirEjercicioCardioFuerza clickAddCardio={(t, f, i, tt, d) => addCardio(t, f, i, tt, d)} clickAddFuerza={(t, f, i, tt, d) => addFuerza(t, f, i, tt, d)} />
-            <Button title="LOGOUT" onPress={()=>props.onClickLogout()}/>
+            <Button title="LOGOUT" onPress={() => props.onClickLogout()} />
             <br />
-            <Button title="Borrar Usuario" onPress={()=>props.onClickRemoveUser()}/>
-        </View>
+            <Button title="Borrar Usuario" onPress={() => props.onClickRemoveUser()} />
+        </ScrollView>
     );
 }
 
@@ -58,13 +60,14 @@ export function UserLoggedView(props) {
 
 export function ExerciseFuerza(props) {
     return (
-        <View>
+        <View style={styles.item}>
             <Text>Fuerza Tipo: {props.exerciseName}</Text>
             <Text>Fecha: {props.exerciseDate}</Text>
             <Text>Peso: {props.weight}</Text>
             <Text>Repeticiones: {props.repeats}</Text>
             <Text>Numero Sets: {props.setNumber}</Text>
-            <Button title='Eliminar' onPress={()=>{props.onClickDelete()}}/>
+            <Button title='Eliminar' onPress={() => { props.onClickDelete() }} />
+            <br />
         </View>
     );
 }
@@ -76,7 +79,7 @@ export function ExerciseCardio(props) {
             <Text>Fecha: {props.exerciseDate}</Text>
             <Text>Intensidad: {props.intensity}</Text>
             <Text>Distancia: {props.distance}</Text>
-            <Button title="Eliminar" onPress={()=>{props.onClickDelete()}} />
+            <Button title="Eliminar" onPress={() => { props.onClickDelete() }} />
         </View>
     );
 }
