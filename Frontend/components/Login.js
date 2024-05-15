@@ -22,7 +22,7 @@ export function Login(props) {
 
 
     function doRegister(nombre, apellidos, passwd, phone) {
-        fetchControllers.addUser();
+        fetchControllers.addUser(nombre,apellidos,passwd,phone);
         setSeRegistra(0);
 
     }
