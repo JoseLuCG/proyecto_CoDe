@@ -52,6 +52,20 @@ function checkLogin(req, res) {
 }
 
 /**
+ * Log the user in the aplication.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
+function getUser(req,res) {
+  const {phoneNumber,passwd} =req.body;
+  let sql=`SELECT * from Users where phoneNumber=${phoneNumber} AND passwd=${passwd}`;
+  mySqlConn.query(sql,(err,data)=> {
+    if (err) console.log(err);
+    else res.send(JSON.stringify(data));
+  });
+}
+
+/**
  * Add a strength exercise in data base.
  * @param {*} req 
  * @param {*} res 
@@ -184,6 +198,7 @@ function testPruebas(req, res) {
 export {
   addUser,
   checkLogin,
+  getUser,
   removeUser,
   addStrengthExercise,
   addCardioExercise,

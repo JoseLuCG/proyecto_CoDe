@@ -35,11 +35,18 @@ export default function App() {
         })
     }
 
-    function getLoginID(loginID) {
-        var id = loginID[0].id;
-        setIndex(id);
-        getEjerciciosCardio(id);
-        getEjerciciosFuerza(id);
+    function loginUserNuevo(phoneNumber,passwd) {
+        fetchController.loginNuevo(phoneNumber,passwd)
+        .then((users)=>{
+            if (users[0]!=undefined) {
+                setUser(users[0]);
+                getEjerciciosCardio(users[0].id);
+                getEjerciciosFuerza(users[0].id);
+                setIndex(users[0].id);
+                console.log(users[0].passwd);
+            }
+            
+        });
     }
 
     function getEjerciciosCardio(id) {
@@ -55,14 +62,14 @@ export default function App() {
     if (index == 0) {
         return (
             <View style={styles.container}>
-                <Login onLoginClick={(loginID) => getLoginID(loginID)} />
+                <Login onLoginClick={(phoneNumber,passwd) => loginUserNuevo(phoneNumber,passwd)} />
                 <StatusBar style="auto" />
             </View>
         );
     } else {
         return (
             <View style={styles.container}>
-                <UserLoggedView id={index} userCardio={ejerciciosCardio} userFuerza={ejerciciosFuerza} refreshCardio={() => getEjerciciosCardio(index)} refreshFuerza={() => getEjerciciosFuerza(index)} onClickDeleteExercise={(id,exerciseName,exerciseDate)=>removeExercise(id,exerciseName,exerciseDate)} onClickLogout={()=>logoutUser()} onClickRemoveUser={()=>removeUser(index)} />
+                <UserLoggedView name={user.nameUser} lastName={user.lastNameUser} phone={user.phoneNumber} id={index} userCardio={ejerciciosCardio} userFuerza={ejerciciosFuerza} refreshCardio={() => getEjerciciosCardio(index)} refreshFuerza={() => getEjerciciosFuerza(index)} onClickDeleteExercise={(id,exerciseName,exerciseDate)=>removeExercise(id,exerciseName,exerciseDate)} onClickLogout={()=>logoutUser()} onClickRemoveUser={()=>removeUser(index)} />
             </View>
         );
     }

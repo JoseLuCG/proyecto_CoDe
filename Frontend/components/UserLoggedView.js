@@ -39,9 +39,8 @@ export function UserLoggedView(props) {
 
     return (
         <View>
-            <Text>Nombre: Hola</Text>
-            <Text>Apellidos: Holaaa</Text>
-            <Text>Hola</Text>
+            <Text>TÚ: {props.name} {props.lastName}, {props.phone}</Text>
+            <br />
             <Text>{mappedFuerzas}</Text>
             <Text>{mappedCardio}</Text>
             <AnhadirEjercicioCardioFuerza clickAddCardio={(t, f, i, tt, d) => addCardio(t, f, i, tt, d)} clickAddFuerza={(t, f, i, tt, d) => addFuerza(t, f, i, tt, d)} />

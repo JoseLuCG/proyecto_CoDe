@@ -116,6 +116,17 @@
         return data;
     }
 
+    export async function loginNuevo(passwdIn,phoneIn) {
+        const requestOptions={
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ passwd: passwdIn, phoneNumber: phoneIn })
+        };
+        const response = await fetch("http://localhost:3000/getUser",requestOptions);
+        const data= await response.json();
+        return data;
+    }
+
     /**
      * Fetch Register a new User on Backend/createUser
      * @param {*} nombre Name to create User

@@ -24,6 +24,7 @@ app.post("/addUserCardioExercise", jsonParser, controllers.addUserCardioExercise
 app.post("/getUserCardio", jsonParser, controllers.getUserCardio);
 app.post("/getUserFuerza", jsonParser, controllers.getUserFuerza);
 app.post("/removeEjercicio", jsonParser, controllers.removeUserEjercicio); // Proved. WORKS
+app.post("/getUser",jsonParser,controllers.getUser);
 
 app.use("/test", controllers.testPruebas);
 

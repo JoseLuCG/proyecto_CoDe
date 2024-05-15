@@ -19,7 +19,6 @@ export function Register(props) {
             <Text>Teléfono</Text>
             <TextInput onChangeText={(text) => setPhone(text)} style={styles.textinput} />
             <Button title="Crear Usuario" onPress={() => props.onClickCrearUsuario(nombre, apellidos, passwd, phone)} />
-            {nombre}
         </View>
     );
 }

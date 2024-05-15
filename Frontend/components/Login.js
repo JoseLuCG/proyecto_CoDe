@@ -10,14 +10,7 @@ export function Login(props) {
     const [passwd, setPasswd] = useState("");
 
     function doLogin(passwdIn, phoneIn) {
-
-        fetch("http://localhost:3000/checkLogin", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ passwd: passwdIn, phoneNumber: phoneIn })
-        })
-            .then(response => response.json())
-            .then(loginID => props.onLoginClick(loginID));
+        props.onLoginClick(passwdIn,phoneIn);
     }
 
 
