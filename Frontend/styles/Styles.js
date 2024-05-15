@@ -12,9 +12,13 @@ export const styles = StyleSheet.create({
   },
   items: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    height: 'auto'
   },
-  item: {
-
+  itemCutFlex: {
+    flex: 1,
+    flexDirection: 'column',
+    flexWrap: 'wrap'
   }
 });

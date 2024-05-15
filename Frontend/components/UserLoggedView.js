@@ -31,24 +31,25 @@ export function UserLoggedView(props) {
 
     const mappedCardio = objetoCardio.map((obj) => {
         return (
-            <View>
-                <ExerciseCardio onClickDelete={() => props.onClickDeleteExercise(props.id, obj.exerciseDate, obj.exerciseName)} id={props.id} exerciseName={obj.exerciseName} exerciseDate={obj.exerciseDate} intensity={obj.intensity} distance={obj.distance} />
-            </View>
+            <ExerciseCardio onClickDelete={() => props.onClickDeleteExercise(props.id, obj.exerciseDate, obj.exerciseName)} id={props.id} exerciseName={obj.exerciseName} exerciseDate={obj.exerciseDate} intensity={obj.intensity} distance={obj.distance} />
         )
     });
 
     return (
-        <ScrollView style={styles.Container}>
-            <Text>TÚ: {props.name} {props.lastName}, {props.phone}</Text>
-            <br />
-            <h2>Ejercicios de Fuerza: </h2>
-            <View style={styles.items}>{mappedFuerzas}</View>
-            <h2>Ejercicios de Cardio: </h2>
-            <View style={styles.items}>{mappedCardio}</View>
-            <AnhadirEjercicioCardioFuerza clickAddCardio={(t, f, i, tt, d) => addCardio(t, f, i, tt, d)} clickAddFuerza={(t, f, i, tt, d) => addFuerza(t, f, i, tt, d)} />
-            <Button title="LOGOUT" onPress={() => props.onClickLogout()} />
-            <br />
-            <Button title="Borrar Usuario" onPress={() => props.onClickRemoveUser()} />
+        <ScrollView>
+            <View style={styles.container}>
+                <Text>TÚ: {props.name} {props.lastName}, {props.phone}</Text>
+                <br />
+                <h2>Ejercicios</h2>
+                <View style={styles.items}>
+                    {mappedFuerzas}
+                    {mappedCardio}
+                </View>
+                <AnhadirEjercicioCardioFuerza clickAddCardio={(t, f, i, tt, d) => addCardio(t, f, i, tt, d)} clickAddFuerza={(t, f, i, tt, d) => addFuerza(t, f, i, tt, d)} />
+                <Button title="LOGOUT" onPress={() => props.onClickLogout()} />
+                <br />
+                <Button title="Borrar Usuario" onPress={() => props.onClickRemoveUser()} />
+            </View>
         </ScrollView>
     );
 }
@@ -60,7 +61,7 @@ export function UserLoggedView(props) {
 
 export function ExerciseFuerza(props) {
     return (
-        <View style={styles.item}>
+        <View>
             <Text>Fuerza Tipo: {props.exerciseName}</Text>
             <Text>Fecha: {props.exerciseDate}</Text>
             <Text>Peso: {props.weight}</Text>
