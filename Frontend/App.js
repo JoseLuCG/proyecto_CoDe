@@ -6,56 +6,70 @@ import { styles } from './styles/Styles.js';
 import { Login } from './components/Login.js';
 import { UserLoggedView } from './components/UserLoggedView.js';
 
+import * as fetchController from './controllers/fetchController.js';
+
 export default function App() {
     const [index, setIndex] = useState(0);
     const [user, setUser] = useState({ name: 'Dario', apellidos: 'Lopez Gomez' });
     const [ejerciciosCardio, setEjerciciosCardio] = useState(new Array);
     const [ejerciciosFuerza, setEjerciciosFuerza] = useState(new Array);
 
-    let entraVentanaLogin = false;
-    function entraLoggedView() {
-        setIndex(7)
+    /**
+     * Log Out User
+     * @method logoutUser
+     */
+    function logoutUser() {
+        setIndex(0);
     }
-    //  Cuando recibe el Login ID, recoge los Datos del Usuario, luego los Cardio y Strength Exercises
-    function getLoginID(loginID) {
-        var id = loginID[0].id;
-        setIndex(id);
-        getEjerciciosCardio(id);
-        getEjerciciosFuerza(id);
+
+    function removeUser(id) {
+        fetchController.removeUser(id)
+        .then(data=>setIndex(0));
     }
+
+    function removeExercise (id,exerciseDate,exerciseName) {
+        fetchController.removeExercise(id,exerciseDate,exerciseName)
+        .then(()=>{
+            getEjerciciosCardio(id);
+            getEjerciciosFuerza(id);
+        })
+    }
+
+    function loginUserNuevo(phoneNumber,passwd) {
+        fetchController.loginNuevo(phoneNumber,passwd)
+        .then((users)=>{
+            if (users[0]!=undefined) {
+                setUser(users[0]);
+                getEjerciciosCardio(users[0].id);
+                getEjerciciosFuerza(users[0].id);
+                setIndex(users[0].id);
+                console.log(users[0].passwd);
+            }
+            
+        });
+    }
+
     function getEjerciciosCardio(id) {
-        const requestOptions = {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUser: id })
-        };
-        fetch("http://localhost:3000/getUserCardio", requestOptions)
-            .then(response => response.json())
-            .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
+        fetchController.getEjerciciosCardio(id)
+        .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
     }
 
     function getEjerciciosFuerza(id) {
-        const requestOptions = {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUser: id })
-        };
-        fetch("http://localhost:3000/getUserFuerza", requestOptions)
-            .then(response => response.json())
+        fetchController.getEjerciciosFuerza(id)
             .then(ejerciciosFuerza => setEjerciciosFuerza(ejerciciosFuerza));
     }
 
     if (index == 0) {
         return (
             <View style={styles.container}>
-                <Login onLoginClick={(loginID) => getLoginID(loginID)} />
+                <Login onLoginClick={(phoneNumber,passwd) => loginUserNuevo(phoneNumber,passwd)} />
                 <StatusBar style="auto" />
             </View>
         );
     } else {
         return (
-            <View>
-                <UserLoggedView id={index} userCardio={ejerciciosCardio} userFuerza={ejerciciosFuerza} refreshCardio={() => getEjerciciosCardio(index)} refreshFuerza={() => getEjerciciosFuerza(index)} />
+            <View style={styles.container}>
+                <UserLoggedView name={user.nameUser} lastName={user.lastNameUser} phone={user.phoneNumber} id={index} userCardio={ejerciciosCardio} userFuerza={ejerciciosFuerza} refreshCardio={() => getEjerciciosCardio(index)} refreshFuerza={() => getEjerciciosFuerza(index)} onClickDeleteExercise={(id,exerciseName,exerciseDate)=>removeExercise(id,exerciseName,exerciseDate)} onClickLogout={()=>logoutUser()} onClickRemoveUser={()=>removeUser(index)} />
             </View>
         );
     }

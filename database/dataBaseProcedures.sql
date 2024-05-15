@@ -140,6 +140,11 @@ BEGIN
 			WHERE exerciseDate = p_exerciseDate
             AND idUSer = p_idUser
             AND exerciseName = p_exerciseName;
+		
+		DELETE FROM User_Strength
+			WHERE exerciseDate = p_exerciseDate
+            AND idUSer = p_idUser
+            AND exerciseName = p_exerciseName;
 	COMMIT;
 END; $$
 

@@ -14,7 +14,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.post("/addUser", jsonParser, controllers.addUser); //Proved. WORKS
-app.delete("/removeUser", jsonParser, controllers.removeUser); //Proved. WORKS
+app.post("/removeUser", jsonParser, controllers.removeUser); //Proved. WORKS
 app.post("/checkLogin", jsonParser, controllers.checkLogin); // Proved. WORKS
 app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise); // Proved. WORKS
 app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); // Proved. WORKS
@@ -23,7 +23,8 @@ app.post("/addUserCardioExercise", jsonParser, controllers.addUserCardioExercise
 
 app.post("/getUserCardio", jsonParser, controllers.getUserCardio);
 app.post("/getUserFuerza", jsonParser, controllers.getUserFuerza);
-app.delete("/removeEjercicio", jsonParser, controllers.removeUserEjercicio); // Proved. WORKS
+app.post("/removeEjercicio", jsonParser, controllers.removeUserEjercicio); // Proved. WORKS
+app.post("/getUser",jsonParser,controllers.getUser);
 
 app.use("/test", controllers.testPruebas);
 

@@ -6,6 +6,7 @@ var connection = mysql.createConnection({
   database: "wakeup",
   user: "root",
   password: "abc123.",
+  dateStrings: true
 });
 
 export { connection as mySqlConn };

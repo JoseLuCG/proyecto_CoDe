@@ -22,8 +22,8 @@ function addUser(req, res) {
  * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
  */
 function removeUser(req, res) {
-  const { id } = req.body
-  let sql = `CALL deleteUser(${id})`;
+  const { idUser } = req.body
+  let sql = `CALL deleteUser(${idUser})`;
   mySqlConn.query(sql, function (err) {
     if (err) console.log(err);
     else res.send("Correcto");
@@ -49,6 +49,20 @@ function checkLogin(req, res) {
     }
   });
 
+}
+
+/**
+ * Log the user in the aplication.
+* @param {*} req - Object represents the HTTP request query string. 
+ * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
+ */
+function getUser(req,res) {
+  const {phoneNumber,passwd} =req.body;
+  let sql=`SELECT * from Users where phoneNumber=${phoneNumber} AND passwd=${passwd}`;
+  mySqlConn.query(sql,(err,data)=> {
+    if (err) console.log(err);
+    else res.send(JSON.stringify(data));
+  });
 }
 
 /**
@@ -128,7 +142,7 @@ function addUserCardioExercise (req, res) {
  */
 function getUserCardio(req, res) {
   const { idUser } = req.body;
-  let sql = `select * from user_cardio where idUser=${idUser}`;
+  let sql = `select * from User_Cardio where idUser=${idUser}`;
   mySqlConn.query(sql, function (err, rows) {
     if (err) console.log(err);
     else res.write(JSON.stringify(rows));
@@ -144,7 +158,7 @@ function getUserCardio(req, res) {
 //getUserFuerza
 function getUserFuerza(req, res) {
   const { idUser } = req.body;
-  let sql = `select * from user_strength where idUser=${idUser}`;
+  let sql = `select * from User_Strength where idUser=${idUser}`;
   mySqlConn.query(sql, function (err, rows) {
     if (err) console.log(err);
     else {
@@ -184,6 +198,7 @@ function testPruebas(req, res) {
 export {
   addUser,
   checkLogin,
+  getUser,
   removeUser,
   addStrengthExercise,
   addCardioExercise,

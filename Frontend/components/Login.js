@@ -2,30 +2,20 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 import { styles } from '../styles/Styles.js';
 import { useState } from 'react';
 import { Register } from './Register.js';
+import * as fetchControllers from '../controllers/fetchController.js'
+
 export function Login(props) {
     const [seRegistra, setSeRegistra] = useState(false);
     const [phone, setPhone] = useState("");
     const [passwd, setPasswd] = useState("");
 
     function doLogin(passwdIn, phoneIn) {
-
-        fetch("http://localhost:3000/checkLogin", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ passwd: passwdIn, phoneNumber: phoneIn })
-        })
-            .then(response => response.json())
-            .then(loginID => props.onLoginClick(loginID));
+        props.onLoginClick(passwdIn,phoneIn);
     }
 
+
     function doRegister(nombre, apellidos, passwd, phone) {
-        console.log(nombre);
-        const requestOptions = {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nameUser: nombre, lastNameUser: apellidos, passwd: passwd, phoneNumber: phone })
-        };
-        fetch("http://127.0.0.1:3000/addUser", requestOptions)
+        fetchControllers.addUser(nombre,apellidos,passwd,phone);
         setSeRegistra(0);
 
     }
