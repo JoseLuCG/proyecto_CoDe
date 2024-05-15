@@ -42,35 +42,13 @@ export default function App() {
         getEjerciciosFuerza(id);
     }
 
-    /**
-     * Fetch Sends userID to Backend/getUserCardio and gets Cardio Exercises to update state
-     * @param {*} id ID of logged User
-     * @method getCardioExercises
-     */
     function getEjerciciosCardio(id) {
-        const requestOptions = {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUser: id })
-        };
-        fetch("http://localhost:3000/getUserCardio", requestOptions)
-            .then(response => response.json())
-            .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
+        fetchController.getEjerciciosCardio(id)
+        .then(ejerciciosCardio => setEjerciciosCardio(ejerciciosCardio));
     }
 
-    /**
-     * Fetch Sends userID to Backend/getUserStrength and gets Strength Exercises to update state
-     * @param {*} id 
-     * @method getStrengthExercises
-     */
     function getEjerciciosFuerza(id) {
-        const requestOptions = {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idUser: id })
-        };
-        fetch("http://localhost:3000/getUserFuerza", requestOptions)
-            .then(response => response.json())
+        fetchController.getEjerciciosFuerza(id)
             .then(ejerciciosFuerza => setEjerciciosFuerza(ejerciciosFuerza));
     }
 
