@@ -37,8 +37,11 @@ function removeUser(req, res) {
  */
 function checkLogin(req, res) {
   const { phoneNumber, passwd } = req.body;
-  let sql = `SELECT logUser("${phoneNumber}", "${passwd}") AS id`;
-  mySqlConn.query(sql, (err, data) => {
+
+  console.log(phoneNumber, passwd);
+  let sql = `SELECT logUser(?, ?) AS id`;
+
+  mySqlConn.query(sql,[phoneNumber, passwd], (err, data) => {
     if (err) {
       console.log(err);
       res.sendStatus(500);
@@ -58,7 +61,7 @@ function checkLogin(req, res) {
  */
 function getUser(req,res) {
   const {phoneNumber,passwd} =req.body;
-  let sql=`SELECT * from Users where phoneNumber=${phoneNumber} AND passwd=${passwd}`;
+  let sql=`SELECT * from Users where phoneNumber="${phoneNumber}" AND passwd="${passwd}"`;
   mySqlConn.query(sql,(err,data)=> {
     if (err) console.log(err);
     else res.send(JSON.stringify(data));
