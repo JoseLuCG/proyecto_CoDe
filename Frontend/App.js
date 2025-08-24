@@ -1,3 +1,70 @@
+import React, { useEffect, useState, useCallback } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/navigation/AppNavigator';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+// Evita que la pantalla de inicio se oculte automáticamente
+SplashScreen.preventAutoHideAsync();
+
+const App = () => {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  // Cargar las fuentes
+  const loadFonts = async () => {
+    await Font.loadAsync({
+        "main-font": require("./assets/fonts/attort.ttf")
+    });
+    setFontsLoaded(true);
+  };
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
+
+  // Ocultar splash cuando las fuentes estén listas
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  // Mientras se cargan las fuentes, no renderizar nada
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return (
+    <NavigationContainer onReady={onLayoutRootView}>
+      <AppNavigator />
+    </NavigationContainer>
+  );
+};
+
+export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useState } from 'react';
@@ -17,7 +84,7 @@ export default function App() {
     /**
      * Log Out User
      * @method logoutUser
-     */
+     
     function logoutUser() {
         setIndex(0);
     }
@@ -75,3 +142,4 @@ export default function App() {
     }
 
 }
+*/
