@@ -1,18 +1,70 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { Text, Button, StyleSheet, Pressable} from 'react-native';
 import InputField from '../components/InputField';
-import { loginUser } from '../services/authService';
+import { LinearGradient } from 'expo-linear-gradient';
+import { color } from '../styles/Colors';
+import { textStyle } from '../styles/TextStyles';
+import * as apiService from './../services/AddUserService'
+import { defaultBRadius } from '../styles/DefaultVaules';
 
 const RegisterScreen = ({ navigation }) => {
+    // States:
+    const [ newUser, setNewUser ] = useState({
+        userName: "",
+        userPhone: "",
+        userPassword: ""
+    });
+
+    // Handlers
+    function handleinputChange(fieldName, value) {
+        setNewUser(prevState => ({
+            ...prevState,
+            [fieldName]:value
+        }));
+    }
+
     function backToLogin() {
         navigation.navigate('Login');    
     }
+    
+    function submitForm() {
+        const response = apiService.addUser(newUser);
+        alert(JSON.stringify(newUser));
+
+    }
+    
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Ventana de registro</Text>
+        <LinearGradient 
+            colors={color.mainGradient}
+            style={styles.container}
+        >
+            <Text style={textStyle.title}>¡Únete a nosotros!</Text>
+            <InputField
+                label="Nombre"
+                value={newUser.userName}
+                onChangeText={(text)=> handleinputChange("userName", text)}
+            />
+
+            <InputField
+                label="Número de teléfono"
+                value={newUser.userPhone}
+                onChangeText={(text)=> handleinputChange("userPhone", text)}
+            />
+
+            <InputField
+                label="Contraseña"
+                value={newUser.userPassword}
+                onChangeText={(text)=> handleinputChange("userPassword", text)}
+            />
+            <Pressable onPress={submitForm} style={({pressed}) => [
+                styles.button,
+                pressed && styles.buttonPressed
+            ]}>
+                <Text style={textStyle.button}>Registrarse</Text>
+            </Pressable>
             <Button title="Inicia sesión" onPress={backToLogin} />
-        </View>
+        </LinearGradient>
     );
 };
 
@@ -22,16 +74,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 16,
     },
-    title: {
-        fontSize: 24,
-        textAlign: 'center',
-        marginBottom: 24,
-    },
     link: {
         color: '#007BFF', // Azul típico de enlace
         textDecorationLine: 'underline',
         marginTop: 40,
     },
+    button: {
+        backgroundColor: '#1DA27A',
+        borderRadius: defaultBRadius,
+        padding: 10
+    },
+    buttonPressed: {
+        backgroundColor: '#223D35'
+    }
 });
 
 export default RegisterScreen;
