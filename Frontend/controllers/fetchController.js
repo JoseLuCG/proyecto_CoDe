@@ -135,23 +135,3 @@ export async function loginNuevo(passwdIn, phoneIn) {
     const data = await response.json();
     return data;
 }
-
-/**
- * Fetch Register a new User on Backend/createUser
- * @param {String} nombre Name to create User
- * @param {String} apellidos Surname to create User
- * @param {String} passwd Password to create User
- * @param {String} phone Unique Phone to create User (Primary Key)
- */
-export async function addUser(nombre, apellidos, passwd, phone) {
-    console.log(nombre);
-    const requestOptions = {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nameUser: nombre, lastNameUser: apellidos, passwd: passwd, phoneNumber: phone })
-    };
-    const response = await fetch("http://127.0.0.1:3000/addUser", requestOptions)
-    const data = await response.text();
-    return data;
-}
-
