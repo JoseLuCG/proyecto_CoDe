@@ -11,6 +11,8 @@ const RegisterScreen = ({ navigation }) => {
     // States:
     const [ newUser, setNewUser ] = useState({
         userName: "",
+        userLastName: "",
+        userEmail: "",
         userPhone: "",
         userPassword: ""
     });
@@ -47,6 +49,18 @@ const RegisterScreen = ({ navigation }) => {
             />
 
             <InputField
+                label="Apellidos"
+                value={newUser.userLastName}
+                onChangeText={(text)=> handleinputChange("userLastName", text)}
+            />
+
+            <InputField
+                label="Correo Electrónico"
+                value={newUser.userEmail}
+                onChangeText={(text)=> handleinputChange("userEmail", text)}
+            />
+
+            <InputField
                 label="Número de teléfono"
                 value={newUser.userPhone}
                 onChangeText={(text)=> handleinputChange("userPhone", text)}
@@ -75,7 +89,7 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     link: {
-        color: '#007BFF', // Azul típico de enlace
+        color: '#007BFF',
         textDecorationLine: 'underline',
         marginTop: 40,
     },
