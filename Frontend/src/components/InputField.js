@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: defaultBRadius,
     paddingLeft: 10,
-    fontFamily: "main-font"
+    fontFamily: "main-font",
+    backgroundColor: "#FFF"
   },
 });
 
