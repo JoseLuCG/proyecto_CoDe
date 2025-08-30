@@ -1,5 +1,6 @@
 import express from "express";
 import * as controllers from "./controllers/controller.js";
+import * as userControllers from "./controllers/user-controllers.js"
 import cors from "cors";
 
 const app = express();
@@ -13,17 +14,20 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.post("/addUser", jsonParser, controllers.addUser); //Proved. WORKS
-app.post("/removeUser", jsonParser, controllers.removeUser); //Proved. WORKS
-app.post("/checkLogin", jsonParser, controllers.checkLogin); // Proved. WORKS
-app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise); // Proved. WORKS
-app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); // Proved. WORKS
-app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); // Proved. WORKS
-app.post("/addUserCardioExercise", jsonParser, controllers.addUserCardioExercise); // Proved. WORKS
+// * User End-points:
+app.post("/addUser", jsonParser, userControllers.addNewUser);
+
+
+app.post("/removeUser", jsonParser, controllers.removeUser); 
+app.post("/checkLogin", jsonParser, controllers.checkLogin); 
+app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise); 
+app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); 
+app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); 
+app.post("/addUserCardioExercise", jsonParser, controllers.addUserCardioExercise); 
 
 app.post("/getUserCardio", jsonParser, controllers.getUserCardio);
 app.post("/getUserFuerza", jsonParser, controllers.getUserFuerza);
-app.post("/removeEjercicio", jsonParser, controllers.removeUserEjercicio); // Proved. WORKS
+app.post("/removeEjercicio", jsonParser, controllers.removeUserEjercicio); 
 app.post("/getUser",jsonParser,controllers.getUser);
 
 app.use("/test", controllers.testPruebas);
