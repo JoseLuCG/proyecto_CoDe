@@ -5,49 +5,51 @@ USE wakeup;
 
 -- TABLE CREATION --
 CREATE TABLE Users(
-	id INTEGER AUTO_INCREMENT NOT NULL,
-    nameUser VARCHAR(40) NOT NULL,
-    lastNameUser VARCHAR(40) NOT NULL,
-    passwd varchar(40) not null,
-    phoneNumber VARCHAR(9) NOT NULL,
-    unique(phoneNumber),
-    CONSTRAINT id_user PRIMARY KEY (id)
+	uuid_user CHAR(36) NOT NULL,
+    name_user VARCHAR(40) NOT NULL,
+    last_name_user VARCHAR(40) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone_number VARCHAR(9) NOT NULL,
+    user_password varchar(40) not null,
+    unique(phone_number),
+    CONSTRAINT uuid_user PRIMARY KEY (uuid_user)
 );
 
 CREATE TABLE CardioExercise(
-	exerciseName VARCHAR(50) NOT NULL, 
-    PRIMARY KEY (exerciseName)
+	exercise_name VARCHAR(50) NOT NULL, 
+    PRIMARY KEY (exercise_name)
 );
 
 CREATE TABLE StrengthExercise(
-	exerciseName VARCHAR(50) NOT NULL,
-	PRIMARY KEY (exerciseName)
+	exercise_name VARCHAR(50) NOT NULL,
+	PRIMARY KEY (exercise_name)
 );
 
 CREATE TABLE User_Strength (
-	exerciseDate DATE,
-	idUSer INTEGER NOT NULL,
-    setNumber INTEGER NOT NULL,
-    exerciseName VARCHAR(50) NOT NULL,
+	exercise_date DATE,
+	uuid_user CHAR(36) NOT NULL,
+    set_number INTEGER NOT NULL,
+    exercise_name VARCHAR(50) NOT NULL,
     weight DOUBLE NOT NULL,
     repeats INTEGER NOT NULL,
-    PRIMARY KEY (exerciseDate, idUser, setNumber, exerciseName),
-    FOREIGN KEY (idUSer) REFERENCES Users (id) ON UPDATE CASCADE,
-    FOREIGN KEY (exerciseName) REFERENCES StrengthExercise (exerciseName) ON UPDATE CASCADE,
+    PRIMARY KEY (exercise_date, uuid_user, set_number, exercise_name),
+    FOREIGN KEY (uuid_user) REFERENCES Users (uuid_user) ON UPDATE CASCADE,
+    FOREIGN KEY (exercise_name) REFERENCES StrengthExercise (exercise_name) ON UPDATE CASCADE,
     CHECK (weight >= 0),
     CHECK (repeats > 0),
-    CHECK (setNumber > 0)
+    CHECK (set_number > 0)
 );
 
 CREATE TABLE User_Cardio (
-	exerciseDate DATE,
-	idUSer INTEGER NOT NULL,
-    exerciseName VARCHAR(50) NOT NULL,
+	exercise_date DATE,
+	uuid_user CHAR(36) NOT NULL,
+    exercise_name VARCHAR(50) NOT NULL,
     intensity DOUBLE,
-    exerciseTime TIME,
+    exercise_time TIME,
     distance DOUBLE,
-    PRIMARY KEY (exerciseDate, idUser, exerciseName),
-    FOREIGN KEY (idUSer) REFERENCES Users (id) ON UPDATE CASCADE,
-    FOREIGN KEY (exerciseName) REFERENCES CardioExercise (exerciseName) ON UPDATE CASCADE
+    PRIMARY KEY (exercise_date, uuid_user, exercise_name),
+    FOREIGN KEY (uuid_user) REFERENCES Users (uuid_user) ON UPDATE CASCADE,
+    FOREIGN KEY (exercise_name) REFERENCES CardioExercise (exercise_name) ON UPDATE CASCADE
 );
+
 

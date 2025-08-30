@@ -3,7 +3,7 @@ SET GLOBAL log_bin_trust_function_creators = 1;
 /* Procedure that inserts a new user into the database. */
 DELIMITER $$
 DROP PROCEDURE IF EXISTS createUser; $$
-CREATE PROCEDURE createUser(p_name VARCHAR(40), p_lastName VARCHAR(40), p_password VARCHAR(40), p_phoneNumber VARCHAR(9))
+CREATE PROCEDURE createUser(p_uuid CHAR(36), p_name VARCHAR(40), p_lastName VARCHAR(40), p_email VARCHAR(255), p_password VARCHAR(40), p_phoneNumber VARCHAR(9))
 BEGIN
 	DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
@@ -12,8 +12,8 @@ BEGIN
 	END;
 
 	START TRANSACTION;
-		INSERT INTO Users (nameUser, lastNAmeUSer, passwd, phoneNumber)
-			VALUES (p_name, p_lastName, p_password, p_phoneNumber);
+		INSERT INTO Users (uuid_user, name_user , last_name_user, email, phone_number, user_password,)
+			VALUES (p_uuid, p_name, p_lastName, p_email, p_phoneNumber, p_password);
 	COMMIT;
 END; $$
 
