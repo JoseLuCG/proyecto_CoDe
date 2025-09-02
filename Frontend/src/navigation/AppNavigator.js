@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/Register';
-// import HomeScreen from '../screens/HomeScreen'; // más adelante
+import HomeScreen from '../screens/HomeScreen';
+import { User } from '../contexts/UserContext';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
+	const [user, setUser] = useContext(User);
+
 	return (
 		<Stack.Navigator initialRouteName="Login">
 			<Stack.Screen
@@ -19,6 +22,14 @@ const AppNavigator = () => {
 				component={RegisterScreen}
 				options={{ headerShown: false }}
 			/>
+			{
+				((typeof user !== "null") || (typeof user !== "undefined")) &&
+					<Stack.Screen
+						name="Home"
+						component={HomeScreen}
+						options={{ headerShown: false }}
+					/> 
+			}
 		</Stack.Navigator>
 	);
 };
