@@ -34,7 +34,6 @@ const RegisterScreen = ({ navigation }) => {
         alert(JSON.stringify(newUser));
 
     }
-    
 
     return (
         <LinearGradient 
