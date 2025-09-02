@@ -16,10 +16,10 @@ app.use(cors(corsOptions));
 
 // * User End-points:
 app.post("/addUser", jsonParser, userControllers.addNewUser);
+app.post("/checkLogin", jsonParser, userControllers.checkLogin); 
 
 
 app.post("/removeUser", jsonParser, controllers.removeUser); 
-app.post("/checkLogin", jsonParser, controllers.checkLogin); 
 app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise); 
 app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); 
 app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); 

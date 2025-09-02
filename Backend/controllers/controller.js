@@ -15,29 +15,6 @@ function removeUser(req, res) {
   });
 };
 
-/**
- * Log the user in the aplication.
-* @param {*} req - Object represents the HTTP request query string. 
- * @param {*} res - The res object represents the HTTP response that an Express app sends when it gets an HTTP request.
- */
-function checkLogin(req, res) {
-  const { phoneNumber, passwd } = req.body;
-
-  console.log(phoneNumber, passwd);
-  let sql = `SELECT logUser(?, ?) AS id`;
-
-  mySqlConn.query(sql,[phoneNumber, passwd], (err, data) => {
-    if (err) {
-      console.log(err);
-      res.sendStatus(500);
-    } else {
-      res.send(JSON.stringify(data));
-      console.log(JSON.stringify(data));
-      console.log("correcto");
-    }
-  });
-
-}
 
 /**
  * Log the user in the aplication.
@@ -184,7 +161,6 @@ function testPruebas(req, res) {
 };
 
 export {
-  checkLogin,
   getUser,
   removeUser,
   addStrengthExercise,
