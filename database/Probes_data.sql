@@ -41,3 +41,13 @@ CALL addUserCardioExercise('2024-04-16', 6, 'Correr', 5, '00:30:00', 2.30);
 CALL addUserCardioExercise('2024-04-18', 6, 'Correr', 5, '00:30:00', 2.30);
 
 CALL deleteCardioExercise('2024-04-18', 6, 'Correr');
+
+DELETE FROM wakeup.Users where uuid_user = "d985724f-8b94-456b-928d-1b34642f8092";
+
+
+
+SELECT uuid_user, name_user, last_name_user, email, phone_number
+	FROM Users
+		WHERE (email = "pepito@gmail.com" OR phone_number = "pepito@gmail.com")
+		AND user_password = "abc"
+;
