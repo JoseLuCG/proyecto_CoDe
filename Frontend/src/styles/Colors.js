@@ -1,3 +1,3 @@
-export const color = {
-    mainGradient : ['#6A266F','#00B7FF','#6A266F']
+export const colorStyle = {
+    mainGradient : ['#3a8abb','#3b3b9d']
 }
