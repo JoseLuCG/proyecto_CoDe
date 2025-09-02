@@ -10,5 +10,9 @@ export const textStyle = StyleSheet.create({
     button: {
         fontFamily: "main-font",
         textAlign: 'center',
+        color: '#FFFFFF',
+        fontSize: 12,
+        textTransform: 'uppercase',
+        letterSpacing: 1.5
     }
 });
