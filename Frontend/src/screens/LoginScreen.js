@@ -1,35 +1,51 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
 import InputField from '../components/InputField';
-import { loginUser } from '../services/authService';
-import { LinearGradient } from 'expo-linear-gradient'; // Importa LinearGradient de expo
+import * as apiService from "./../services/authService"
+import { LinearGradient } from 'expo-linear-gradient';
 import { textStyle } from '../styles/TextStyles';
+import { User } from '../contexts/UserContext';
 
 const LoginScreen = ({ navigation }) => {
-	const [phoneNumber, setPhoneNumber] = useState('');
-	const [password, setPassword] = useState('');
+	// States:
+	const [ user, setUser ] = useContext(User);
+	const [userToLogIn, setUserToLogIn] = useState({
+		userLoginData: "",
+		userPassword: ""
+	});
+	
+	// Handlers:
+	function handleinputChange(fieldName, value) {
+		setUserToLogIn(prevState => ({
+			...prevState,
+			[fieldName]: value
+		}));
+	}
 
-	const handleLogin = async () => {
-		if (!phoneNumber || !password) {
-			Alert.alert('Error', 'Por favor, ingrese todos los campos');
-			return;
-		}
-
+	async function submitForm() {
 		try {
-			const response = await loginUser(phoneNumber, password);
-			if (response.success) {
-				Alert.alert('Éxito', 'Login exitoso');
-			} else {
-				Alert.alert('Error', 'Número de teléfono o contraseña incorrectos');
-			}
+			const response = await apiService.loginUser(userToLogIn);
+			
+			setUser(response);
 		} catch (error) {
-			Alert.alert('Error', 'Hubo un problema al autenticarte');
+			throw new Error("Something is wrong");
+			// TODO: add conditionals for the diferents use cases if the user don't work
+			console.error(error);
 		}
-	};
+			
+	}
 
 	const handleRegister = () => {
 		navigation.navigate('Register');
 	};
+
+	useEffect(() => {
+		if (user != null) { 
+			navigation.navigate('Home');
+		} else {
+			navigation.navigate('Login');
+		}
+	}, [user]);	
 
 	return (
 		<LinearGradient 
@@ -44,24 +60,24 @@ const LoginScreen = ({ navigation }) => {
 			</View>
 
 			<View
-				colors={['#00FF6A', '#00B7FF']} // Colores del gradiente
-				style={styles.inputContainer}   // Aplica el gradiente al contenedor
+				colors={['#00FF6A', '#00B7FF']} 
+				style={styles.inputContainer}
 			>
 				<InputField
-					label="Número de Teléfono"
-					value={phoneNumber}
-					onChangeText={setPhoneNumber}
+					label="Email o número de Teléfono"
+					value={userToLogIn.userLoginData}
+					onChangeText={(text) => handleinputChange("userLoginData", text)}
 					keyboardType="phone-pad"
 				/>
 
 				<InputField
 					label="Contraseña"
-					value={password}
-					onChangeText={setPassword}
+					value={userToLogIn.userPassword}
+					onChangeText={(text) => handleinputChange("userPassword", text)}
 					secureTextEntry
 				/>
 
-				<Button title="Iniciar sesión" onPress={handleLogin} />
+				<Button title="Iniciar sesión" onPress={submitForm} />
 
 				<TouchableOpacity onPress={handleRegister}>
 					<Text style={textStyle.text}>
@@ -98,9 +114,9 @@ const styles = StyleSheet.create({
 		marginTop: 40,
 	},
 	logo: {
-		width: 450, // Ajusta el tamaño del logo
-		height: 450, // Ajusta el tamaño del logo
-		resizeMode: 'contain', // No distorsionar la imagen
+		width: 450,
+		height: 450,
+		resizeMode: 'contain',
 	},
 	imageContainer: {
 		justifyContent: 'center',
