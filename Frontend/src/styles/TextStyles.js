@@ -14,5 +14,10 @@ export const textStyle = StyleSheet.create({
         fontSize: 12,
         textTransform: 'uppercase',
         letterSpacing: 1.5
+    },
+    exerciseName: {
+        fontFamily: "main-font",
+        padding: 0,
+        margin: 0,
     }
 });
