@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
 	const handleRegister = () => {
 		navigation.navigate('Register');
 	};
-
+	/*
 	useEffect(() => {
 		if (user != null) { 
 			navigation.navigate('Home');
@@ -46,7 +46,12 @@ const LoginScreen = ({ navigation }) => {
 			navigation.navigate('Login');
 		}
 	}, [user]);	
-
+	*/
+	// TODO delete this useEffect when the app is finish.
+	useEffect(() => {
+		navigation.navigate('Home');
+	}, []);
+	
 	return (
 		<LinearGradient 
 			style={styles.container}

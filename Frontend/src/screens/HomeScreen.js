@@ -6,6 +6,7 @@ import { colorStyle } from '../styles/Colors';
 import { buttonStyles } from '../styles/ButtonStyles';
 import SideLeftMenu from '../components/SideLeftMenu';
 import TrainingTab from '../components/TrainingTab';
+import { exampleData } from '../services/dataProves';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
@@ -63,6 +64,7 @@ const HomeScreen = ({ navigation }) => {
 				</View>
 				<Text style={styles.title}>Pantalla Principal</Text>
 
+				<TrainingTab data={exampleData}></TrainingTab>
 				<TrainingTab></TrainingTab>
 			</View>
 		</LinearGradient>
