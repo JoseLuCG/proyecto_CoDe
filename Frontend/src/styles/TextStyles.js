@@ -19,5 +19,9 @@ export const textStyle = StyleSheet.create({
         fontFamily: "main-font",
         padding: 0,
         margin: 0,
+    },
+    dataField: {
+        fontFamily: "main-font",
+        fontSize: 12
     }
 });
