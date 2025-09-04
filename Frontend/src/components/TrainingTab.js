@@ -1,10 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { View, StyleSheet, Text, Image, ActivityIndicator, Animated } from "react-native";
 import { textStyle } from '../styles/TextStyles';
+import { defaultBRadius } from '../styles/DefaultVaules';
+import { LinearGradient } from 'expo-linear-gradient';
 
 function TrainingTab({ data }) {
     const fuerzaIcon = require("./../../assets/icons/fuerzaIcon.png");
     const cardioIcon = require("./../../assets/icons/cardioIcon.png");
+    const weightIcon = require("./../../assets/icons/weightIcon.png");
+    const repeatIcon = require("./../../assets/icons/repeatIcon.png");
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -30,24 +34,35 @@ function TrainingTab({ data }) {
 
     return (
         <Animated.View style={[styles.trainingTab, { opacity: fadeAnim }]}>
-            <View style={styles.imageContainer}>
+            <LinearGradient
+                colors={['rgba(50,205,50,0.3)', 'rgba(0,128,0,0.3)']}
+                style={styles.imageContainer}
+            >
                 <Image
                     source={fuerzaIcon}
                     style={styles.image}
                 />
-            </View>
+            </LinearGradient>
             <View style={styles.contentContainer}>
                 <View style={styles.textContainer}>
                     <Text style={textStyle.exerciseName}>{data.exerciseName}</Text>
                 </View>
                 <View style={styles.exerciseDataContainer}>
                     <View style={styles.firstContainer}>
-                        <Text>{data.weight}</Text>
+                        <Image
+                            source={weightIcon}
+                            style={styles.weightIcon}
+                        />
+                        <Text style={textStyle.dataField}>{data.weight} Kg</Text>
                     </View>
                     <View style={styles.secondContainer}>
-                        <Text>{data.numberOfSets}</Text>
+                        <Text style={textStyle.dataField}>Sets: {data.numberOfSets}</Text>
                     </View>
                     <View style={styles.thirdContainer}>
+                        <Image
+                            source={repeatIcon}
+                            style={styles.weightIcon}
+                        />
                         <Text>{data.numberOfReps}</Text>
                     </View>
                 </View>
@@ -60,25 +75,39 @@ const styles = StyleSheet.create({
     trainingTab: {
         backgroundColor: 'rgba(255, 255, 255, 0.91)',
         height: 80,
-        width: 300,
-        borderRadius: 14,
+        width: 330,
+        borderRadius: defaultBRadius,
         padding: 0,
         marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center'
     },
     imageContainer: {
+        /*
         backgroundColor: 'rgba(64, 255, 0, 0.43)',
-        height: 80,
+        height: 60,
         width: 60,
-        borderTopLeftRadius: 14,
-        borderBottomLeftRadius: 14,
+        borderRadius: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: 10
+        */
+        backgroundColor: 'rgba(50, 205, 50, 0.15)',
+        height: 60,
+        width: 60,
+        borderRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10,
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 3,
     },
     image: {
-        height: 50,
-        width: 30,
+        height: 40,
+        width: 60,
         resizeMode: 'contain',
     },
     loadingContainer: {
@@ -94,8 +123,8 @@ const styles = StyleSheet.create({
     contentContainer: {
         justifyContent: 'flex-start',
         flexDirection: 'column',
-        borderTopRightRadius: 14,
-        borderBottomRightRadius: 14,
+        borderTopRightRadius: defaultBRadius,
+        borderBottomRightRadius: defaultBRadius,
         height: '100%',
         width: 240,
         margin: 0,
@@ -108,39 +137,52 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 0,
         padding: 0,
-        borderBottomRightRadius: 14,
+        borderBottomRightRadius: defaultBRadius,
     },
     textContainer: {
+        /*backgroundColor: 'rgba(0, 162, 255, 0.3)',*/
         height: '40%',
-        paddingTop: 5,
         paddingBottom: 5,
         alignContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderTopRightRadius: defaultBRadius
     },
     firstContainer: {
-        backgroundColor: 'rgba(255, 0, 0, 0.3)',
-        width: '30%',
-        height: '100%',
-        flex: 1,
-        margin: 0,
-        padding: 0
-    },
-    secondContainer: {
-        backgroundColor: 'rgba(255, 234, 0, 0.46)',
-        width: '30%',
-        height: '100%',
-        flex: 1,
-        margin: 0,
-        padding: 0
-    },
-    thirdContainer: {
-        backgroundColor: 'rgba(0, 26, 255, 0.3)',
+        /*backgroundColor: 'rgba(255, 0, 0, 0.3)',*/
         width: '30%',
         height: '100%',
         flex: 1,
         margin: 0,
         padding: 0,
-        borderBottomRightRadius: 14,
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
+    secondContainer: {
+        /*backgroundColor: 'rgba(255, 234, 0, 0.46)',*/
+        width: '30%',
+        height: '100%',
+        flex: 1,
+        margin: 0,
+        padding: 0,
+        alignItems: 'center',
+    },
+    thirdContainer: {
+        /*backgroundColor: 'rgba(0, 26, 255, 0.3)',*/
+        width: '30%',
+        height: '100%',
+        flex: 1,
+        margin: 0,
+        padding: 0,
+        borderBottomRightRadius: defaultBRadius,
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    weightIcon: {
+        height: 20,
+        width: 20,
+        resizeMode: 'contain',
+        marginRight: 5
+    }
 });
 export default TrainingTab;
