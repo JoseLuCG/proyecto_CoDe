@@ -1,15 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet, Text, Image, ActivityIndicator, Animated } from "react-native";
+import { View, StyleSheet, Text, Image, ActivityIndicator, Animated, Pressable } from "react-native";
 import { textStyle } from '../styles/TextStyles';
 import { defaultBRadius } from '../styles/DefaultVaules';
 import { LinearGradient } from 'expo-linear-gradient';
 
-function TrainingTab({ data }) {
+function TrainingTab({ data, onPress }) {
     const fuerzaIcon = require("./../../assets/icons/fuerzaIcon.png");
     const cardioIcon = require("./../../assets/icons/cardioIcon.png");
     const weightIcon = require("./../../assets/icons/weightIcon.png");
     const repeatIcon = require("./../../assets/icons/repeatIcon.png");
+
     const fadeAnim = useRef(new Animated.Value(0)).current;
+    const scaleAnim = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
         if (data) {
@@ -21,6 +23,21 @@ function TrainingTab({ data }) {
         }
     }, [data]);
 
+    const handlePressIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 0.95,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handlePressOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1,
+            friction: 3,
+            useNativeDriver: true,
+        }).start();
+    };
+
     if (!data) {
         return (
             <View style={[styles.trainingTab, styles.loadingContainer]}>
@@ -30,46 +47,45 @@ function TrainingTab({ data }) {
         );
     }
 
-
-
     return (
-        <Animated.View style={[styles.trainingTab, { opacity: fadeAnim }]}>
-            <LinearGradient
-                colors={['rgba(50,205,50,0.3)', 'rgba(0,128,0,0.3)']}
-                style={styles.imageContainer}
-            >
-                <Image
-                    source={fuerzaIcon}
-                    style={styles.image}
-                />
-            </LinearGradient>
-            <View style={styles.contentContainer}>
-                <View style={styles.textContainer}>
-                    <Text style={textStyle.exerciseName}>{data.exerciseName}</Text>
+        <Pressable
+            onPress={onPress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+        >
+            <Animated.View style={[styles.trainingTab, { opacity: fadeAnim, transform: [{ scale: scaleAnim }] }]}>
+                <LinearGradient
+                    colors={['rgba(50,205,50,0.3)', 'rgba(0,128,0,0.3)']}
+                    style={styles.imageContainer}
+                >
+                    <Image
+                        source={fuerzaIcon}
+                        style={styles.image}
+                    />
+                </LinearGradient>
+                <View style={styles.contentContainer}>
+                    <View style={styles.textContainer}>
+                        <Text style={textStyle.exerciseName}>{data.exerciseName}</Text>
+                    </View>
+                    <View style={styles.exerciseDataContainer}>
+                        <View style={styles.firstContainer}>
+                            <Image source={weightIcon} style={styles.weightIcon} />
+                            <Text style={textStyle.dataField}>{data.weight} Kg</Text>
+                        </View>
+                        <View style={styles.secondContainer}>
+                            <Text style={textStyle.dataField}>Sets: {data.numberOfSets}</Text>
+                        </View>
+                        <View style={styles.thirdContainer}>
+                            <Image source={repeatIcon} style={styles.weightIcon} />
+                            <Text>{data.numberOfReps}</Text>
+                        </View>
+                    </View>
                 </View>
-                <View style={styles.exerciseDataContainer}>
-                    <View style={styles.firstContainer}>
-                        <Image
-                            source={weightIcon}
-                            style={styles.weightIcon}
-                        />
-                        <Text style={textStyle.dataField}>{data.weight} Kg</Text>
-                    </View>
-                    <View style={styles.secondContainer}>
-                        <Text style={textStyle.dataField}>Sets: {data.numberOfSets}</Text>
-                    </View>
-                    <View style={styles.thirdContainer}>
-                        <Image
-                            source={repeatIcon}
-                            style={styles.weightIcon}
-                        />
-                        <Text>{data.numberOfReps}</Text>
-                    </View>
-                </View>
-            </View>
-        </Animated.View>
+            </Animated.View>
+        </Pressable>
     );
 };
+export default TrainingTab;
 
 const styles = StyleSheet.create({
     trainingTab: {
@@ -83,15 +99,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     imageContainer: {
-        /*
-        backgroundColor: 'rgba(64, 255, 0, 0.43)',
-        height: 60,
-        width: 60,
-        borderRadius: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 10
-        */
         backgroundColor: 'rgba(50, 205, 50, 0.15)',
         height: 60,
         width: 60,
@@ -185,4 +192,3 @@ const styles = StyleSheet.create({
         marginRight: 5
     }
 });
-export default TrainingTab;
