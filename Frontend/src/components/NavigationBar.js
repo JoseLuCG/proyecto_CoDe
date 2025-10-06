@@ -1,11 +1,20 @@
 import { View, StyleSheet, Text } from "react-native";
 import { defaultBRadius } from '../styles/DefaultVaules';
 import NavigationTab from "./NavigationTab";
+import { navigationContentArray } from "../utilities/navitationArrayTab";
 
-function NavigationBar() {
+function NavigationBar({navigation}) {
+
+    
     return(
         <View style={styles.navigationBar}>
-            <NavigationTab/>
+            {
+                navigationContentArray.map(
+                    (tab, index) => {
+                       return <NavigationTab key={index} labelText={tab.labelText} iconSource={tab.iconSource} navigateTo={tab.navigateTo}/>
+                    }
+                )
+            }
         </View>
     );
 }
@@ -25,5 +34,6 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
+        flexDirection: 'row',
     }, 
 });
