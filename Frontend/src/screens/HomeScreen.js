@@ -94,7 +94,7 @@ const HomeScreen = ({ navigation }) => {
 				onClose={handleCloseModal}
 				exercise={selectedExercise}
 			/>
-			<NavigationBar></NavigationBar>
+			<NavigationBar/>
 		</LinearGradient>
 	);
 };
