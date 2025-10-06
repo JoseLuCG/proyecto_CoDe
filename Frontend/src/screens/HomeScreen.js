@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Pressable } from 'react-native';
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	Animated,
+	Dimensions,
+	TouchableWithoutFeedback,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { textStyle } from '../styles/TextStyles';
 import { colorStyle } from '../styles/Colors';
@@ -7,6 +15,8 @@ import { buttonStyles } from '../styles/ButtonStyles';
 import SideLeftMenu from '../components/SideLeftMenu';
 import TrainingTab from '../components/TrainingTab';
 import { exampleData } from '../services/dataProves';
+import ExerciseModalScreen from './ExerciseModalScreen';
+import NavigationBar from '../components/NavigationBar';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
@@ -14,6 +24,9 @@ const menuWidth = 250;
 const HomeScreen = ({ navigation }) => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const slideAnim = useState(new Animated.Value(-menuWidth))[0];
+
+	const [modalVisible, setModalVisible] = useState(false);
+	const [selectedExercise, setSelectedExercise] = useState(null);
 
 	const toggleMenu = () => {
 		Animated.timing(slideAnim, {
@@ -33,10 +46,20 @@ const HomeScreen = ({ navigation }) => {
 		setMenuOpen(false);
 	};
 
+	const handleOpenModal = (exercise) => {
+		setSelectedExercise(exercise);
+		setModalVisible(true);
+	};
+
+	const handleCloseModal = () => {
+		setModalVisible(false);
+		setSelectedExercise(null);
+	};
+
 	function logOut() {
 		console.log("Adios");
-
 	}
+
 	return (
 		<LinearGradient
 			style={styles.mainContainer}
@@ -54,19 +77,24 @@ const HomeScreen = ({ navigation }) => {
 				</TouchableWithoutFeedback>
 			)}
 
-			<SideLeftMenu slideAnim={slideAnim}/>
-
-
+			<SideLeftMenu slideAnim={slideAnim} />
 
 			{/* Contenido principal */}
 			<View style={styles.content}>
-				<View style={styles.routinesContainer}>
-				</View>
+				<View style={styles.routinesContainer}></View>
 				<Text style={styles.title}>Pantalla Principal</Text>
 
-				<TrainingTab data={exampleData}></TrainingTab>
-				<TrainingTab></TrainingTab>
+				<TrainingTab data={exampleData} onPress={() => handleOpenModal(exampleData)} />
+				<TrainingTab />
 			</View>
+
+			{/* Modal */}
+			<ExerciseModalScreen
+				isVisible={modalVisible}
+				onClose={handleCloseModal}
+				exercise={selectedExercise}
+			/>
+			<NavigationBar></NavigationBar>
 		</LinearGradient>
 	);
 };
@@ -86,9 +114,9 @@ const styles = StyleSheet.create({
 		left: 20,
 		zIndex: 3,
 		backgroundColor: '#ddd',
-		width: 48,
-		height: 48,
-		borderRadius: 4,
+		width: 50,
+		height: 50,
+		borderRadius: 15,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
