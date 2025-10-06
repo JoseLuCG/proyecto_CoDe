@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 
 const { height } = Dimensions.get('window');
 
-export default function ExerciseModal({ isVisible, onClose, exercise }) {
+export default function ExerciseModalScreen({ isVisible, onClose, exercise }) {
     if (!exercise) return null;
 
     return (
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
         margin: 0,
     },
     modalContent: {
-        height: height * 0.75,
-        backgroundColor: '#fff',
+        height: height * 0.85,
+        backgroundColor: 'rgba(255, 255, 255, 0.91)',
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         padding: 20,
