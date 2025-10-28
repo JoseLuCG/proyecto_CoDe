@@ -4,6 +4,8 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/Register';
 import HomeScreen from '../screens/HomeScreen';
 import { User } from '../contexts/UserContext';
+import ExercisesScreen from '../screens/ExercisesScreen';
+import FeedingScreen from '../screens/FeedingScreen';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +30,23 @@ const AppNavigator = () => {
 						name="Home"
 						component={HomeScreen}
 						options={{ headerShown: false }}
-					/> 
+					/>
+			}
+			{
+				((typeof user !== "null") || (typeof user !== "undefined")) &&
+					<Stack.Screen
+						name="Exercises"
+						component={ExercisesScreen}
+						options={{ headerShown: false }}
+					/>
+			}
+						{
+				((typeof user !== "null") || (typeof user !== "undefined")) &&
+					<Stack.Screen
+						name="Feeding"
+						component={FeedingScreen}
+						options={{ headerShown: false }}
+					/>
 			}
 		</Stack.Navigator>
 	);
