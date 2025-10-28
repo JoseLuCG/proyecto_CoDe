@@ -1,8 +1,10 @@
 import { View, StyleSheet, Text, Image, Pressable, Animated } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { defaultBRadius } from '../styles/DefaultVaules';
 import { useEffect, useRef } from "react";
 
-function NavigationTab({labelText, iconSource, navigateTo, navigation}) {
+function NavigationTab({labelText, iconSource, navigateTo}) {
+    const navigation = useNavigation();
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -32,9 +34,7 @@ function NavigationTab({labelText, iconSource, navigateTo, navigation}) {
     };
 
     function goTo() {
-        console.log("vamonos");
-        
-        //navigation.navigate();
+        navigation.navigate(navigateTo);
     }
     return(
         <Pressable
