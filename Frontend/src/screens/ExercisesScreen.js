@@ -15,6 +15,9 @@ const { width } = Dimensions.get('window');
 const menuWidth = 250;
 
 const ExercisesScreen = ({ navigation }) => { 
+    // States:
+    const [ selectedDate, setSelectedDate ] = useState(null);
+
     return (
         <LinearGradient
             style={styles.mainContainer}
