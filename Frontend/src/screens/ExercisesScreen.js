@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -18,6 +18,10 @@ const ExercisesScreen = ({ navigation }) => {
     // States:
     const [ selectedDate, setSelectedDate ] = useState(null);
 
+    useEffect(()=> {
+        console.log("El dia seleccionado es:",selectedDate);
+    }, [selectedDate]);
+
     return (
         <LinearGradient
             style={styles.mainContainer}
@@ -27,7 +31,7 @@ const ExercisesScreen = ({ navigation }) => {
                 <Text style={styles.title}>Hello word this is the Exercises page.</Text>
             </View>
             <View>
-                <DaysCarousel/>
+                <DaysCarousel setSelectedDate={setSelectedDate}/>
             </View>
             <NavigationBar/>
         </LinearGradient>
