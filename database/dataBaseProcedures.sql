@@ -12,7 +12,7 @@ BEGIN
 	END;
 
 	START TRANSACTION;
-		INSERT INTO Users (uuid_user, name_user , last_name_user, email, phone_number, user_password,)
+		INSERT INTO Users (uuid_user, name_user , last_name_user, email, phone_number, user_password)
 			VALUES (p_uuid, p_name, p_lastName, p_email, p_phoneNumber, p_password);
 	COMMIT;
 END; $$
