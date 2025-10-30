@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { View, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, FlatList, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import dayjs from 'dayjs';
 import DayCard from './DayCard';
 
-export const DaysCarousel = () => {
+const { width } = Dimensions.get('window');
+
+export const DaysCarousel = ({ setSelectedDate }) => {
 	const [selectedDay, setSelectedDay] = useState(dayjs());
 	const [currentDate, setCurrentDate] = useState(dayjs()); // controls month/year
 
@@ -16,6 +18,10 @@ export const DaysCarousel = () => {
 
 	const monthYearLabel = currentDate.format('MMMM YYYY');
 
+	useEffect(()=> {
+		setSelectedDate(selectedDay);
+	}, [selectedDay]);
+	
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -49,6 +55,7 @@ export const DaysCarousel = () => {
 
 const styles = StyleSheet.create({
 	container: {
+		width: width * 0.90,
 		display: 'flex',
 		top: 100,
 		backgroundColor: 'rgba(201, 237, 255, 0.76)',
