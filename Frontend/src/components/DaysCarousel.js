@@ -21,7 +21,7 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 	useEffect(()=> {
 		setSelectedDate(selectedDay);
 	}, [selectedDay]);
-	
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -57,11 +57,13 @@ const styles = StyleSheet.create({
 	container: {
 		width: width * 0.90,
 		display: 'flex',
-		top: 100,
+		top: 10,
 		backgroundColor: 'rgba(201, 237, 255, 0.76)',
 		borderRadius: 16,
 		padding: 10,
-		height: 150
+		height: 150,
+		marginTop: 10,
+		marginBottom: 10
 	},
 	header: {
 		flexDirection: 'row',
