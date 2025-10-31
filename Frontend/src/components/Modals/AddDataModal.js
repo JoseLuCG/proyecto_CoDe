@@ -3,7 +3,7 @@ import Modal from 'react-native-modal';
 
 const { height } = Dimensions.get('window');
 
-export default function AddDataModal({ isVisible, onClose, date }) {
+export default function AddDataModal({ isVisible, onClose, date, screen }) {
      return(
         <Modal
             isVisible={isVisible}
@@ -19,8 +19,21 @@ export default function AddDataModal({ isVisible, onClose, date }) {
                 <Text style={styles.modalTitle}>
                     {date ? date.format('DD-MM-YYYY') : 'No date selected'}
                 </Text>
+                {
+                    screen == "Exercises"?
+                    <View>
+                        <Text style={styles.modalTitle}>
+                            Pestaña de ejercicios    
+                        </Text>
+                    </View>
+                    :
+                    <View>
+                        <Text style={styles.modalTitle}>
+                            Pestaña de alimentación    
+                        </Text>
+                    </View>
+                }   
             </View>
-
         </Modal>
      );
 }
