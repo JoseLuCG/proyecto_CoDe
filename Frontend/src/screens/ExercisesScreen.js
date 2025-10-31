@@ -7,7 +7,6 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { textStyle } from '../styles/TextStyles';
 import { colorStyle } from '../styles/Colors';
 import NavigationBar from '../components/NavigationBar';
 import { DaysCarousel } from '../components/DaysCarousel';
@@ -21,10 +20,6 @@ const ExercisesScreen = ({ navigation }) => {
     // States:
     const [ selectedDate, setSelectedDate ] = useState(null);
     const [ addModalVisible, setAddModalVisible ] = useState(false);
-
-    function handleOpenAddModal() {
-        setAddModalVisible(true);
-    }
 
     useEffect(()=> {
         console.log("The day selected is:",selectedDate); // TODO: delete this line when the apps works.
