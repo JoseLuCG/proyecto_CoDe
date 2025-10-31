@@ -56,6 +56,7 @@ const FeedingScreen = ({ navigation }) => {
                 isVisible={addModalVisible}
                 onClose={closeTabToAddExercise}
                 date={selectedDate}
+                screen={"Feeding"}
             />
             <NavigationBar />
         </LinearGradient>

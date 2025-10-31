@@ -54,6 +54,7 @@ const ExercisesScreen = ({ navigation }) => {
                 isVisible={addModalVisible}
                 onClose={closeTabToAddExercise}
                 date={selectedDate}
+                screen={"Exercises"}
             />
 
             <NavigationBar/>
