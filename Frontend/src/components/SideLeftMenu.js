@@ -75,7 +75,7 @@ const SideLeftMenu = ({ slideAnim }) => {
             backgroundColor: '#fff',
             paddingTop: 80,
             paddingHorizontal: 20,
-            zIndex: 2,
+            zIndex: 4,
             elevation: 5,
             shadowColor: '#000',
             shadowOpacity: 0.3,
