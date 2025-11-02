@@ -18,7 +18,7 @@ const RegisterScreen = ({ navigation }) => {
     });
 
     // Handlers
-    function handleinputChange(fieldName, value) {
+    function handleInputChange(fieldName, value) {
         setNewUser(prevState => ({
             ...prevState,
             [fieldName]:value
@@ -44,31 +44,31 @@ const RegisterScreen = ({ navigation }) => {
             <InputField
                 label="Nombre"
                 value={newUser.userName}
-                onChangeText={(text)=> handleinputChange("userName", text)}
+                onChangeText={(text)=> handleInputChange("userName", text)}
             />
 
             <InputField
                 label="Apellidos"
                 value={newUser.userLastName}
-                onChangeText={(text)=> handleinputChange("userLastName", text)}
+                onChangeText={(text)=> handleInputChange("userLastName", text)}
             />
 
             <InputField
                 label="Correo Electrónico"
                 value={newUser.userEmail}
-                onChangeText={(text)=> handleinputChange("userEmail", text)}
+                onChangeText={(text)=> handleInputChange("userEmail", text)}
             />
 
             <InputField
                 label="Número de teléfono"
                 value={newUser.userPhone}
-                onChangeText={(text)=> handleinputChange("userPhone", text)}
+                onChangeText={(text)=> handleInputChange("userPhone", text)}
             />
 
             <InputField
                 label="Contraseña"
                 value={newUser.userPassword}
-                onChangeText={(text)=> handleinputChange("userPassword", text)}
+                onChangeText={(text)=> handleInputChange("userPassword", text)}
             />
             <Pressable onPress={submitForm} style={({pressed}) => [
                 styles.button,
