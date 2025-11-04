@@ -41,45 +41,58 @@ export default function AddExerciseDataModal() {
                 setExerciseType={ (value) => handleInputChange('exerciseType', value)}
             />
 
-            {/* Cardio Exercises */}
-            <InputField
-				label="Time:"
-				value={exerciseData.exerciseTime}
-				onChangeText={(text) => handleInputChange("exerciseName", text)}
-				keyboardType="phone-pad"
-			/>
-            <InputField
-				label="Distance:"
-				value={exerciseData.exerciseDistance}
-				onChangeText={(text) => handleInputChange("exerciseName", text)}
-				keyboardType="phone-pad"
-			/>
-            <InputField
-				label="Intensity:"
-				value={exerciseData.exerciseIntensity}
-				onChangeText={(text) => handleInputChange("exerciseName", text)}
-				keyboardType="phone-pad"
-			/>
+            {
+                exerciseData.exerciseType?
+                    // Strenght Input
+                    <InputField
+			        	label="Weight:"
+			        	value={exerciseData.exerciseWeight}
+			        	onChangeText={(text) => handleInputChange("exerciseName", text)}
+			        	keyboardType="phone-pad"
+			        />
+                :
+                    // Cardio Input
+                    <InputField
+				        label="Time:"
+				        value={exerciseData.exerciseTime}
+				        onChangeText={(text) => handleInputChange("exerciseName", text)}
+				        keyboardType="phone-pad"
+			        />                   
+            }
 
-            {/* Strength Exercises */}
-            <InputField
-				label="Weight:"
-				value={exerciseData.exerciseWeight}
-				onChangeText={(text) => handleInputChange("exerciseName", text)}
-				keyboardType="phone-pad"
-			/>
-            <InputField
-				label="Repeats:"
-				value={exerciseData.exerciseRepeats}
-				onChangeText={(text) => handleInputChange("exerciseName", text)}
-				keyboardType="phone-pad"
-			/>
-            <InputField
-				label="Add new set"
-				value={exerciseData.exerciseSetNumber}
-				onChangeText={(text) => handleInputChange("exerciseName", text)}
-				keyboardType="phone-pad"
-			/>
+            {
+                exerciseData.exerciseType?
+                    <InputField
+				        label="Repeats:"
+				        value={exerciseData.exerciseRepeats}
+				        onChangeText={(text) => handleInputChange("exerciseName", text)}
+				        keyboardType="phone-pad"
+			        />
+                :
+                    <InputField
+				        label="Distance:"
+				        value={exerciseData.exerciseDistance}
+				        onChangeText={(text) => handleInputChange("exerciseName", text)}
+				        keyboardType="phone-pad"
+			        />
+            }
+
+            {
+                exerciseData.exerciseType?
+                    <InputField
+				        label="Add new set"
+				        value={exerciseData.exerciseSetNumber}
+				        onChangeText={(text) => handleInputChange("exerciseName", text)}
+				        keyboardType="phone-pad"
+			        />
+                :    
+                    <InputField
+				        label="Intensity:"
+				        value={exerciseData.exerciseIntensity}
+				        onChangeText={(text) => handleInputChange("exerciseName", text)}
+				        keyboardType="phone-pad"
+			        />
+            }
 
         </ScrollView>
     );
