@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { UserContext } from './src/contexts/UserContext';
+import { UserProvider } from './src/contexts/UserContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,11 +32,11 @@ const App = () => {
 	}
 
 	return (
-		<UserContext>
+		<UserProvider>
 			<NavigationContainer onReady={onLayoutRootView}>
 				<AppNavigator />
 			</NavigationContainer>
-		</UserContext>
+		</UserProvider>
 	);
 };
 
