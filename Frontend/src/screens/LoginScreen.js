@@ -1,19 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Pressable } from 'react-native';
 import InputField from '../components/InputField';
 import * as apiService from "./../services/authService"
 import { LinearGradient } from 'expo-linear-gradient';
 import { textStyle } from '../styles/TextStyles';
 import { User } from '../contexts/UserContext';
+import { colorStyle } from '../styles/Colors';
 
 const LoginScreen = ({ navigation }) => {
 	// States:
-	const [ user, setUser ] = useContext(User);
+	const [user, setUser] = useContext(User);
 	const [userToLogIn, setUserToLogIn] = useState({
 		userLoginData: "",
 		userPassword: ""
 	});
-	
+
 	// Handlers:
 	function handleinputChange(fieldName, value) {
 		setUserToLogIn(prevState => ({
@@ -25,47 +26,41 @@ const LoginScreen = ({ navigation }) => {
 	async function submitForm() {
 		try {
 			const response = await apiService.loginUser(userToLogIn);
-			
 			setUser(response);
 		} catch (error) {
 			throw new Error("Something is wrong");
 			// TODO: add conditionals for the diferents use cases if the user don't work
 			console.error(error);
 		}
-			
+
 	}
 
 	const handleRegister = () => {
 		navigation.navigate('Register');
 	};
-	/*
+
 	useEffect(() => {
-		if (user != null) { 
+		if (user != null) {
 			navigation.navigate('Home');
 		} else {
 			navigation.navigate('Login');
 		}
-	}, [user]);	
-	*/
-	// TODO delete this useEffect when the app is finish.
-	useEffect(() => {
-		navigation.navigate('Home');
-	}, []);
-	
+	}, [user]);
+
 	return (
-		<LinearGradient 
+		<LinearGradient
 			style={styles.container}
-			colors={['#6A266F','#00B7FF','#6A266F']}
+			colors={['#6A266F', '#00B7FF', '#6A266F']}
 		>
 			<View style={styles.imageContainer}>
-				<Image 
+				<Image
 					source={require("./../../assets/logoconfondo-remove.png")}
 					style={styles.logo}
 				/>
 			</View>
 
 			<View
-				colors={['#00FF6A', '#00B7FF']} 
+				colors={['#00FF6A', '#00B7FF']}
 				style={styles.inputContainer}
 			>
 				<InputField
@@ -82,7 +77,9 @@ const LoginScreen = ({ navigation }) => {
 					secureTextEntry
 				/>
 
-				<Button title="Iniciar sesión" onPress={submitForm} />
+				<Pressable style={styles.button} onPress={submitForm}>
+					<Text style={styles.buttonText}>Iniciar sesión</Text>
+				</Pressable>
 
 				<TouchableOpacity onPress={handleRegister}>
 					<Text style={textStyle.text}>
@@ -128,7 +125,23 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		width: 200,
 		height: 200,
-	}
+	},
+	button: {
+		backgroundColor: '#00B7FF',
+		paddingVertical: 12,
+		paddingHorizontal: 32,
+		borderRadius: 10,
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: 16,
+		marginTop: 10,
+		marginBottom: 20
+	},
+	buttonText: {
+		color: '#fff',
+		fontSize: 16,
+		fontWeight: 'bold',
+	},
 });
 
 export default LoginScreen;
