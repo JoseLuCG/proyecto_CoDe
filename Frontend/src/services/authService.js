@@ -8,8 +8,6 @@ export async function loginUser(userData) {
     };
 	//const response = await fetch("http://192.168.1.132:3000/checkLogin", fetchOptions);
     const response = await fetch("http://192.168.1.130:3000/checkLogin", fetchOptions);
-    console.log(userData);
-    
     const jsonData = await response.json();
     const data = userFromBackToFront(jsonData);
     
