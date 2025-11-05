@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, Button, StyleSheet, Pressable} from 'react-native';
 import InputField from '../components/InputField';
 import { LinearGradient } from 'expo-linear-gradient';
-import { color } from '../styles/Colors';
+import { colorStyle } from '../styles/Colors';
 import { textStyle } from '../styles/TextStyles';
 import * as apiService from './../services/AddUserService'
 import { defaultBRadius } from '../styles/DefaultVaules';
@@ -37,7 +37,7 @@ const RegisterScreen = ({ navigation }) => {
 
     return (
         <LinearGradient 
-            colors={color.mainGradient}
+            colors={colorStyle.mainGradient}
             style={styles.container}
         >
             <Text style={textStyle.title}>¡Únete a nosotros!</Text>
