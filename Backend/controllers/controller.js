@@ -50,6 +50,7 @@ function addStrengthExercise(req, res) {
  * @param {*} req 
  * @param {*} res 
  */
+/*
 function addCardioExercise(req, res) {
   const { exerciseName } = req.body;
   let sql = `CALL addCardioExecise("${exerciseName}")`;
@@ -59,7 +60,7 @@ function addCardioExercise(req, res) {
     res.send();
   });
 }
-
+*/
 /**
  * Add the registration of a user on a specific day of the strength exercise.
  * @param {*} req 
@@ -75,26 +76,6 @@ function addUserStrengthExercise(req, res) {
     ${weight}, 
     ${repeats})`;
   mySqlConn.query(sql, function (err) {
-    if (err) console.log(err);
-    else res.send("Correcto");
-  });
-}
-
-/**
- * Add the registration of a user on a specific day of the cardio exercise.
- * @param {*} req 
- * @param {*} res 
- */
-function addUserCardioExercise (req, res) {
-  const {exerciseDate, idUser, exerciseName, intensity, exerciseTime, distance} = req.body;
-  let sql = `CALL addUserCardioExercise(
-    '${exerciseDate}',
-    ${idUser},
-    '${exerciseName}',
-    ${intensity}, 
-    '${exerciseTime}',
-    ${distance})`;
-  mySqlConn.query(sql, function (err){
     if (err) console.log(err);
     else res.send("Correcto");
   });
@@ -164,9 +145,7 @@ export {
   getUser,
   removeUser,
   addStrengthExercise,
-  addCardioExercise,
   addUserStrengthExercise,
-  addUserCardioExercise,
   removeUserEjercicio,
   getUserCardio,
   getUserFuerza,
