@@ -13,7 +13,7 @@ function addNewUser(req, res) {
         userName,
         userPassword,
         userPhone
-    } = req.body
+    } = req.body;
     const uuidUser = uuidV4();
     let sql = `CALL createUser("${uuidUser}", "${userName}", "${userLastName}", "${userEmail}", "${userPassword}", "${userPhone}")`;
 
