@@ -1,7 +1,9 @@
 import express from "express";
 import * as controllers from "./controllers/controller.js";
 import * as userControllers from "./controllers/user-controllers.js"
+import * as cardioControllers from "./controllers/exerciseControllers/cardioControllers.js"
 import cors from "cors";
+import { cardioRoutes } from "./utils/routes.js";
 
 const app = express();
 const port = 3000;
@@ -18,12 +20,17 @@ app.use(cors(corsOptions));
 app.post("/addUser", jsonParser, userControllers.addNewUser);
 app.post("/checkLogin", jsonParser, userControllers.checkLogin); 
 
+// * Cardio End-points
+app.post(cardioRoutes.addCardioExercise, jsonParser, cardioControllers.addCardioExercise);
+
+
+
 
 app.post("/removeUser", jsonParser, controllers.removeUser); 
 app.post("/addStrengthExercise", jsonParser, controllers.addStrengthExercise); 
-app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); 
+//app.post("/addCardioExercise", jsonParser, controllers.addCardioExercise); 
 app.post("/addUserStrengthExercise", jsonParser, controllers.addUserStrengthExercise); 
-app.post("/addUserCardioExercise", jsonParser, controllers.addUserCardioExercise); 
+//app.post("/addUserCardioExercise", jsonParser, controllers.addUserCardioExercise); 
 
 app.post("/getUserCardio", jsonParser, controllers.getUserCardio);
 app.post("/getUserFuerza", jsonParser, controllers.getUserFuerza);
