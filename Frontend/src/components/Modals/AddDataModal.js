@@ -22,7 +22,7 @@ export default function AddDataModal({ isVisible, onClose, date, screen }) {
                 </Text>
                 {
                     screen == "Exercises"?
-                    <AddExerciseDataModal/>
+                    <AddExerciseDataModal date={date}/>
                     :
                     <View>
                         <Text style={styles.modalTitle}>
