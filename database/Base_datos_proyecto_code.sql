@@ -15,17 +15,8 @@ CREATE TABLE Users(
     CONSTRAINT uuid_user PRIMARY KEY (uuid_user)
 );
 
-CREATE TABLE CardioExercise(
-	exercise_name VARCHAR(50) NOT NULL, 
-    PRIMARY KEY (exercise_name)
-);
-
-CREATE TABLE StrengthExercise(
-	exercise_name VARCHAR(50) NOT NULL,
-	PRIMARY KEY (exercise_name)
-);
-
-CREATE TABLE User_Strength (
+CREATE TABLE strength_exercise (
+	uuid_strength_exercise CHAR(36) NOT NULL,
 	exercise_date DATE,
 	uuid_user CHAR(36) NOT NULL,
     set_number INTEGER NOT NULL,
@@ -34,13 +25,13 @@ CREATE TABLE User_Strength (
     repeats INTEGER NOT NULL,
     PRIMARY KEY (exercise_date, uuid_user, set_number, exercise_name),
     FOREIGN KEY (uuid_user) REFERENCES Users (uuid_user) ON UPDATE CASCADE,
-    FOREIGN KEY (exercise_name) REFERENCES StrengthExercise (exercise_name) ON UPDATE CASCADE,
     CHECK (weight >= 0),
     CHECK (repeats > 0),
     CHECK (set_number > 0)
 );
 
-CREATE TABLE User_Cardio (
+CREATE TABLE cardio_exercise (
+	uuid_cardio_exercise CHAR(36) NOT NULL,
 	exercise_date DATE,
 	uuid_user CHAR(36) NOT NULL,
     exercise_name VARCHAR(50) NOT NULL,
@@ -48,8 +39,7 @@ CREATE TABLE User_Cardio (
     exercise_time TIME,
     distance DOUBLE,
     PRIMARY KEY (exercise_date, uuid_user, exercise_name),
-    FOREIGN KEY (uuid_user) REFERENCES Users (uuid_user) ON UPDATE CASCADE,
-    FOREIGN KEY (exercise_name) REFERENCES CardioExercise (exercise_name) ON UPDATE CASCADE
+    FOREIGN KEY (uuid_user) REFERENCES Users (uuid_user) ON UPDATE CASCADE
 );
 
 
