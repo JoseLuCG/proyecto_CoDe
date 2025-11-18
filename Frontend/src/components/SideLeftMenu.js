@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import { useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { textStyle } from '../styles/TextStyles';
 import { colorStyle } from '../styles/Colors';
 import { buttonStyles } from '../styles/ButtonStyles';
+import Storage from '../utilities/storagePersistence';
+import { User } from '../contexts/UserContext';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
 
 const SideLeftMenu = ({ slideAnim }) => {
-    function logOut() {
-        console.log("Adios");
+    const [user, setUser] = useContext(User);
+
+
+    async function logOut() {
+        await Storage.removeItem("user");
+        const storedUser= await Storage.getItem("user");
+        if (!storedUser) setUser(null);
     }
 
     return (
