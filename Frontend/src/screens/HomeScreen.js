@@ -56,10 +56,6 @@ const HomeScreen = ({ navigation }) => {
 		setSelectedExercise(null);
 	};
 
-	function logOut() {
-		console.log("Adios");
-	}
-
 	return (
 		<LinearGradient
 			style={styles.mainContainer}
