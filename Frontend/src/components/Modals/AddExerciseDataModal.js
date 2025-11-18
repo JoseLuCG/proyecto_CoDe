@@ -29,8 +29,7 @@ export default function AddExerciseDataModal({date}) {
     }
 
     async function submitForm() {
-        try {
-            handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));            
+        try {           
             const response = await apiService.addCardioExercise(exerciseData);
         } catch (error) {
             throw new Error("Something is wrong");
@@ -39,6 +38,10 @@ export default function AddExerciseDataModal({date}) {
         }
 
     }
+
+    useEffect(()=> {
+        handleInputChange("exerciseDate", date.format('DD-MM-YYYY')); 
+	}, []);
 
     return (
         <ScrollView style={styles.container}>
