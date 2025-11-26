@@ -4,3 +4,4 @@ Backend/out
 Frontend/node_modules/
 Frontend/.expo/
 Frontend/docs/
+Frontend/.env
