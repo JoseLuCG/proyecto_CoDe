@@ -1,3 +1,7 @@
+import { apiRoutes, IpAddresshostOS } from "../utilities/defineConfig";
+
+const apiEndPointDirection = IpAddresshostOS + apiRoutes.addUser;
+
 /**
  * Fetch Register a new User on Backend/createUser
  * @param {String} nombre Name to create User
@@ -11,8 +15,7 @@ export async function addUser(newUser) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newUser)
     };
-    // const response = await fetch("http://192.168.1.132:3000/addUser", fetchOptions);
-    const response = await fetch("http://192.168.1.130:3000/addUser", fetchOptions);
+    const response = await fetch( apiEndPointDirection, fetchOptions );
     const data = await response.text();
     return data;
 }
