@@ -1,28 +1,30 @@
 import { mySqlConn } from "../../bdcon/bdcon.js";
 import { v4 as uuidV4 } from "uuid";
+import setCardioExerciseData from "./handlers/setCardioExerciseData.js";
 
-function addCardioExercise(req, res) {
-    const { 
-        exerciseUser,     
-        exerciseName,        
-        exerciseDate,
-        exerciseTime,
-        exerciseDistance,
-        exerciseIntensity 
-    } = req.body;
-    const uuidCardioExercise = uuidV4();
-    let sql = `
-    ww
-    `;
+async function addCardioExercise(req, res) {
+    const exerciseData = {
+        exerciseUser: req.body.exerciseUser,
+        exerciseName: req.body.exerciseName,
+        exerciseDate: req.body.exerciseDate,
+        exerciseTime: req.body.exerciseTime,
+        exerciseDistance: req.body.exerciseDistance,
+        exerciseIntensity: req.body.exerciseIntensity
+    };
 
-    console.log(req.body);
-    
-    /*
-    mySqlConn.query(sql, function (err) {
-        if (err) console.log(err);
-        else res.send("Correcto");
-    });
-    */
+    try {
+        const promise = await setCardioExerciseData(exerciseData);
+         if (promise == 'OK' ) {
+            res.sendStatus(200);
+            console.log("Exercise saved!");
+            
+        }
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    } 
+
+
 }
 
 export {
