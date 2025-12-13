@@ -1,7 +1,7 @@
 export function exerciseTypeChecker(data) {
     if (!data.exerciseType) {
         return{
-            exerciseUser: "Empty",
+            exerciseUser: data.exerciseUser? data.exerciseUser : "Empty",
             exerciseName: data.exerciseName,
             exerciseDate: data.exerciseDate,
             exerciseTime: data.exerciseTime,
@@ -10,7 +10,7 @@ export function exerciseTypeChecker(data) {
         }
     } else {
         return {
-            exerciseUser: "Empty",
+            exerciseUser: data.exerciseUser? data.exerciseUser : "Empty",
             exerciseName: data.exerciseName,
             exerciseDate: data.exerciseDate,
             exerciseSetNumber: data.exerciseSetNumber,
