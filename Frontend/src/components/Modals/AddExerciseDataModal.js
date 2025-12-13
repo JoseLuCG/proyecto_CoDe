@@ -1,14 +1,18 @@
+import { useContext } from "react";
 import { StyleSheet, Dimensions, ScrollView, TouchableOpacity, Text } from "react-native";
 import InputField from "../InputField";
 import { useEffect, useState } from "react";
 import WorkoutSwitch from "../WorkoutSwitch";
-import * as apiService from "./../../services/exerciseService"
+import * as apiService from "./../../services/exerciseService";
+import { User } from '../../contexts/UserContext';
 
 const { width } = Dimensions.get('window');
 
 export default function AddExerciseDataModal({date}) {
     // States:
+    const [user, setUser] = useContext(User);
     const [exerciseData, setExerciseData] = useState({
+        exerciseUser: "",
         exerciseName: "",
         exerciseType: false,
         exerciseDate: "",
@@ -40,8 +44,9 @@ export default function AddExerciseDataModal({date}) {
     }
 
     useEffect(()=> {
-        handleInputChange("exerciseDate", date.format('DD-MM-YYYY')); 
-	}, []);
+        handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));
+        handleInputChange("exerciseUser", user.uuidUser);
+	}, []);    
 
     return (
         <ScrollView style={styles.container}>
