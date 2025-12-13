@@ -3,12 +3,12 @@ import { v4 as uuidV4 } from "uuid";
 
 function addCardioExercise(req, res) {
     const { 
-        exerciseDate, 
-        idUser, 
-        exerciseName, 
-        intensity, 
-        exerciseTime, 
-        distance 
+        exerciseUser,     
+        exerciseName,        
+        exerciseDate,
+        exerciseTime,
+        exerciseDistance,
+        exerciseIntensity 
     } = req.body;
     const uuidCardioExercise = uuidV4();
     let sql = `
