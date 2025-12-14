@@ -23,10 +23,18 @@ async function addCardioExercise(req, res) {
         console.error(error);
         res.sendStatus(500);
     } 
+}
 
-
+async function getCardioExercises(req, res) {
+    try {
+        console.log(req.params);
+                
+    } catch (error) {
+        
+    }    
 }
 
 export {
-    addCardioExercise
+    addCardioExercise,
+    getCardioExercises
 }

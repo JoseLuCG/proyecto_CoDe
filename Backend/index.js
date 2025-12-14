@@ -22,6 +22,7 @@ app.post("/checkLogin", jsonParser, userControllers.checkLogin);
 
 // * Cardio End-points
 app.post(cardioRoutes.addCardioExercise, jsonParser, cardioControllers.addCardioExercise);
+app.get(cardioRoutes.getCardioExercisesInDate, cardioControllers.getCardioExercises);
 
 
 
