@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
@@ -12,18 +12,17 @@ import NavigationBar from '../components/NavigationBar';
 import { DaysCarousel } from '../components/DaysCarousel';
 import { defaultBRadius } from '../styles/DefaultVaules';
 import AddDataModal from '../components/Modals/AddDataModal';
+import { User } from '../contexts/UserContext';
+import * as apiService from "./../services/exerciseService";
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
 
-const ExercisesScreen = ({ navigation }) => { 
+const ExercisesScreen = ({ navigation }) => {
     // States:
-    const [ selectedDate, setSelectedDate ] = useState(null);
-    const [ addModalVisible, setAddModalVisible ] = useState(false);
-
-    useEffect(()=> {
-        console.log("The day selected is:",selectedDate); // TODO: delete this line when the apps works.
-    }, [selectedDate]);
+    const [user] = useContext(User);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [addModalVisible, setAddModalVisible] = useState(false);
 
     function openTabToAddExercise() {
         console.log("open!");
@@ -35,12 +34,26 @@ const ExercisesScreen = ({ navigation }) => {
         setAddModalVisible(false);
     }
 
+    async function getExercises() {
+        try {
+            const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser)
+        } catch (error) {
+            // TODO: add conditionals for the diferents use cases if the user don't work
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getExercises();
+        console.log("The day selected is:", selectedDate); // TODO: delete this line when the apps works.
+    }, [selectedDate]);
+
     return (
         <LinearGradient
             style={styles.mainContainer}
             colors={colorStyle.mainGradient}
         >
-            <DaysCarousel setSelectedDate={setSelectedDate}/>
+            <DaysCarousel setSelectedDate={setSelectedDate} />
             <View>
                 <Text style={styles.title}>Hello word this is the Exercises page.</Text>
             </View>
@@ -57,7 +70,7 @@ const ExercisesScreen = ({ navigation }) => {
                 screen={"Exercises"}
             />
 
-            <NavigationBar/>
+            <NavigationBar />
         </LinearGradient>
     );
 };
@@ -78,15 +91,15 @@ const styles = StyleSheet.create({
     },
     addButton: {
         position: 'absolute',
-		bottom: 140,
-		right: 20,
-		zIndex: 3,
-		backgroundColor: '#ddd',
-		width: 50,
-		height: 50,
-		borderRadius: defaultBRadius,
-		alignItems: 'center',
-		justifyContent: 'center',
+        bottom: 140,
+        right: 20,
+        zIndex: 3,
+        backgroundColor: '#ddd',
+        width: 50,
+        height: 50,
+        borderRadius: defaultBRadius,
+        alignItems: 'center',
+        justifyContent: 'center',
     }, buttonText: {
         fontSize: 24,
         fontWeight: 'bold'
