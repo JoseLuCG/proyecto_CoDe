@@ -23,6 +23,7 @@ const ExercisesScreen = ({ navigation }) => {
     const [user] = useContext(User);
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
+    const [ cardioExercises, setCardioExercises ] = useState(null);
 
     function openTabToAddExercise() {
         console.log("open!");
@@ -36,7 +37,9 @@ const ExercisesScreen = ({ navigation }) => {
 
     async function getExercises() {
         try {
-            const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser)
+            if (selectedDate != null) {
+                const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser);
+            }
         } catch (error) {
             // TODO: add conditionals for the diferents use cases if the user don't work
             console.error(error);
