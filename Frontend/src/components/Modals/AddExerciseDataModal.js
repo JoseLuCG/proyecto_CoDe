@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 
 export default function AddExerciseDataModal({date}) {
     // States:
-    const [user, setUser] = useContext(User);
+    const [ user ] = useContext(User);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
