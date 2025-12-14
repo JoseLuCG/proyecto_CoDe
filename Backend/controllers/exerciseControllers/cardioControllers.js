@@ -1,6 +1,7 @@
 import { mySqlConn } from "../../bdcon/bdcon.js";
 import { v4 as uuidV4 } from "uuid";
 import setCardioExerciseData from "./handlers/setCardioExerciseData.js";
+import getCardioExercisesInDate from "./handlers/getCardioExerciseData.js";
 
 async function addCardioExercise(req, res) {
     const exerciseData = {
@@ -14,24 +15,26 @@ async function addCardioExercise(req, res) {
 
     try {
         const promise = await setCardioExerciseData(exerciseData);
-         if (promise == 'OK' ) {
+        if (promise == 'OK') {
             res.sendStatus(200);
             console.log("Exercise saved!");
-            
         }
     } catch (error) {
         console.error(error);
         res.sendStatus(500);
-    } 
+    }
 }
 
 async function getCardioExercises(req, res) {
+    const { date, user } = req.params;
+
     try {
-        console.log(req.params);
-                
+        const exercises = await getCardioExercisesInDate(date, user);
+        res.json(exercises);
     } catch (error) {
-        
-    }    
+        console.error(error);
+        sendStatus(500);
+    }
 }
 
 export {
