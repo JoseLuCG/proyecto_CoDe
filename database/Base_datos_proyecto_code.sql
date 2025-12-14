@@ -32,7 +32,7 @@ CREATE TABLE strength_exercise (
 
 CREATE TABLE cardio_exercise (
 	uuid_cardio_exercise CHAR(36) NOT NULL,
-	exercise_date DATE,
+	exercise_date DATE NOT NULL,
 	uuid_user CHAR(36) NOT NULL,
     exercise_name VARCHAR(50) NOT NULL,
     intensity DOUBLE,
@@ -43,3 +43,8 @@ CREATE TABLE cardio_exercise (
 );
 
 
+ALTER TABLE cardio_exercise
+DROP PRIMARY KEY;
+
+ALTER TABLE cardio_exercise
+ADD PRIMARY KEY (uuid_cardio_exercise);
