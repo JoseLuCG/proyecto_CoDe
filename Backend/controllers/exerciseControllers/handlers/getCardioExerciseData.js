@@ -1,4 +1,4 @@
-import { mySqlConn } from "../../../bdcon/bdcon";
+import { mySqlConn } from "../../../bdcon/bdcon.js";
 
 function getCardioExercisesInDate(date, user) {
     let sql = `
