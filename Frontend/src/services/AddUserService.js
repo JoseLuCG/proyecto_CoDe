@@ -1,6 +1,6 @@
-import { apiRoutes, IpAddresshostOS } from "../utilities/defineConfig";
+import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 
-const apiEndPointDirection = IpAddresshostOS + apiRoutes.addUser;
+const apiEndPointDirection = HOST_IP + apiRoutes.user.addUser;
 
 /**
  * Fetch Register a new User on Backend/createUser
