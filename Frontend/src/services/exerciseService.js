@@ -17,4 +17,6 @@ export async function addCardioExercise(newData) {
 export async function getCardioExercisesInDate(date, user) {
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.getCardioExercisesInDate + date +"/" + user;
     const response = await fetch(apiEndPointDirection);
+    const data = await response.json();
+    return data;
 }
