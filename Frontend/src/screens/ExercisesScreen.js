@@ -39,6 +39,7 @@ const ExercisesScreen = ({ navigation }) => {
         try {
             if (selectedDate != null) {
                 const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser);
+                setCardioExercises(response);
             }
         } catch (error) {
             // TODO: add conditionals for the diferents use cases if the user don't work
@@ -50,6 +51,11 @@ const ExercisesScreen = ({ navigation }) => {
         getExercises();
         console.log("The day selected is:", selectedDate); // TODO: delete this line when the apps works.
     }, [selectedDate]);
+
+    useEffect(()=> {
+        console.log(cardioExercises);
+        
+    }, [cardioExercises]);
 
     return (
         <LinearGradient
