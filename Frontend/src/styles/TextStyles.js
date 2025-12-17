@@ -23,5 +23,9 @@ export const textStyle = StyleSheet.create({
     dataField: {
         fontFamily: "main-font",
         fontSize: 12
+    }, 
+    timeField : {
+        fontFamily: "main-font",
+        fontSize: 10
     }
 });
