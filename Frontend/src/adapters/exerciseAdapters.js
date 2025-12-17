@@ -19,3 +19,24 @@ export function exerciseTypeChecker(data) {
         }
     }
 }
+
+export function exerciseMapper(data) {
+    const dataMapped = [];
+
+    data.map(
+        (exercise) => {
+            let exerciseMapped = {
+                uuidUser: exercise.uuid_user,
+                uuidExercise: exercise.uuid_cardio_exercise,
+                date: exercise.exercise_date,
+                name: exercise.exercise_name,
+                time: exercise.exercise_time,
+                distance: exercise.distance,
+                intensity: exercise.intensity
+            }
+            
+            dataMapped.push(exerciseMapped);
+        }
+    );
+    return dataMapped;
+}
