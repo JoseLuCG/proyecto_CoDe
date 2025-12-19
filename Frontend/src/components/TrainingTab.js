@@ -6,9 +6,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 function TrainingTab({ data, onPress }) {
     const fuerzaIcon = require("./../../assets/icons/fuerzaIcon.png");
-    const cardioIcon = require("./../../assets/icons/cardioIcon.png");
     const weightIcon = require("./../../assets/icons/weightIcon.png");
     const repeatIcon = require("./../../assets/icons/repeatIcon.png");
+
+    const cardioIcon = require("./../../assets/icons/cardioIcon.png");
+    const distanceIcon = require("./../../assets/icons/distance.png");
+    const intensityIcon = require("./../../assets/icons/intensity.png");
+    const timeIcon = require("./../../assets/icons/clock.png");
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -59,26 +63,50 @@ function TrainingTab({ data, onPress }) {
                     style={styles.imageContainer}
                 >
                     <Image
-                        source={fuerzaIcon}
+                        source={data.distance ? cardioIcon : fuerzaIcon}
                         style={styles.image}
                     />
                 </LinearGradient>
                 <View style={styles.contentContainer}>
                     <View style={styles.textContainer}>
-                        <Text style={textStyle.exerciseName}>{data.exerciseName}</Text>
+                        <Text style={textStyle.exerciseName}>{data.name}</Text>
                     </View>
                     <View style={styles.exerciseDataContainer}>
-                        <View style={styles.firstContainer}>
-                            <Image source={weightIcon} style={styles.weightIcon} />
-                            <Text style={textStyle.dataField}>{data.weight} Kg</Text>
-                        </View>
-                        <View style={styles.secondContainer}>
-                            <Text style={textStyle.dataField}>Sets: {data.numberOfSets}</Text>
-                        </View>
-                        <View style={styles.thirdContainer}>
-                            <Image source={repeatIcon} style={styles.weightIcon} />
-                            <Text>{data.numberOfReps}</Text>
-                        </View>
+                        {
+                            data.time ?
+                                <View style={styles.cardioTimeContainer}>
+                                    <Image source={timeIcon} style={styles.styleIcon} />
+                                    <Text style={textStyle.dataField}>{data.time}</Text>
+                                </View>
+                                :
+                                <View style={styles.firstContainer}>
+                                    <Image source={weightIcon} style={styles.styleIcon} />
+                                    <Text style={textStyle.dataField}>{data.weight + "Kg"}</Text>
+                                </View>
+                        }
+                        {
+                            data.distance ?
+                                <View style={styles.cardioDistanceContainer}>
+                                    <Image source={distanceIcon} style={styles.styleIcon} />
+                                    <Text style={textStyle.dataField}>{data.distance} Km</Text>
+                                </View>
+                                :
+                                <View style={styles.secondContainer}>
+                                    <Text style={textStyle.dataField}>Sets: {data.numberOfSets}</Text>
+                                </View>
+                        }
+                        {
+                            data.intensity ?
+                                <View style={styles.cardioIntensityContainer}>
+                                    <Image source={intensityIcon} style={styles.styleIcon} />
+                                    <Text>{data.intensity}</Text>
+                                </View>
+                                :
+                                <View style={styles.thirdContainer}>
+                                    <Image source={repeatIcon} style={styles.styleIcon} />
+                                    <Text>{data.numberOfReps}</Text>
+                                </View>
+                        }
                     </View>
                 </View>
             </Animated.View>
@@ -137,7 +165,7 @@ const styles = StyleSheet.create({
         margin: 0,
         padding: 0
     },
-        exerciseDataContainer: {
+    exerciseDataContainer: {
         flexDirection: 'row',
         height: '70%',
         width: '100%',
@@ -155,6 +183,38 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderTopRightRadius: defaultBRadius
     },
+    cardioTimeContainer: {
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+        width: '30%',
+        height: '100%',
+        flex: 1,
+        margin: 0,
+        padding: 0,
+        marginLeft: 10,
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    cardioDistanceContainer: {
+        backgroundColor: 'rgba(255, 234, 0, 0.46)',
+        width: '30%',
+        height: '100%',
+        flex: 1,
+        margin: 0,
+        padding: 0,
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    cardioIntensityContainer: {
+        backgroundColor: 'rgba(0, 26, 255, 0.3)',
+        width: '30%',
+        height: '100%',
+        flex: 1,
+        margin: 0,
+        padding: 0,
+        borderBottomRightRadius: defaultBRadius,
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
     firstContainer: {
         /*backgroundColor: 'rgba(255, 0, 0, 0.3)',*/
         width: '30%',
@@ -166,7 +226,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     secondContainer: {
-        /*backgroundColor: 'rgba(255, 234, 0, 0.46)',*/
+        /* backgroundColor: 'rgba(255, 234, 0, 0.46)',*/
         width: '30%',
         height: '100%',
         flex: 1,
@@ -185,9 +245,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center'
     },
-    weightIcon: {
+    styleIcon: {
         height: 20,
         width: 20,
+        resizeMode: 'contain',
+        marginRight: 5
+    },
+    timeIcon: {
+        height: 15,
+        width: 15,
         resizeMode: 'contain',
         marginRight: 5
     }
