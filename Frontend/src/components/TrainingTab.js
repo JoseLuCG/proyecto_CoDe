@@ -58,15 +58,17 @@ function TrainingTab({ data, onPress }) {
             onPressOut={handlePressOut}
         >
             <Animated.View style={[styles.trainingTab, { opacity: fadeAnim, transform: [{ scale: scaleAnim }] }]}>
-                <LinearGradient
-                    colors={['rgba(50,205,50,0.3)', 'rgba(0,128,0,0.3)']}
-                    style={styles.imageContainer}
-                >
-                    <Image
-                        source={data.distance ? cardioIcon : fuerzaIcon}
-                        style={styles.image}
-                    />
-                </LinearGradient>
+                <View style={styles.imageContainer}>
+                    <LinearGradient
+                        colors={['rgba(50,205,50,0.3)', 'rgba(0,128,0,0.3)']}
+                        style={styles.imageBackground}
+                    >
+                        <Image
+                            source={data.distance ? cardioIcon : fuerzaIcon}
+                            style={styles.image}
+                        />
+                    </LinearGradient>
+                </View>
                 <View style={styles.contentContainer}>
                     <View style={styles.textContainer}>
                         <Text style={textStyle.exerciseName}>{data.name}</Text>
@@ -79,7 +81,7 @@ function TrainingTab({ data, onPress }) {
                                     <Text style={textStyle.dataField}>{data.time}</Text>
                                 </View>
                                 :
-                                <View style={styles.firstContainer}>
+                                <View style={styles.strengthWeightContainer}>
                                     <Image source={weightIcon} style={styles.styleIcon} />
                                     <Text style={textStyle.dataField}>{data.weight + "Kg"}</Text>
                                 </View>
@@ -91,7 +93,7 @@ function TrainingTab({ data, onPress }) {
                                     <Text style={textStyle.dataField}>{data.distance} Km</Text>
                                 </View>
                                 :
-                                <View style={styles.secondContainer}>
+                                <View style={styles.strengthSetsContainer}>
                                     <Text style={textStyle.dataField}>Sets: {data.numberOfSets}</Text>
                                 </View>
                         }
@@ -102,7 +104,7 @@ function TrainingTab({ data, onPress }) {
                                     <Text>{data.intensity}</Text>
                                 </View>
                                 :
-                                <View style={styles.thirdContainer}>
+                                <View style={styles.strengthRepeatsContainer}>
                                     <Image source={repeatIcon} style={styles.styleIcon} />
                                     <Text>{data.numberOfReps}</Text>
                                 </View>
@@ -116,6 +118,18 @@ function TrainingTab({ data, onPress }) {
 export default TrainingTab;
 
 const styles = StyleSheet.create({
+    // * ----- Loading Styles -----
+    loadingContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    loadingText: {
+        marginTop: 10,
+        fontSize: 14,
+        color: '#333',
+    },
+    // * ----- Component Styles -----
     trainingTab: {
         backgroundColor: 'rgba(255, 255, 255, 0.91)',
         height: 80,
@@ -126,8 +140,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    // * ----- Image Content -----
     imageContainer: {
-        backgroundColor: 'rgba(50, 205, 50, 0.15)',
+        width: "23%",
+        height: "100%",
+        justifyContent: 'center'
+    },
+    imageBackground: {
         height: 60,
         width: 60,
         borderRadius: 30,
@@ -145,103 +164,59 @@ const styles = StyleSheet.create({
         width: 60,
         resizeMode: 'contain',
     },
-    loadingContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-    },
-    loadingText: {
-        marginTop: 10,
-        fontSize: 14,
-        color: '#333',
-    },
+    // * ----- Content Styles: -----
     contentContainer: {
-        justifyContent: 'flex-start',
-        flexDirection: 'column',
+        width: "77%",
+        height: '100%',
         borderTopRightRadius: defaultBRadius,
         borderBottomRightRadius: defaultBRadius,
-        height: '100%',
-        width: 240,
-        margin: 0,
-        padding: 0
-    },
-    exerciseDataContainer: {
-        flexDirection: 'row',
-        height: '70%',
-        width: '100%',
-        flex: 1,
         margin: 0,
         padding: 0,
-        borderBottomRightRadius: defaultBRadius,
     },
     textContainer: {
-        /*backgroundColor: 'rgba(0, 162, 255, 0.3)',*/
-        height: '40%',
-        paddingBottom: 5,
+        height: '50%',
         alignContent: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        borderTopRightRadius: defaultBRadius
     },
-    cardioTimeContainer: {
-        backgroundColor: 'rgba(255, 0, 0, 0.3)',
-        width: '30%',
-        height: '100%',
-        flex: 1,
+    exerciseDataContainer: {
+        flexDirection: 'row',
+        height: '50%',
+        width: '100%',
         margin: 0,
         padding: 0,
-        marginLeft: 10,
+    },
+    // * ----- Cardio Styles: -----
+    cardioTimeContainer: {
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     cardioDistanceContainer: {
-        backgroundColor: 'rgba(255, 234, 0, 0.46)',
-        width: '30%',
-        height: '100%',
-        flex: 1,
-        margin: 0,
-        padding: 0,
+        marginLeft: 5,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     cardioIntensityContainer: {
-        backgroundColor: 'rgba(0, 26, 255, 0.3)',
-        width: '30%',
-        height: '100%',
-        flex: 1,
-        margin: 0,
-        padding: 0,
-        borderBottomRightRadius: defaultBRadius,
+        marginLeft: 5,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
-    firstContainer: {
-        /*backgroundColor: 'rgba(255, 0, 0, 0.3)',*/
+
+    // * ----- Strength Styles: -----
+    strengthWeightContainer: {
         width: '30%',
         height: '100%',
-        flex: 1,
-        margin: 0,
-        padding: 0,
         flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
-    secondContainer: {
-        /* backgroundColor: 'rgba(255, 234, 0, 0.46)',*/
+    strengthSetsContainer: {
         width: '30%',
         height: '100%',
-        flex: 1,
-        margin: 0,
-        padding: 0,
         alignItems: 'center',
     },
-    thirdContainer: {
-        /*backgroundColor: 'rgba(0, 26, 255, 0.3)',*/
+    strengthRepeatsContainer: {
         width: '30%',
         height: '100%',
-        flex: 1,
-        margin: 0,
-        padding: 0,
-        borderBottomRightRadius: defaultBRadius,
         flexDirection: 'row',
         justifyContent: 'center'
     },
