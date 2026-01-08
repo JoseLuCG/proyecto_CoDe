@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import WorkoutSwitch from "../WorkoutSwitch";
 import * as apiService from "./../../services/exerciseService";
 import { User } from '../../contexts/UserContext';
+import SavedSetInfoDisplay from "./SavedSetInfoDisplay";
 
 const { width } = Dimensions.get('window');
 
@@ -19,7 +20,7 @@ export default function AddExerciseDataModal({date}) {
         exerciseIntensity: "",
         exerciseTime: "",
         exerciseDistance: "",
-        exerciseSetNumber: "",
+        exerciseSetNumber: 1,
         exerciseWeight: "",
         exerciseRepeats: ""
     });
@@ -33,8 +34,17 @@ export default function AddExerciseDataModal({date}) {
     }
 
     async function submitForm() {
-        try {           
-            const response = await apiService.addCardioExercise(exerciseData);
+        try {
+            if (exerciseData.exerciseType) {
+                const response = await apiService.addStrengthExecise(exerciseData);
+                console.log(response);
+                if (response.ok) {
+                    handleInputChange("exerciseSetNumber", exerciseData.exerciseSetNumber + 1);
+                }
+                //handleInputChange("exerciseSetNumber", exerciseData.exerciseSetNumber + 1);
+            } else {
+                const response = await apiService.addCardioExercise(exerciseData);
+            }
         } catch (error) {
             throw new Error("Something is wrong");
             // TODO: add conditionals for the diferents use cases if the user don't work
@@ -77,7 +87,7 @@ export default function AddExerciseDataModal({date}) {
                         label="Time:"
                         value={exerciseData.exerciseTime}
                         onChangeText={(text) => handleInputChange("exerciseTime", text)}
-                        keyboardType="phone-pad"
+                        keyboardType="text-pad"
                     />
             }
 
@@ -100,12 +110,7 @@ export default function AddExerciseDataModal({date}) {
 
             {
                 exerciseData.exerciseType ?
-                    <InputField
-                        label="Add new set"
-                        value={exerciseData.exerciseSetNumber}
-                        onChangeText={(text) => handleInputChange("exerciseSetNumber", text)}
-                        keyboardType="phone-pad"
-                    />
+                    null
                     :
                     <InputField
                         label="Intensity:"
@@ -113,6 +118,9 @@ export default function AddExerciseDataModal({date}) {
                         onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
                         keyboardType="phone-pad"
                     />
+            }
+            {
+                exerciseData.exerciseType ? <SavedSetInfoDisplay/> : null
             }
             <TouchableOpacity style={styles.addButton} onPress={submitForm}>
                 <Text style={styles.buttonText}>ADD</Text>
