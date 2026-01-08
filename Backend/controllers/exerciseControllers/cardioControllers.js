@@ -1,5 +1,3 @@
-import { mySqlConn } from "../../bdcon/bdcon.js";
-import { v4 as uuidV4 } from "uuid";
 import setCardioExerciseData from "./handlers/setCardioExerciseData.js";
 import getCardioExercisesInDate from "./handlers/getCardioExerciseData.js";
 
