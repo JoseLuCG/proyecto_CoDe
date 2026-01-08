@@ -7,6 +7,9 @@ const apiRoutes = {
         cardio: {
             addExercise: "/record-cardio-exercise",
             getCardioExercisesInDate: "/cardio-exercises/"
+        },
+        strength: {
+            addExercise: "/record-strength-exercise"
         }
     }
 
