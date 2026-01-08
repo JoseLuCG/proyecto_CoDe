@@ -46,22 +46,6 @@ function addStrengthExercise(req, res) {
 }
 
 /**
- * Add a cardio exercise in data base.
- * @param {*} req 
- * @param {*} res 
- */
-/*
-function addCardioExercise(req, res) {
-  const { exerciseName } = req.body;
-  let sql = `CALL addCardioExecise("${exerciseName}")`;
-  mySqlConn.query(sql, (err) => {
-    if (err) console.log(err);
-    else console.log("Correcto");
-    res.send();
-  });
-}
-*/
-/**
  * Add the registration of a user on a specific day of the strength exercise.
  * @param {*} req 
  * @param {*} res 
