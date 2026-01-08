@@ -14,6 +14,8 @@ import { defaultBRadius } from '../styles/DefaultVaules';
 import AddDataModal from '../components/Modals/AddDataModal';
 import { User } from '../contexts/UserContext';
 import * as apiService from "./../services/exerciseService";
+import TrainingTab from '../components/TrainingTab';
+import ExerciseModalScreen from './ExerciseModalScreen';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
@@ -23,7 +25,19 @@ const ExercisesScreen = ({ navigation }) => {
     const [user] = useContext(User);
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
-    const [ cardioExercises, setCardioExercises ] = useState(null);
+    const [cardioExercises, setCardioExercises] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedExercise, setSelectedExercise] = useState(null);
+
+    function handleOpenModal(exercise) {
+        setSelectedExercise(exercise);
+        setModalVisible(true);
+    }
+
+    function handleCloseModal(){
+        setModalVisible(false);
+        setSelectedExercise(null);
+    }
 
     function openTabToAddExercise() {
         console.log("open!");
@@ -49,13 +63,7 @@ const ExercisesScreen = ({ navigation }) => {
 
     useEffect(() => {
         getExercises();
-        console.log("The day selected is:", selectedDate); // TODO: delete this line when the apps works.
     }, [selectedDate]);
-
-    useEffect(()=> {
-        console.log(cardioExercises);
-        
-    }, [cardioExercises]);
 
     return (
         <LinearGradient
@@ -63,22 +71,35 @@ const ExercisesScreen = ({ navigation }) => {
             colors={colorStyle.mainGradient}
         >
             <DaysCarousel setSelectedDate={setSelectedDate} />
-            <View>
-                <Text style={styles.title}>Hello word this is the Exercises page.</Text>
+            <View style={styles.exercisesContainer}>
+                {
+                    cardioExercises != null?
+                    cardioExercises.map(
+                        (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
+                    )
+                    :
+                    ""
+                }
             </View>
-            {/* Button */}
+
+
+            {/* Button to open the modal */}
             <TouchableOpacity style={styles.addButton} onPress={openTabToAddExercise}>
                 <Text style={styles.buttonText}>+</Text>
             </TouchableOpacity>
 
-            {/* Modal */}
+            {/* Modal to add exercises: */}
             <AddDataModal
                 isVisible={addModalVisible}
                 onClose={closeTabToAddExercise}
                 date={selectedDate}
                 screen={"Exercises"}
             />
-
+            <ExerciseModalScreen
+                isVisible={modalVisible}
+                onClose={handleCloseModal}
+                exercise={selectedExercise}
+            />
             <NavigationBar />
         </LinearGradient>
     );
@@ -109,8 +130,12 @@ const styles = StyleSheet.create({
         borderRadius: defaultBRadius,
         alignItems: 'center',
         justifyContent: 'center',
-    }, buttonText: {
+    },
+    buttonText: {
         fontSize: 24,
         fontWeight: 'bold'
+    },
+    exercisesContainer: {
+        width: width * 0.90
     }
 });
