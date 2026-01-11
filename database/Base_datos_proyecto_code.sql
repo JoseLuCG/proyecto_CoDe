@@ -42,9 +42,17 @@ CREATE TABLE cardio_exercise (
     FOREIGN KEY (uuid_user) REFERENCES Users (uuid_user) ON UPDATE CASCADE
 );
 
-
+-- Tables updates --
+/* Cardio table */
 ALTER TABLE cardio_exercise
 DROP PRIMARY KEY;
-
 ALTER TABLE cardio_exercise
 ADD PRIMARY KEY (uuid_cardio_exercise);
+
+/* Users Table */
+ALTER TABLE users
+ADD COLUMN age INTEGER;
+ALTER TABLE users
+ADD COLUMN weight FLOAT;
+ALTER TABLE users
+ADD COLUMN height FLOAT;
