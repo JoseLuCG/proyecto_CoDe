@@ -9,5 +9,5 @@ export const cardioRoutes = {
 
 export const strenghtRoutes = {
     addStrengthExercise: "/record-strength-exercise",
-    getCardioExercisesInDate: "/strength-exercises/:date/:user"
+    getStrengthExercisesInDate: "/strength-exercises/:date/:user"
 }
