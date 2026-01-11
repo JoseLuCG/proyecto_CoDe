@@ -2,8 +2,9 @@ import express from "express";
 import * as controllers from "./controllers/controller.js";
 import * as userControllers from "./controllers/user-controllers.js"
 import * as cardioControllers from "./controllers/exerciseControllers/cardioControllers.js"
+import * as strengthControllers from "./controllers/exerciseControllers/strengthControllers.js"
 import cors from "cors";
-import { cardioRoutes } from "./utils/routes.js";
+import { cardioRoutes, strenghtRoutes } from "./utils/routes.js";
 
 const app = express();
 const port = 3000;
@@ -24,7 +25,8 @@ app.post("/checkLogin", jsonParser, userControllers.checkLogin);
 app.post(cardioRoutes.addCardioExercise, jsonParser, cardioControllers.addCardioExercise);
 app.get(cardioRoutes.getCardioExercisesInDate, cardioControllers.getCardioExercises);
 
-
+// * Strength End-points
+app.post(strenghtRoutes.addStrengthExercise, jsonParser, strengthControllers.addStrengthExecise);
 
 
 app.post("/removeUser", jsonParser, controllers.removeUser); 
