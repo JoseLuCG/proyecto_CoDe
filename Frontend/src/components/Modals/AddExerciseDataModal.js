@@ -37,11 +37,15 @@ export default function AddExerciseDataModal({date}) {
         try {
             if (exerciseData.exerciseType) {
                 const response = await apiService.addStrengthExecise(exerciseData);
-                console.log(response);
+                
                 if (response.ok) {
-                    handleInputChange("exerciseSetNumber", exerciseData.exerciseSetNumber + 1);
+                    setExerciseData(prevState => ({
+                        ...prevState,
+                        exerciseSetNumber: prevState.exerciseSetNumber + 1,
+                        exerciseWeight: "",
+                        exerciseRepeats: ""
+                    }));
                 }
-                //handleInputChange("exerciseSetNumber", exerciseData.exerciseSetNumber + 1);
             } else {
                 const response = await apiService.addCardioExercise(exerciseData);
             }

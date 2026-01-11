@@ -34,6 +34,6 @@ export async function addStrengthExecise(newData) {
         body: JSON.stringify(adaptedData) 
     };
     const response = await fetch(apiEndPointDirection, fetchOptions);
-    const data = await response.json();
-    return data;
+
+    return response;
 }
