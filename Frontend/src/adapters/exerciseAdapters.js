@@ -47,7 +47,7 @@ export function exerciseStrengthMapper(data){
         (exercise) => {
             let exerciseMapped = {
                 uuidUser: exercise.uuid_user,
-                uuidExercise: exercise.uuid_cardio_exercise,
+                uuidExercise: exercise.uuid_strength_exercise,
                 date: exercise.exercise_date,
                 name: exercise.exercise_name,
                 weight: exercise.weight,
