@@ -3,7 +3,7 @@ import { mySqlConn } from "../../../bdcon/bdcon.js";
 function getStrengthExerciseInDate(date, user) {
     let sql = `
     SELECT *
-        FROM strength_exercise;
+        FROM strength_exercise
             WHERE uuid_user = ?
             AND exercise_date = ?
     ;`;
