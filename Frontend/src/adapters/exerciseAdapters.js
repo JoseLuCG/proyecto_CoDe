@@ -40,3 +40,23 @@ export function exerciseMapper(data) {
     );
     return dataMapped;
 }
+
+export function exerciseStrengthMapper(data){
+    const dataMapped = [];
+     data.map(
+        (exercise) => {
+            let exerciseMapped = {
+                uuidUser: exercise.uuid_user,
+                uuidExercise: exercise.uuid_cardio_exercise,
+                date: exercise.exercise_date,
+                name: exercise.exercise_name,
+                weight: exercise.weight,
+                repeats: exercise.repeats,
+                setNumber: exercise.set_number
+            }
+            
+            dataMapped.push(exerciseMapped);
+        }
+    );
+    return dataMapped;
+}
