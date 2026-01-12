@@ -32,6 +32,7 @@ app.get(cardioRoutes.getCardioExercisesInDate, cardioControllers.getCardioExerci
 
 // * Strength End-points
 app.post(strenghtRoutes.addStrengthExercise, jsonParser, strengthControllers.addStrengthExecise);
+app.get(strenghtRoutes.getStrengthExercisesInDate, strengthControllers.getStrengthExercises);
 // TODO: Add endpoint to update the exercise
 // TODO: Add endpoint to delete the exercise
 
