@@ -1,4 +1,4 @@
-import { exerciseMapper, exerciseTypeChecker } from "../adapters/exerciseAdapters";
+import { exerciseMapper, exerciseStrengthMapper, exerciseTypeChecker } from "../adapters/exerciseAdapters";
 import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 
 // ---------- Cardio Exercises ----------
@@ -16,7 +16,7 @@ export async function addCardioExercise(newData) {
 }
 
 export async function getCardioExercisesInDate(date, user) {
-    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.getCardioExercisesInDate + date +"/" + user;
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.getCardioExercisesInDate + date + "/" + user;
     const response = await fetch(apiEndPointDirection);
     const data = await response.json();
     const mappedData = exerciseMapper(data);
@@ -36,4 +36,13 @@ export async function addStrengthExecise(newData) {
     const response = await fetch(apiEndPointDirection, fetchOptions);
 
     return response;
+}
+
+export async function getStrengthExercisesInDate(date, user) {
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.getStrengthExercisesInDate + date + "/" + user;
+    const response = await fetch(apiEndPointDirection);
+    const data = await response.json();
+    const mappedData = exerciseStrengthMapper(data);
+
+    return mappedData;
 }
