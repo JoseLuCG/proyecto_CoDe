@@ -14,7 +14,7 @@ CREATE TABLE Users(
     unique(phone_number),
     CONSTRAINT uuid_user PRIMARY KEY (uuid_user)
 );
-
+DROP TABLE IF EXISTS strength_exercise;
 CREATE TABLE strength_exercise (
 	uuid_strength_exercise CHAR(36) NOT NULL,
 	exercise_date DATE,
@@ -48,6 +48,12 @@ ALTER TABLE cardio_exercise
 DROP PRIMARY KEY;
 ALTER TABLE cardio_exercise
 ADD PRIMARY KEY (uuid_cardio_exercise);
+
+/* Strength table */
+ALTER TABLE strength_exercise
+DROP PRIMARY KEY;
+ALTER TABLE strength_exercise
+ADD PRIMARY KEY (uuid_strength_exercise);
 
 /* Users Table */
 ALTER TABLE users
