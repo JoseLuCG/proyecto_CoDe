@@ -26,6 +26,7 @@ const ExercisesScreen = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
     const [cardioExercises, setCardioExercises] = useState(null);
+    const [ strenghtExercises, setStrenghtExercises ] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
 
@@ -53,7 +54,9 @@ const ExercisesScreen = ({ navigation }) => {
         try {
             if (selectedDate != null) {
                 const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser);
+                const responseStrenghtExercises = await apiService.getStrengthExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser);
                 setCardioExercises(response);
+                setStrenghtExercises(responseStrenghtExercises);
             }
         } catch (error) {
             // TODO: add conditionals for the diferents use cases if the user don't work
@@ -75,6 +78,14 @@ const ExercisesScreen = ({ navigation }) => {
                 {
                     cardioExercises != null?
                     cardioExercises.map(
+                        (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
+                    )
+                    :
+                    ""
+                }
+                {
+                    strenghtExercises != null?
+                    strenghtExercises.map(
                         (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
                     )
                     :
