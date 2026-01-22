@@ -1,6 +1,7 @@
 import { View, StyleSheet, Dimensions, Text } from "react-native";
 import Modal from 'react-native-modal';
 import AddExerciseDataModal from "./AddExerciseDataModal";
+import AddFoodDataModal from "./AddFoodDataModal";
 
 const { height } = Dimensions.get('window');
 
@@ -24,11 +25,7 @@ export default function AddDataModal({ isVisible, onClose, date, screen }) {
                     screen == "Exercises"?
                     <AddExerciseDataModal date={date}/>
                     :
-                    <View>
-                        <Text style={styles.modalTitle}>
-                            Pestaña de alimentación    
-                        </Text>
-                    </View>
+                    <AddFoodDataModal date={date}/>
                 }   
             </View>
         </Modal>
@@ -57,8 +54,9 @@ const styles = StyleSheet.create({
     },
     modalTitle: {
         fontSize: 22,
-        fontWeight: 'bold',
+        //fontWeight: 'bold',
         marginBottom: 10,
+        fontFamily: "main-font"
     },
     modalSubtitle: {
         fontSize: 18,
