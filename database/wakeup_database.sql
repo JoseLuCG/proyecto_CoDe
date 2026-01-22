@@ -14,10 +14,11 @@ CREATE TABLE user(
     phone_number VARCHAR(9) NOT NULL,
     user_password varchar(40) NOT NULL,
     age INTEGER NOT NULL DEFAULT 0,
-    weight DECIMAL(5,2) NOT NULL DEFAULT 0.00,
-    height SMALLINT UNSIGNED NOT NULL CHECK (height BETWEEN 50 AND 250),
-    unique(phone_number),
-    CONSTRAINT uuid_user PRIMARY KEY (uuid_user)
+    weight DECIMAL(5,2) NOT NULL DEFAULT (0.00),
+    height SMALLINT UNSIGNED NOT NULL DEFAULT (100),
+    UNIQUE (phone_number),
+    PRIMARY KEY (uuid_user),
+    CHECK (height BETWEEN 50 AND 250)
 );
 
 /* ----- STRENGTH TABLE ----- */

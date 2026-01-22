@@ -1,53 +1,8 @@
 INSERT INTO Users(nameUser, lastNameUser, passwd, phoneNumber)
 	VALUES('Pepe','Rio','abc','600000001');
-INSERT INTO Users(nameUser, lastNameUser, passwd, phoneNumber)
-	VALUES('Roberto','García','abc','600000002');
-INSERT INTO Users(nameUser, lastNameUser, passwd, phoneNumber)
-	VALUES('Miguel','Lopez','abc','600000003');
-INSERT INTO Users(nameUser, lastNameUser, passwd, phoneNumber)
-	VALUES('Carlos','Herrera','abc','600000004');
-INSERT INTO Users(nameUser, lastNameUser, passwd, phoneNumber)
-	VALUES('Hugo','Boss','abc','600000005');
-    
-CALL deleteUser(1);
-CALL deleteUser(2);
-CALL deleteUser(3);
-CALL deleteUser(4);
-CALL deleteUser(5);
-
-CALL createUser('Pepe','Rio','abc','600000001');
-CALL createUser('Roberto','García','abc','600000002');
-CALL createUser('Miguel','Lopez','abc','600000003');
-CALL createUser('Carlos','Herrera','abc','600000004');
-CALL createUser('Hugo','Boss','abc','600000005');
 
 select logUser('600000001', 'abc') as id;
 
-CALL addStrengthExecise ("Peso Muerto");
-CALL addStrengthExecise ("Bíceps Mancuernas");
+INSERT INTO user(uuid_user, name_user, last_name_user, email, phone_number, user_password)
+	VALUES(UUID(), "User_test", "test", "emailtest@test.tt", "600100200", "abc");
 
-CALL addCardioExecise("Correr");
-CALL addCardioExecise("Caminar");
-CALL addCardioExecise("Nadar");
-CALL addCardioExecise("Escalera");
-
--- addUserStrengthExercise (exerciseDate,IdUser,setNumber,exerciseName,weight,repeats)
-CALL addUserStrengthExercise('2024-04-25',6,1,'Peso Muerto', 50, 10);
-
-
-
--- INSERT INTO User_Cardio (exerciseDate, idUser, exerciseName, intensity, exerciseTime, distance)
-CALL addUserCardioExercise('2024-04-16', 6, 'Correr', 5, '00:30:00', 2.30);
-CALL addUserCardioExercise('2024-04-18', 6, 'Correr', 5, '00:30:00', 2.30);
-
-CALL deleteCardioExercise('2024-04-18', 6, 'Correr');
-
-DELETE FROM wakeup.Users where uuid_user = "d985724f-8b94-456b-928d-1b34642f8092";
-
-
-
-SELECT uuid_user, name_user, last_name_user, email, phone_number
-	FROM Users
-		WHERE (email = "pepito@gmail.com" OR phone_number = "pepito@gmail.com")
-		AND user_password = "abc"
-;
