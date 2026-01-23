@@ -32,7 +32,7 @@ function addNewUser(req, res) {
 function checkLogin(req, res) {
     const { userLoginData, userPassword } = req.body;
     let sql = ` SELECT uuid_user, name_user, last_name_user, email, phone_number
-	    FROM Users
+	    FROM user
 		    WHERE (email = ? OR phone_number = ?)
 		    AND user_password = ?
     ;`;
