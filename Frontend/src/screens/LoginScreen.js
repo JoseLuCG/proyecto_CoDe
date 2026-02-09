@@ -1,11 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Pressable } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Image, Pressable, Dimensions } from 'react-native';
 import InputField from '../components/InputField';
 import * as apiService from "./../services/authService"
 import { LinearGradient } from 'expo-linear-gradient';
 import { textStyle } from '../styles/TextStyles';
 import { User } from '../contexts/UserContext';
 import { colorStyle } from '../styles/Colors';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+
+const { height, width } = Dimensions.get('window');
 
 const LoginScreen = ({ navigation }) => {
 	// States:
@@ -48,50 +51,60 @@ const LoginScreen = ({ navigation }) => {
 	}, [user]);
 
 	return (
-		<LinearGradient
-			style={styles.container}
-			colors={['#6A266F', '#00B7FF', '#6A266F']}
+		<KeyboardAwareScrollView
+			bottomOffset={50}
+			enableOnAndroid={true}
+			contentContainerStyle={styles.content}
 		>
-			<View style={styles.imageContainer}>
-				<Image
-					source={require("./../../assets/logoconfondo-remove.png")}
-					style={styles.logo}
-				/>
-			</View>
-
-			<View
-				colors={['#00FF6A', '#00B7FF']}
-				style={styles.inputContainer}
+			<LinearGradient
+				style={styles.container}
+				colors={['#6A266F', '#00B7FF', '#6A266F']}
 			>
-				<InputField
-					label="Email o número de Teléfono"
-					value={userToLogIn.userLoginData}
-					onChangeText={(text) => handleinputChange("userLoginData", text)}
-					keyboardType="phone-pad"
-				/>
+				<View style={styles.imageContainer}>
+					<Image
+						source={require("./../../assets/logoconfondo-remove.png")}
+						style={styles.logo}
+					/>
+				</View>
 
-				<InputField
-					label="Contraseña"
-					value={userToLogIn.userPassword}
-					onChangeText={(text) => handleinputChange("userPassword", text)}
-					secureTextEntry
-				/>
+				<View
+					colors={['#00FF6A', '#00B7FF']}
+					style={styles.inputContainer}
+				>
+					<InputField
+						label="Email o número de Teléfono"
+						value={userToLogIn.userLoginData}
+						onChangeText={(text) => handleinputChange("userLoginData", text)}
+						keyboardType="phone-pad"
+					/>
 
-				<Pressable style={styles.button} onPress={submitForm}>
-					<Text style={styles.buttonText}>Iniciar sesión</Text>
-				</Pressable>
+					<InputField
+						label="Contraseña"
+						value={userToLogIn.userPassword}
+						onChangeText={(text) => handleinputChange("userPassword", text)}
+						secureTextEntry
+					/>
 
-				<TouchableOpacity onPress={handleRegister}>
-					<Text style={textStyle.text}>
-						No tienes cuenta, <Text style={styles.link}>regístrate</Text>
-					</Text>
-				</TouchableOpacity>
-			</View>
-		</LinearGradient>
+					<Pressable style={styles.button} onPress={submitForm}>
+						<Text style={styles.buttonText}>Iniciar sesión</Text>
+					</Pressable>
+
+					<TouchableOpacity onPress={handleRegister}>
+						<Text style={textStyle.text}>
+							No tienes cuenta, <Text style={styles.link}>regístrate</Text>
+						</Text>
+					</TouchableOpacity>
+				</View>
+			</LinearGradient>
+		</KeyboardAwareScrollView>
 	);
 };
 
 const styles = StyleSheet.create({
+	content: {
+		width: '100%',
+		height: height * 1.20
+	},
 	container: {
 		flex: 1,
 		justifyContent: 'center',
