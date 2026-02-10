@@ -1,5 +1,6 @@
 import getStrengthExerciseInDate from "./handlers/getStrengthExerciseData.js";
 import setStrengthExerciseData from "./handlers/setStrengthExerciseData.js";
+import { groupSetByExercise } from "./mappers/strenghtMappers.js";
 
 async function addStrengthExecise(req, res) {
     const exerciseData = {
@@ -28,7 +29,8 @@ async function getStrengthExercises(req, res) {
     
     try {
         const exercises = await getStrengthExerciseInDate(date, user);
-        res.json(exercises)
+        const result = groupSetByExercise(exercises);
+        res.json(result);
     } catch (error) {
         console.error(error);
         sendStatus(500);
