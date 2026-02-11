@@ -46,13 +46,10 @@ export function exerciseStrengthMapper(data){
      data.map(
         (exercise) => {
             let exerciseMapped = {
-                uuidUser: exercise.uuid_user,
                 uuidExercise: exercise.uuid_strength_exercise,
                 date: exercise.exercise_date,
                 name: exercise.exercise_name,
-                weight: exercise.weight,
-                repeats: exercise.repeats,
-                setNumber: exercise.set_number
+                sets: exercise.sets
             }
             
             dataMapped.push(exerciseMapped);

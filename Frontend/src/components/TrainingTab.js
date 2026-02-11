@@ -1,21 +1,60 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text, Image, ActivityIndicator, Animated, Pressable } from "react-native";
 import { textStyle } from '../styles/TextStyles';
 import { defaultBRadius } from '../styles/DefaultVaules';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function TrainingTab({ data, onPress }) {
+    // Assets:
     const fuerzaIcon = require("./../../assets/icons/fuerzaIcon.png");
     const weightIcon = require("./../../assets/icons/weightIcon.png");
     const repeatIcon = require("./../../assets/icons/repeatIcon.png");
-
     const cardioIcon = require("./../../assets/icons/cardioIcon.png");
     const distanceIcon = require("./../../assets/icons/distance.png");
     const intensityIcon = require("./../../assets/icons/intensity.png");
     const timeIcon = require("./../../assets/icons/clock.png");
-
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    // States:
+    const [dataPreview, setDataPreview] = useState({
+        maxWeight: 0,
+        maxReps: 0,
+        totalSet: 0
+    });
+
+    // Handlers:
+    function handlePreviewChange(fieldName, value) {
+        setDataPreview(prevState => ({
+            ...prevState,
+            [fieldName]: value
+        }));
+    }
+
+    // Functions:
+    function calculateDataToPreview(data) {
+        if (data.sets) {
+            let setCount = 0;
+            let maxWeight = 0;
+            let maxReps = 0;
+
+            data.sets.forEach(element => {
+                setCount++;
+                if (element.weight > maxWeight) maxWeight = element.weight;
+                if (element.repeats > maxReps) maxReps = element.repeats;
+            });
+            handlePreviewChange("maxWeight", maxWeight);
+            handlePreviewChange("maxReps", maxReps);
+            handlePreviewChange("totalSet", setCount);
+        }
+    }
+
+    // UseEffects:
+    useEffect(() => {
+        if (data) {
+            calculateDataToPreview(data);
+        }
+    }, [data]);
 
     useEffect(() => {
         if (data) {
@@ -42,6 +81,11 @@ function TrainingTab({ data, onPress }) {
         }).start();
     };
 
+    // Handlers:
+    function obtainPreviewData() {
+
+    }
+
     if (!data) {
         return (
             <View style={[styles.trainingTab, styles.loadingContainer]}>
@@ -50,6 +94,8 @@ function TrainingTab({ data, onPress }) {
             </View>
         );
     }
+
+
 
     return (
         <Pressable
@@ -83,7 +129,7 @@ function TrainingTab({ data, onPress }) {
                                 :
                                 <View style={styles.strengthWeightContainer}>
                                     <Image source={weightIcon} style={styles.styleIcon} />
-                                    <Text style={textStyle.dataField}>{data.weight + "Kg"}</Text>
+                                    <Text style={textStyle.dataField}>{dataPreview.maxWeight + "Kg"}</Text>
                                 </View>
                         }
                         {
@@ -94,7 +140,7 @@ function TrainingTab({ data, onPress }) {
                                 </View>
                                 :
                                 <View style={styles.strengthSetsContainer}>
-                                    <Text style={textStyle.dataField}>Sets: {data.numberOfSets}</Text>
+                                    <Text style={textStyle.dataField}>Sets: {dataPreview.totalSet}</Text>
                                 </View>
                         }
                         {
@@ -106,7 +152,7 @@ function TrainingTab({ data, onPress }) {
                                 :
                                 <View style={styles.strengthRepeatsContainer}>
                                     <Image source={repeatIcon} style={styles.styleIcon} />
-                                    <Text>{data.numberOfReps}</Text>
+                                    <Text>{dataPreview.maxReps}</Text>
                                 </View>
                         }
                     </View>

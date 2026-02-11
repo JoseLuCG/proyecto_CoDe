@@ -26,7 +26,7 @@ const ExercisesScreen = ({ navigation }) => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
     const [cardioExercises, setCardioExercises] = useState(null);
-    const [ strenghtExercises, setStrenghtExercises ] = useState(null);
+    const [strenghtExercises, setStrenghtExercises] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
 
@@ -35,7 +35,7 @@ const ExercisesScreen = ({ navigation }) => {
         setModalVisible(true);
     }
 
-    function handleCloseModal(){
+    function handleCloseModal() {
         setModalVisible(false);
         setSelectedExercise(null);
     }
@@ -76,20 +76,20 @@ const ExercisesScreen = ({ navigation }) => {
             <DaysCarousel setSelectedDate={setSelectedDate} />
             <View style={styles.exercisesContainer}>
                 {
-                    cardioExercises != null?
-                    cardioExercises.map(
-                        (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
-                    )
-                    :
-                    ""
+                    cardioExercises != null ?
+                        cardioExercises.map(
+                            (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
+                        )
+                        :
+                        ""
                 }
                 {
-                    strenghtExercises != null?
-                    strenghtExercises.map(
-                        (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
-                    )
-                    :
-                    ""
+                    strenghtExercises != null ?
+                        strenghtExercises.map(
+                            (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
+                        )
+                        :
+                        ""
                 }
             </View>
 
