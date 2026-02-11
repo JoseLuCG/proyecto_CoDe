@@ -1,5 +1,5 @@
 export function groupSetByExercise(exercises) {
-    let grouped = [];
+    const grouped = {};
     for ( let ex of exercises ) {
         let id = ex.uuid_strength_exercise;
         
@@ -21,5 +21,5 @@ export function groupSetByExercise(exercises) {
     }
     //console.dir(grouped, { depth: null });
 
-    return grouped;
+    return Object.values(grouped);
 }

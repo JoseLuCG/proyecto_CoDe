@@ -30,10 +30,11 @@ async function getStrengthExercises(req, res) {
     try {
         const exercises = await getStrengthExerciseInDate(date, user);
         const result = groupSetByExercise(exercises);
-        res.json(result);
+        
+        res.send(result);
     } catch (error) {
         console.error(error);
-        sendStatus(500);
+        res.sendStatus(500);
     }
 }
 
