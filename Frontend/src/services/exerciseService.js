@@ -1,10 +1,10 @@
-import { exerciseMapper, exerciseStrengthMapper, exerciseTypeChecker } from "../adapters/exerciseAdapters";
+import { cardioAdapter, exerciseMapper, exerciseStrengthMapper, exerciseTypeChecker } from "../adapters/exerciseAdapters";
 import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 
 // ---------- Cardio Exercises ----------
 export async function addCardioExercise(newData) {
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.addExercise;
-    const adaptedData = exerciseTypeChecker(newData);
+    const adaptedData = cardioAdapter(newData);
     const fetchOptions = {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },

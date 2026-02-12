@@ -7,6 +7,18 @@ export const textStyle = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 24,
     },
+    textInField: {
+        fontFamily: "main-font",
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    text: {
+        fontFamily: "main-font",
+        fontSize: 12,
+        textAlign: 'center',
+        marginBottom: 24,
+    },
     button: {
         fontFamily: "main-font",
         textAlign: 'center',
@@ -23,8 +35,8 @@ export const textStyle = StyleSheet.create({
     dataField: {
         fontFamily: "main-font",
         fontSize: 12
-    }, 
-    timeField : {
+    },
+    timeField: {
         fontFamily: "main-font",
         fontSize: 10
     }

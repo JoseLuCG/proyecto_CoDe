@@ -7,62 +7,76 @@ import * as apiService from "./../../services/exerciseService";
 import { User } from '../../contexts/UserContext';
 import SavedSetInfoDisplay from "./SavedSetInfoDisplay";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
+import { textStyle } from "../../styles/TextStyles";
+import AddCardioForm from "./addCardioForm";
 
 const { width } = Dimensions.get('window');
 
 export default function AddExerciseDataModal({ date }) {
     // States:
     const [user] = useContext(User);
-    const [exerciseData, setExerciseData] = useState({
-        exerciseUser: "",
-        exerciseName: "",
-        exerciseType: false,
-        exerciseDate: "",
-        exerciseIntensity: "",
-        exerciseTime: "",
-        exerciseDistance: "",
-        exerciseSetNumber: 1,
-        exerciseWeight: "",
-        exerciseRepeats: ""
-    });
+    const [selectedType, setSelectedType] = useState("");
 
     // Handlers:
-    function handleInputChange(fieldName, value) {
-        setExerciseData(prevState => ({
-            ...prevState,
-            [fieldName]: value
-        }));
+    function handleTypeChange(value) {
+        setSelectedType(value);
     }
-
-    async function submitForm() {
-        try {
-            if (exerciseData.exerciseType) {
-                const response = await apiService.addStrengthExecise(exerciseData);
-
-                if (response.ok) {
-                    setExerciseData(prevState => ({
-                        ...prevState,
-                        exerciseSetNumber: prevState.exerciseSetNumber + 1,
-                        exerciseWeight: "",
-                        exerciseRepeats: ""
-                    }));
-                }
-            } else {
-                const response = await apiService.addCardioExercise(exerciseData);
-            }
-        } catch (error) {
-            throw new Error("Something is wrong");
-            // TODO: add conditionals for the diferents use cases if the user don't work
-            console.error(error);
-        }
-
+    /*
+    useEffect(
+        () => {
+            
+        }, [selectedType]
+    );
+    */
+    if (selectedType == "CARDIO") {
+        return(
+            <AddCardioForm date={date}/>
+        );
     }
+    return (
+        <View style={styles.container}>
+            <View style={styles.textContainer}>
+                <Text style={textStyle.text}>Select the type of exercise to record:</Text>
+                <TouchableOpacity style={styles.eitherButton} onPress={() => handleTypeChange("CARDIO")}>
+                    <Text style={styles.buttonText}>CARDIO</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.eitherButton} onPress={() => handleTypeChange("SRENGTH")}>
+                    <Text style={styles.buttonText}>STRENGTH</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+}
 
-    useEffect(() => {
-        handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));
-        handleInputChange("exerciseUser", user.uuidUser);
-    }, []);
+const styles = StyleSheet.create({
+    container: {
+        //width: width * 0.95,
+    },
+    textHeader: {
 
+    },
+    textContainer: {
+        marginTop: 20,
+        display: "flex",
+        alignItems: 'center',
+    },
+    eitherButton: {
+        backgroundColor: '#1563ac88',
+        width: 190,
+        height: 50,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        marginBottom: 10
+    },
+    buttonText: {
+        fontSize: 24,
+        fontWeight: 'bold'
+    }
+});
+
+/*
     return (
         <KeyboardAwareScrollView
             bottomOffset={50}
@@ -140,22 +154,4 @@ export default function AddExerciseDataModal({ date }) {
         </KeyboardAwareScrollView>
 
     );
-}
-
-const styles = StyleSheet.create({
-    container: {
-        width: width * 0.80,
-    },
-    addButton: {
-        backgroundColor: '#1563ac88',
-        width: 50,
-        height: 50,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    buttonText: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    }
-});
+*/
