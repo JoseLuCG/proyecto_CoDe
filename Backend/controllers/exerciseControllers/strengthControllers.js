@@ -1,4 +1,5 @@
 import getStrengthExerciseInDate from "./handlers/getStrengthExerciseData.js";
+import setExerciseSet from "./handlers/setExerciseSet.js";
 import setStrengthExerciseData from "./handlers/setStrengthExerciseData.js";
 import { groupSetByExercise } from "./mappers/strenghtMappers.js";
 
@@ -7,14 +8,13 @@ async function addStrengthExecise(req, res) {
         exerciseUser: req.body.exerciseUser,
         exerciseName: req.body.exerciseName,
         exerciseDate: req.body.exerciseDate,
-        exerciseSetNumber: req.body.exerciseSetNumber,
-        exerciseWeight: req.body.exerciseWeight,
-        exerciseRepeats: req.body.exerciseRepeats
+        exerciseSet: req.body.set
     }
-    
+ 
     try {
-        const promise = await setStrengthExerciseData(exerciseData);
-        if (promise == 'OK') {
+        const strenghtExerciseSaved = await setStrengthExerciseData(exerciseData);
+        const setedExerciseSet = await  setExerciseSet(strenghtExerciseSaved, exerciseData.exerciseSet);
+        if (setedExerciseSet == 'OK') {
             res.sendStatus(200);
             console.log("Exercise saved!");
         }
