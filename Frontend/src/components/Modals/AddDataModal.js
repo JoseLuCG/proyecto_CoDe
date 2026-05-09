@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     },
     modalTitle: {
         fontSize: 22,
-        //fontWeight: 'bold',
         marginBottom: 10,
         fontFamily: "main-font"
     },

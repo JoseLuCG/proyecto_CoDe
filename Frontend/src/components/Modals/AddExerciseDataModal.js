@@ -9,6 +9,7 @@ import SavedSetInfoDisplay from "./SavedSetInfoDisplay";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { textStyle } from "../../styles/TextStyles";
 import AddCardioForm from "./addCardioForm";
+import AddStrengthForm from "./addStrengthForm";
 
 const { width } = Dimensions.get('window');
 
@@ -29,10 +30,17 @@ export default function AddExerciseDataModal({ date }) {
     );
     */
     if (selectedType == "CARDIO") {
-        return(
-            <AddCardioForm date={date}/>
+        return (
+            <AddCardioForm date={date} />
         );
     }
+
+    if (selectedType == "SRENGTH") {
+        return (
+            <AddStrengthForm date={date} />
+        );
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -75,83 +83,3 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
-
-/*
-    return (
-        <KeyboardAwareScrollView
-            bottomOffset={50}
-            enableOnAndroid={true}
-            contentContainerStyle={styles.content}
-        >
-            <View style={styles.container}>
-                <InputField
-                    label="Exercise name:"
-                    value={exerciseData.exerciseName}
-                    onChangeText={(text) => handleInputChange("exerciseName", text)}
-                    keyboardType="text-pad"
-                />
-
-                <WorkoutSwitch
-                    exerciseType={exerciseData.exerciseType}
-                    setExerciseType={(value) => handleInputChange('exerciseType', value)}
-                />
-
-                {
-                    exerciseData.exerciseType ?
-                        // Strenght Input
-                        <InputField
-                            label="Weight:"
-                            value={exerciseData.exerciseWeight}
-                            onChangeText={(text) => handleInputChange("exerciseWeight", text)}
-                            keyboardType="phone-pad"
-                        />
-                        :
-                        // Cardio Input
-                        <InputField
-                            label="Time:"
-                            value={exerciseData.exerciseTime}
-                            onChangeText={(text) => handleInputChange("exerciseTime", text)}
-                            keyboardType="text-pad"
-                        />
-                }
-
-                {
-                    exerciseData.exerciseType ?
-                        <InputField
-                            label="Repeats:"
-                            value={exerciseData.exerciseRepeats}
-                            onChangeText={(text) => handleInputChange("exerciseRepeats", text)}
-                            keyboardType="phone-pad"
-                        />
-                        :
-                        <InputField
-                            label="Distance:"
-                            value={exerciseData.exerciseDistance}
-                            onChangeText={(text) => handleInputChange("exerciseDistance", text)}
-                            keyboardType="phone-pad"
-                        />
-                }
-
-                {
-                    exerciseData.exerciseType ?
-                        null
-                        :
-                        <InputField
-                            label="Intensity:"
-                            value={exerciseData.exerciseIntensity}
-                            onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
-                            keyboardType="phone-pad"
-                        />
-                }
-                {
-                    exerciseData.exerciseType ? <SavedSetInfoDisplay /> : null
-                }
-                <TouchableOpacity style={styles.addButton} onPress={submitForm}>
-                    <Text style={styles.buttonText}>ADD</Text>
-                </TouchableOpacity>
-
-            </View>
-        </KeyboardAwareScrollView>
-
-    );
-*/
