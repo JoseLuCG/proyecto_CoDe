@@ -1,4 +1,4 @@
-const HOST_IP = "http://192.168.1.134:3000";
+const HOST_IP = "http://192.168.1.135:3000";
 const apiRoutes = {
     user: {
         addUser : "/addUser",
@@ -14,7 +14,6 @@ const apiRoutes = {
             getStrengthExercisesInDate: "/strength-exercises/"
         }
     }
-
 }
 
 export {

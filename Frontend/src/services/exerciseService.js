@@ -27,14 +27,17 @@ export async function getCardioExercisesInDate(date, user) {
 // ---------- Strength Exercises ----------
 export async function addStrengthExecise(newData) {
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.addExercise;
-    const adaptedData = exerciseTypeChecker(newData);
+    //console.log(newData);
+    
+    //const adaptedData = exerciseTypeChecker(newData);
     const fetchOptions = {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(adaptedData) 
+        body: JSON.stringify(newData) 
     };
     const response = await fetch(apiEndPointDirection, fetchOptions);
-
+    console.log(response);
+    
     return response;
 }
 
