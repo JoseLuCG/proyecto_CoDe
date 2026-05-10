@@ -55,15 +55,19 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 
 const styles = StyleSheet.create({
 	container: {
-		width: width * 0.90,
-		display: 'flex',
+		width: 330,
 		top: 10,
-		backgroundColor: 'rgba(201, 237, 255, 0.76)',
-		borderRadius: 16,
-		padding: 10,
+		backgroundColor: '#fff',
+		borderRadius: 30,
+		padding: 16,
 		height: 150,
 		marginTop: 10,
-		marginBottom: 10
+		marginBottom: 10,
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.1,
+		shadowRadius: 10,
+		elevation: 10,
 	},
 	header: {
 		flexDirection: 'row',
@@ -73,7 +77,7 @@ const styles = StyleSheet.create({
 	},
 	monthYear: {
 		fontSize: 18,
-		fontWeight: '600',
+		fontWeight: 'bold',
 		color: '#333',
 	},
 	arrowButton: {
