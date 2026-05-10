@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { borderRadius, defaultBRadius } from '../styles/DefaultVaules';
+import { defaultBRadius } from '../styles/DefaultVaules';
 
 const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType, centered }) => {
   return (
