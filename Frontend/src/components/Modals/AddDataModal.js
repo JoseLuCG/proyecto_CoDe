@@ -7,28 +7,28 @@ const { height } = Dimensions.get('window');
 
 export default function AddDataModal({ isVisible, onClose, date, screen }) {
      return(
-        <Modal
-            isVisible={isVisible}
-            onBackdropPress={onClose}
-            onSwipeComplete={onClose}
-            swipeDirection="down"
-            style={styles.modalContainer}
-            backdropTransitionOutTiming={0}
-            useNativeDriverForBackdrop
-        >
-            <View style={styles.modalContent}>
-                <View style={styles.modalHandle} />
-                <Text style={styles.modalTitle}>
+         <Modal
+             isVisible={isVisible}
+             onBackdropPress={onClose}
+             onSwipeComplete={onClose}
+             swipeDirection="down"
+             style={styles.modalContainer}
+             backdropTransitionOutTiming={0}
+             useNativeDriverForBackdrop
+         >
+             <View style={styles.modalContent}>
+                 <View style={styles.modalHandle} />
+                 <Text style={styles.modalTitle}>
                     {date ? date.format('DD-MM-YYYY') : 'No date selected'}
-                </Text>
-                {
-                    screen == "Exercises"?
-                    <AddExerciseDataModal date={date}/>
-                    :
-                    <AddFoodDataModal date={date}/>
-                }   
-            </View>
-        </Modal>
+                 </Text>
+                 {
+                     screen == "Exercises" ?
+                         <AddExerciseDataModal date={date} />
+                         :
+                         <AddFoodDataModal date={date} />
+                 }
+             </View>
+         </Modal>
      );
 }
 

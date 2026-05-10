@@ -1,18 +1,11 @@
-import { useContext } from "react";
-import { StyleSheet, Dimensions, TouchableOpacity, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import InputField from "../InputField";
-import { useEffect, useState } from "react";
-import WorkoutSwitch from "../WorkoutSwitch";
 import * as apiService from "./../../services/exerciseService";
 import { User } from '../../contexts/UserContext';
-import SavedSetInfoDisplay from "./SavedSetInfoDisplay";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { textStyle } from "../../styles/TextStyles";
-
-const { width } = Dimensions.get('window');
+import { colorStyle } from "../../styles/Colors";
 
 export default function AddCardioForm({ date }) {
-    // States:
     const { user, token } = useContext(User);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
@@ -27,34 +20,23 @@ export default function AddCardioForm({ date }) {
         }
     });
 
-
-    // Handlers:
     function handleInputChange(fieldName, value) {
-        setExerciseData(prevState => ({
-            ...prevState,
-            [fieldName]: value
-        }));
+        setExerciseData(prev => ({ ...prev, [fieldName]: value }));
     }
 
     function handleTimeChange(field, value) {
-        setExerciseData(prevState => ({
-            ...prevState,
-            exerciseTime: {
-                ...prevState.exerciseTime,
-                [field]: value
-            }
+        setExerciseData(prev => ({
+            ...prev,
+            exerciseTime: { ...prev.exerciseTime, [field]: value }
         }));
     }
 
     async function submitForm() {
         try {
-            const response = await apiService.addCardioExercise(exerciseData, token);
+            await apiService.addCardioExercise(exerciseData, token);
         } catch (error) {
-            throw new Error("Something is wrong");
-            // TODO: add conditionals for the diferents use cases if the user don't work
             console.error(error);
         }
-
     }
 
     useEffect(() => {
@@ -65,21 +47,20 @@ export default function AddCardioForm({ date }) {
     return (
         <View style={styles.container}>
             <View style={styles.formContainer}>
-                {/* Exercise name */}
                 <InputField
-                    label="Exercise name:"
+                    label="Exercise name"
                     value={exerciseData.exerciseName}
                     onChangeText={(text) => handleInputChange("exerciseName", text)}
                     keyboardType="text-pad"
                     centered={true}
                 />
-                {/* Time field */}
-                <Text style={textStyle.textInField}>Time:</Text>
-                <View style={styles.timeField}>
+
+                <Text style={styles.sectionLabel}>Time</Text>
+                <View style={styles.row}>
                     <View style={styles.measureTime}>
                         <InputField
-                            label="Hours:"
-                            value={exerciseData.exerciseTime}
+                            label="Hours"
+                            value={exerciseData.exerciseTime.hours}
                             onChangeText={(text) => handleTimeChange("hours", text)}
                             keyboardType="number-pad"
                             centered={true}
@@ -87,8 +68,8 @@ export default function AddCardioForm({ date }) {
                     </View>
                     <View style={styles.measureTime}>
                         <InputField
-                            label="Minutes:"
-                            value={exerciseData.exerciseTime}
+                            label="Minutes"
+                            value={exerciseData.exerciseTime.minutes}
                             onChangeText={(text) => handleTimeChange("minutes", text)}
                             keyboardType="number-pad"
                             centered={true}
@@ -96,81 +77,87 @@ export default function AddCardioForm({ date }) {
                     </View>
                     <View style={styles.measureTime}>
                         <InputField
-                            label="Seconds:"
-                            value={exerciseData.exerciseTime}
+                            label="Seconds"
+                            value={exerciseData.exerciseTime.seconds}
                             onChangeText={(text) => handleTimeChange("seconds", text)}
                             keyboardType="number-pad"
                             centered={true}
                         />
                     </View>
                 </View>
-                {/* Distance field */}
+
                 <InputField
-                    label="Distance in Km:"
+                    label="Distance (Km)"
                     value={exerciseData.exerciseDistance}
                     onChangeText={(text) => handleInputChange("exerciseDistance", text)}
                     keyboardType="number-pad"
                     centered={true}
                 />
-                {/* Intensity field */}
-                <View style={styles.intensityField}>
-                    <InputField
-                        label="Intensity in %:"
-                        value={exerciseData.exerciseIntensity}
-                        onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
-                        keyboardType="number-pad"
-                        centered={true}
-                    />
-                </View>
+
+                <InputField
+                    label="Intensity (%)"
+                    value={exerciseData.exerciseIntensity}
+                    onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
+                    keyboardType="number-pad"
+                    centered={true}
+                />
             </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.saveButton} onPress={submitForm}>
-                    <Text style={styles.buttonText}>SAVE</Text>
-                </TouchableOpacity>
-            </View>
+
+            <TouchableOpacity
+                style={[styles.saveButton, { backgroundColor: colorStyle.mainGradient[0] }]}
+                onPress={submitForm}
+                activeOpacity={0.8}
+            >
+                <Text style={styles.saveButtonText}>Save</Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: width * 0.95,
-        //backgroundColor: "rgba(9, 9, 9, 0.31)",
+        width: '100%',
+        alignItems: 'center',
+        paddingTop: 16,
     },
     formContainer: {
-        width: width * 0.95,
-        marginTop: 20,
-        display: "flex",
-        alignItems: "center"
+        width: '100%',
+        alignItems: 'center',
     },
-    timeField: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center"
+    sectionLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#888',
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        alignSelf: 'flex-start',
+        marginLeft: '7.5%',
+        marginTop: 8,
+        marginBottom: 4,
     },
-    intensityField: {
-        width: 160
-    },
-    saveButton: {
-        backgroundColor: '#1563ac88',
-        width: 100,
-        height: 50,
-        borderRadius: 10,
+    row: {
+        width: '100%',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10,
-        marginBottom: 10
     },
-    buttonText: {
-        fontSize: 24,
-        fontWeight: 'bold'
+    measureTime: {
+        flex: 1,
+        maxWidth: '30%',
     },
-    buttonContainer:{
-        display: "flex",
-        alignItems: "center"
-    }
+    saveButton: {
+        width: '85%',
+        height: 50,
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 24,
+    },
+    saveButtonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
 });
 
 /*
