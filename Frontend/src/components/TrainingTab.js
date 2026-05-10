@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text, Image, ActivityIndicator, Animated, Pressable } from "react-native";
-import { textStyle } from '../styles/TextStyles';
-import { defaultBRadius } from '../styles/DefaultVaules';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function TrainingTab({ data, onPress }) {
@@ -106,7 +104,7 @@ function TrainingTab({ data, onPress }) {
             <Animated.View style={[styles.trainingTab, { opacity: fadeAnim, transform: [{ scale: scaleAnim }] }]}>
                 <View style={styles.imageContainer}>
                     <LinearGradient
-                        colors={['rgba(50,205,50,0.3)', 'rgba(0,128,0,0.3)']}
+                        colors={['rgba(58,138,187,0.25)', 'rgba(59,59,157,0.25)']}
                         style={styles.imageBackground}
                     >
                         <Image
@@ -117,30 +115,30 @@ function TrainingTab({ data, onPress }) {
                 </View>
                 <View style={styles.contentContainer}>
                     <View style={styles.textContainer}>
-                        <Text style={textStyle.exerciseName}>{data.name}</Text>
+                        <Text style={styles.exerciseName}>{data.name}</Text>
                     </View>
                     <View style={styles.exerciseDataContainer}>
                         {
                             data.time ?
                                 <View style={styles.cardioTimeContainer}>
                                     <Image source={timeIcon} style={styles.styleIcon} />
-                                    <Text style={textStyle.dataField}>{data.time}</Text>
+                                    <Text style={styles.dataField}>{data.time}</Text>
                                 </View>
                                 :
                                 <View style={styles.strengthWeightContainer}>
                                     <Image source={weightIcon} style={styles.styleIcon} />
-                                    <Text style={textStyle.dataField}>{dataPreview.maxWeight + "Kg"}</Text>
+                                    <Text style={styles.dataField}>{dataPreview.maxWeight + "Kg"}</Text>
                                 </View>
                         }
                         {
                             data.distance ?
                                 <View style={styles.cardioDistanceContainer}>
                                     <Image source={distanceIcon} style={styles.styleIcon} />
-                                    <Text style={textStyle.dataField}>{data.distance} Km</Text>
+                                    <Text style={styles.dataField}>{data.distance} Km</Text>
                                 </View>
                                 :
                                 <View style={styles.strengthSetsContainer}>
-                                    <Text style={textStyle.dataField}>Sets: {dataPreview.totalSet}</Text>
+                                    <Text style={styles.dataField}>Sets: {dataPreview.totalSet}</Text>
                                 </View>
                         }
                         {
@@ -164,6 +162,15 @@ function TrainingTab({ data, onPress }) {
 export default TrainingTab;
 
 const styles = StyleSheet.create({
+    exerciseName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    dataField: {
+        fontSize: 12,
+        color: '#555',
+    },
     // * ----- Loading Styles -----
     loadingContainer: {
         justifyContent: 'center',
@@ -177,14 +184,19 @@ const styles = StyleSheet.create({
     },
     // * ----- Component Styles -----
     trainingTab: {
-        backgroundColor: 'rgba(255, 255, 255, 0.91)',
+        backgroundColor: '#fff',
         height: 80,
         width: 330,
-        borderRadius: defaultBRadius,
+        borderRadius: 30,
         padding: 0,
         marginTop: 10,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        elevation: 10,
     },
     // * ----- Image Content -----
     imageContainer: {
@@ -214,8 +226,8 @@ const styles = StyleSheet.create({
     contentContainer: {
         width: "77%",
         height: '100%',
-        borderTopRightRadius: defaultBRadius,
-        borderBottomRightRadius: defaultBRadius,
+        borderTopRightRadius: 30,
+        borderBottomRightRadius: 30,
         margin: 0,
         padding: 0,
     },
