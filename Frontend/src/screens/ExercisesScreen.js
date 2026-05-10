@@ -16,6 +16,7 @@ import { User } from '../contexts/UserContext';
 import * as apiService from "./../services/exerciseService";
 import TrainingTab from '../components/TrainingTab';
 import ExerciseModalScreen from './ExerciseModalScreen';
+import AddButton from '../components/AddButton';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
@@ -95,9 +96,7 @@ const ExercisesScreen = ({ navigation }) => {
 
 
             {/* Button to open the modal */}
-            <TouchableOpacity style={styles.addButton} onPress={openTabToAddExercise}>
-                <Text style={styles.buttonText}>+</Text>
-            </TouchableOpacity>
+            <AddButton onOpen={openTabToAddExercise}/>
 
             {/* Modal to add exercises: */}
             <AddDataModal
