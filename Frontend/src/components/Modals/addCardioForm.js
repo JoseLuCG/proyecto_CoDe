@@ -13,7 +13,7 @@ const { width } = Dimensions.get('window');
 
 export default function AddCardioForm({ date }) {
     // States:
-    const [user] = useContext(User);
+    const { user, token } = useContext(User);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
@@ -48,7 +48,7 @@ export default function AddCardioForm({ date }) {
 
     async function submitForm() {
         try {
-            const response = await apiService.addCardioExercise(exerciseData);
+            const response = await apiService.addCardioExercise(exerciseData, token);
         } catch (error) {
             throw new Error("Something is wrong");
             // TODO: add conditionals for the diferents use cases if the user don't work

@@ -15,7 +15,7 @@ const { width } = Dimensions.get('window');
 
 export default function AddExerciseDataModal({ date }) {
     // States:
-    const [user] = useContext(User);
+    const { user } = useContext(User);
     const [selectedType, setSelectedType] = useState("");
 
     // Handlers:

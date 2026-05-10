@@ -10,7 +10,13 @@ import FeedingScreen from '../screens/FeedingScreen';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
-	const [user, setUser] = useContext(User);
+	const { user, isLoading } = useContext(User);
+
+	if (isLoading) {
+		return null;
+	}
+
+	const isAuthenticated = user !== null && user !== undefined;
 
 	return (
 		<Stack.Navigator initialRouteName="Login">
@@ -24,30 +30,27 @@ const AppNavigator = () => {
 				component={RegisterScreen}
 				options={{ headerShown: false }}
 			/>
-			{
-				((typeof user !== "null") || (typeof user !== "undefined")) &&
-					<Stack.Screen
-						name="Home"
-						component={HomeScreen}
-						options={{ headerShown: false }}
-					/>
-			}
-			{
-				((typeof user !== "null") || (typeof user !== "undefined")) &&
-					<Stack.Screen
-						name="Exercises"
-						component={ExercisesScreen}
-						options={{ headerShown: false }}
-					/>
-			}
-						{
-				((typeof user !== "null") || (typeof user !== "undefined")) &&
-					<Stack.Screen
-						name="Feeding"
-						component={FeedingScreen}
-						options={{ headerShown: false }}
-					/>
-			}
+			{isAuthenticated && (
+				<Stack.Screen
+					name="Home"
+					component={HomeScreen}
+					options={{ headerShown: false }}
+				/>
+			)}
+			{isAuthenticated && (
+				<Stack.Screen
+					name="Exercises"
+					component={ExercisesScreen}
+					options={{ headerShown: false }}
+				/>
+			)}
+			{isAuthenticated && (
+				<Stack.Screen
+					name="Feeding"
+					component={FeedingScreen}
+					options={{ headerShown: false }}
+				/>
+			)}
 		</Stack.Navigator>
 	);
 };

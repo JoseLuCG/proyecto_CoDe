@@ -6,7 +6,7 @@ const { height, width } = Dimensions.get('window');
 
 export default function AddFoodDataModal({ date }) {
     // States:
-    const [ user ] = useContext(User);
+    const { user } = useContext(User);
     const [ foodRecordedData, setFoodRecordedData ] = useState({
         nameOringredients: "",
         kcal: 0,

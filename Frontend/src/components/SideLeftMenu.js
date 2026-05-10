@@ -4,20 +4,16 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { textStyle } from '../styles/TextStyles';
 import { colorStyle } from '../styles/Colors';
 import { buttonStyles } from '../styles/ButtonStyles';
-import Storage from '../utilities/storagePersistence';
 import { User } from '../contexts/UserContext';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
 
 const SideLeftMenu = ({ slideAnim }) => {
-    const [user, setUser] = useContext(User);
-
+    const { user, logout } = useContext(User);
 
     async function logOut() {
-        await Storage.removeItem("user");
-        const storedUser= await Storage.getItem("user");
-        if (!storedUser) setUser(null);
+        await logout();
     }
 
     return (

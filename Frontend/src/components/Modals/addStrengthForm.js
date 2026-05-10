@@ -13,7 +13,7 @@ const { width } = Dimensions.get('window');
 
 export default function AddStrengthForm({ date, onClose }) {
     // States:
-    const [user] = useContext(User);
+    const { user, token } = useContext(User);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
@@ -45,7 +45,7 @@ export default function AddStrengthForm({ date, onClose }) {
 
     async function submitForm() {
         try {
-            const response = await apiService.addStrengthExecise(exerciseData);
+            const response = await apiService.addStrengthExecise(exerciseData, token);
             
             if (response.ok) {
                 setExerciseData(prevState => ({
