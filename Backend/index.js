@@ -1,5 +1,4 @@
 import express from "express";
-import * as controllers from "./controllers/controller.js";
 import * as userControllers from "./controllers/user-controllers.js"
 import * as cardioControllers from "./controllers/exerciseControllers/cardioControllers.js"
 import * as strengthControllers from "./controllers/exerciseControllers/strengthControllers.js"
@@ -35,8 +34,6 @@ app.post(strenghtRoutes.addStrengthExercise, jsonParser, strengthControllers.add
 app.get(strenghtRoutes.getStrengthExercisesInDate, strengthControllers.getStrengthExercises);
 // TODO: Add endpoint to update the exercise
 // TODO: Add endpoint to delete the exercise
-
-app.use("/test", controllers.testPruebas);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
