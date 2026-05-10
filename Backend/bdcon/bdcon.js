@@ -1,14 +1,15 @@
 import mysql from "mysql2"
+import dotenv from "dotenv";
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  database: "wakeup",
-  user: "root",
-  password: "abc123.",
+dotenv.config();
+
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   dateStrings: true
 });
 
 export { connection as mySqlConn };
-
-// module.exports {connection, etc}
