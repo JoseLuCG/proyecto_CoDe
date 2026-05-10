@@ -1,10 +1,10 @@
 function userFromBackToFront (backendUser) {
     return {
-        nameUser: backendUser.name_user,
-        lastName: backendUser.last_name_user,
-        phoneNumber: backendUser.phone_number,
+        nameUser: backendUser.nameUser,
+        lastName: backendUser.lastName,
+        phoneNumber: backendUser.phoneNumber,
         email: backendUser.email,
-        uuidUser: backendUser.uuid_user
+        uuidUser: backendUser.uuidUser
     }
 }
 
