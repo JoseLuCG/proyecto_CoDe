@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
     },
     exerciseDataContainer: {
         flexDirection: 'row',
+        justifyContent: 'center',
         height: '50%',
         width: '100%',
         margin: 0,
@@ -246,18 +247,22 @@ const styles = StyleSheet.create({
     },
     // * ----- Cardio Styles: -----
     cardioTimeContainer: {
+        width: '30%',
+        height: '100%',
         flexDirection: 'row',
         justifyContent: 'center',
     },
     cardioDistanceContainer: {
-        marginLeft: 5,
+        width: '30%',
+        height: '100%',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     cardioIntensityContainer: {
-        marginLeft: 5,
+        width: '30%',
+        height: '100%',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
 
     // * ----- Strength Styles: -----
