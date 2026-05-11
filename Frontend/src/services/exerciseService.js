@@ -1,13 +1,6 @@
 import { cardioAdapter, exerciseMapper, exerciseStrengthMapper } from "../adapters/exerciseAdapters";
 import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
-
-function authHeaders(token) {
-    const headers = { 'Content-Type': 'application/json' };
-    if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-    }
-    return headers;
-}
+import { authHeaders } from "../utilities/authFunctions";
 
 export async function addCardioExercise(newData, token) {
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.addExercise;
