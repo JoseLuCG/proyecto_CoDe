@@ -10,7 +10,7 @@ const { height } = Dimensions.get('window');
 export default function AddFoodDataModal({ date }) {
     const { user, token } = useContext(User);
     const [foodRecordedData, setFoodRecordedData] = useState({
-        nameOringredients: "",
+        nameOrIngredients: "",
         kcal: 0,
         proteins: 0.0,
         carbohydrates: 0.0,
@@ -36,7 +36,7 @@ export default function AddFoodDataModal({ date }) {
                 <InputField
                     label="Food name"
                     value={foodRecordedData.nameOringredients}
-                    onChangeText={(text) => handleInputChange("nameOringredients", text)}
+                    onChangeText={(text) => handleInputChange("nameOrIngredients", text)}
                     keyboardType="text-pad"
                     centered={true}
                 />
