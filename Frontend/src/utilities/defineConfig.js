@@ -16,7 +16,7 @@ const apiRoutes = {
     },
     feeding: {
         addFood: "/record-food",
-        getFoods: "/user-feeding"
+        getFoods: "/user-feeding/"
     }
 }
 

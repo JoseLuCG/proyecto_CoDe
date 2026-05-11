@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     View,
     Text,
-    TouchableOpacity,
     StyleSheet,
     Dimensions,
 } from 'react-native';
@@ -11,29 +10,39 @@ import { colorStyle } from '../styles/Colors';
 import NavigationBar from '../components/NavigationBar';
 import { DaysCarousel } from '../components/DaysCarousel';
 import AddDataModal from '../components/Modals/AddDataModal';
-import { defaultBRadius } from '../styles/DefaultVaules';
+import { User } from '../contexts/UserContext';
+import { getFoodsInDate } from '../services/FoodService';
+import FoodTab from '../components/FoodTab';
+import AddButton from '../components/AddButton';
 
 const { width } = Dimensions.get('window');
-const menuWidth = 250;
 
 const FeedingScreen = ({ navigation }) => {
-    // States:
+    const { user, token } = useContext(User);
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
+    const [foods, setFoods] = useState(null);
 
-    // Handlers:
+    async function getFoods() {
+        try {
+            if (selectedDate != null) {
+                const response = await getFoodsInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token);
+                setFoods(response);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     useEffect(() => {
-        console.log("The day selected is:", selectedDate); // TODO: delete this line when the apps works.
+        getFoods();
     }, [selectedDate]);
 
     function openTabToAddExercise() {
-        console.log("open!");
         setAddModalVisible(true);
     }
 
     function closeTabToAddExercise() {
-        console.log("close!");
         setAddModalVisible(false);
     }
 
@@ -42,16 +51,20 @@ const FeedingScreen = ({ navigation }) => {
             style={styles.mainContainer}
             colors={colorStyle.mainGradient}
         >
-            <DaysCarousel setSelectedDate={setSelectedDate}/>
-            <View>
-                <Text style={styles.title}>Hello word this is the Feeding page.</Text>
+            <DaysCarousel setSelectedDate={setSelectedDate} />
+            <View style={styles.foodsContainer}>
+                {
+                    foods != null ?
+                        foods.map(
+                            (food, index) => <FoodTab key={food.uuid_food_intake || index} data={food} />
+                        )
+                        :
+                        null
+                }
             </View>
-            {/* Button */}
-            <TouchableOpacity style={styles.addButton} onPress={openTabToAddExercise}>
-                <Text style={styles.buttonText}>+</Text>
-            </TouchableOpacity>
 
-            {/* Modal */}
+            <AddButton onOpen={openTabToAddExercise} />
+
             <AddDataModal
                 isVisible={addModalVisible}
                 onClose={closeTabToAddExercise}
@@ -72,24 +85,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
     },
-    title: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        top: 50
+    foodsContainer: {
+        width: width * 0.90,
     },
-    addButton: {
-        position: 'absolute',
-        bottom: 140,
-        right: 20,
-        zIndex: 3,
-        backgroundColor: '#ddd',
-        width: 50,
-        height: 50,
-        borderRadius: defaultBRadius,
-        alignItems: 'center',
-        justifyContent: 'center',
-    }, buttonText: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    }
 });
