@@ -65,6 +65,20 @@ CREATE TABLE cardio_exercise (
     UNIQUE (exercise_date, uuid_user, exercise_name)
 );
 
+/* ----- FOOD INTAKE TABLE ----- */
+CREATE TABLE food_intake (
+    uuid_food_intake CHAR(36) NOT NULL,
+    intake_date DATE NOT NULL,
+    uuid_user CHAR(36) NOT NULL,
+    food_name VARCHAR(100) NOT NULL,
+    kcal DOUBLE NOT NULL DEFAULT 0,
+    proteins DOUBLE NOT NULL DEFAULT 0,
+    carbohydrates DOUBLE NOT NULL DEFAULT 0,
+    fat DOUBLE NOT NULL DEFAULT 0,
+    PRIMARY KEY (uuid_food_intake),
+    FOREIGN KEY (uuid_user) REFERENCES user (uuid_user) ON UPDATE CASCADE
+);
+
 -- USEFULL REFERENCE --
 SELECT
     se.exercise_name,

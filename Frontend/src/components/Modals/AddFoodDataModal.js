@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from "react-native";
-import * as apiService from "./../../services/FoodService"
 import InputField from "../InputField";
 import { User } from "../../contexts/UserContext";
 import { colorStyle } from "../../styles/Colors";
+import { addFood } from "../../services/FoodService";
 
 const { height } = Dimensions.get('window');
 
@@ -22,9 +22,18 @@ export default function AddFoodDataModal({ date }) {
     }
 
     async function submitForm() {
+        const foodData = {
+            uuidUser: user.uuidUser,
+            intakeDate: date.format('DD-MM-YYYY'),
+            foodName: foodRecordedData.nameOrIngredients,
+            kcal: foodRecordedData.kcal,
+            proteins: foodRecordedData.proteins,
+            carbohydrates: foodRecordedData.carbohydrates,
+            fat: foodRecordedData.fat
+        };
+
         try {
-            const response = await apiService.addFood(foodRecordedData, token);
-            console.log(foodRecordedData);
+            await addFood(foodData, token);
         } catch (error) {
             console.error(error);
         }
@@ -35,7 +44,7 @@ export default function AddFoodDataModal({ date }) {
             <View style={styles.formContainer}>
                 <InputField
                     label="Food name"
-                    value={foodRecordedData.nameOringredients}
+                    value={foodRecordedData.nameOrIngredients}
                     onChangeText={(text) => handleInputChange("nameOrIngredients", text)}
                     keyboardType="text-pad"
                     centered={true}
