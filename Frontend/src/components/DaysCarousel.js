@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import dayjs from 'dayjs';
 import DayCard from './DayCard';
@@ -8,9 +8,11 @@ const { width } = Dimensions.get('window');
 export const DaysCarousel = ({ setSelectedDate }) => {
 	const [selectedDay, setSelectedDay] = useState(dayjs());
 	const [currentDate, setCurrentDate] = useState(dayjs()); // controls month/year
+	const flatListRef = useRef(null);
 
 	const daysInMonth = currentDate.daysInMonth();
 	const days = Array.from({ length: daysInMonth }, (_, i) => currentDate.date(i + 1));
+	const todayIndex = currentDate.isSame(dayjs(), 'month') ? dayjs().date() - 1 : -1;
 
 	// Handlers to move between months
 	const goToPreviousMonth = () => setCurrentDate(currentDate.subtract(1, 'month'));
@@ -35,12 +37,20 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 			</View>
 
 			<FlatList
+				key={currentDate.format('YYYY-MM')}
+				ref={flatListRef}
 				data={days}
 				horizontal
 				showsHorizontalScrollIndicator={false}
 				snapToAlignment="center"
 				decelerationRate="fast"
 				keyExtractor={(item) => item.format('YYYY-MM-DD')}
+				initialScrollIndex={todayIndex >= 0 ? todayIndex : 0}
+				getItemLayout={(_, index) => ({
+					length: width * 0.18 + 12,
+					offset: (width * 0.18 + 12) * index,
+					index,
+				})}
 				renderItem={({ item }) => (
 					<DayCard
 						day={item}
