@@ -3,8 +3,9 @@ import dotenv from "dotenv";
 import * as userControllers from "./controllers/user-controllers.js"
 import * as cardioControllers from "./controllers/exerciseControllers/cardioControllers.js"
 import * as strengthControllers from "./controllers/exerciseControllers/strengthControllers.js"
+import * as feedingControllers from "./controllers/feedingControllers/feedingControllers.js";
 import cors from "cors";
-import { cardioRoutes, strenghtRoutes } from "./utils/routes.js";
+import { cardioRoutes, strenghtRoutes, userRoutes, feedingRoutes } from "./utils/routes.js";
 import { authenticateToken } from "./middleware/auth.js";
 
 dotenv.config();
@@ -24,14 +25,20 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.post("/addUser", jsonParser, userControllers.addNewUser);
-app.post("/checkLogin", jsonParser, userControllers.checkLogin);
+// ---------- User Endpoints ----------
+app.post(userRoutes.singUpNewUser, jsonParser, userControllers.addNewUser);
+app.post(userRoutes.loginUser, jsonParser, userControllers.checkLogin);
 
+// ---------- Cardio Endpoints ----------
 app.post(cardioRoutes.addCardioExercise, jsonParser, authenticateToken, cardioControllers.addCardioExercise);
 app.get(cardioRoutes.getCardioExercisesInDate, authenticateToken, cardioControllers.getCardioExercises);
 
+// ---------- Strenght Endpoints ----------
 app.post(strenghtRoutes.addStrengthExercise, jsonParser, authenticateToken, strengthControllers.addStrengthExecise);
 app.get(strenghtRoutes.getStrengthExercisesInDate, authenticateToken, strengthControllers.getStrengthExercises);
+
+// ---------- Feeding Endpoints ----------
+app.post(feedingRoutes.addFood, jsonParser, authenticateToken, feedingControllers.addFood);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

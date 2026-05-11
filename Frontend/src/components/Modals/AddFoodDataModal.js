@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from "react-native";
+import * as apiService from "./../../services/FoodService"
 import InputField from "../InputField";
 import { User } from "../../contexts/UserContext";
 import { colorStyle } from "../../styles/Colors";
@@ -7,7 +8,7 @@ import { colorStyle } from "../../styles/Colors";
 const { height } = Dimensions.get('window');
 
 export default function AddFoodDataModal({ date }) {
-    const { user } = useContext(User);
+    const { user, token } = useContext(User);
     const [foodRecordedData, setFoodRecordedData] = useState({
         nameOringredients: "",
         kcal: 0,
@@ -22,7 +23,7 @@ export default function AddFoodDataModal({ date }) {
 
     async function submitForm() {
         try {
-            // TODO: Call food API service
+            const response = await apiService.addFood(foodRecordedData, token);
             console.log(foodRecordedData);
         } catch (error) {
             console.error(error);
