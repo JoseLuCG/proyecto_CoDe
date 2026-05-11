@@ -16,3 +16,13 @@ export async function addFood(newData, token) {
     const data = await response.text();
     return data;
 }
+
+export async function getFoodsInDate(date, user, token) {
+    const apiEndPointDirection = HOST_IP + apiRoutes.feeding.getFoods + date + "/" + user;
+    const response = await fetch(apiEndPointDirection, { headers: authHeaders(token) });
+    if (!response.ok) {
+        throw new Error("Error al obtener alimentos");
+    }
+    const data = await response.json();
+    return data;
+}
