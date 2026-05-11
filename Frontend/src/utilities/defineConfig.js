@@ -13,6 +13,10 @@ const apiRoutes = {
             addExercise: "/record-strength-exercise",
             getStrengthExercisesInDate: "/strength-exercises/"
         }
+    },
+    feeding: {
+        addFood: "/record-food",
+        getFoods: "/user-feeding"
     }
 }
 
