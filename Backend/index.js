@@ -39,6 +39,7 @@ app.get(strenghtRoutes.getStrengthExercisesInDate, authenticateToken, strengthCo
 
 // ---------- Feeding Endpoints ----------
 app.post(feedingRoutes.addFood, jsonParser, authenticateToken, feedingControllers.addFood);
+app.get(feedingRoutes.getFoods, authenticateToken, feedingControllers.getFoods);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

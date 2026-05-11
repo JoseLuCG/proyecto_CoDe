@@ -15,5 +15,5 @@ export const strenghtRoutes = {
 
 export const feedingRoutes = {
     addFood: "/record-food",
-    getFoods: "/user-feeding"
+    getFoods: "/user-feeding/:date/:user"
 }

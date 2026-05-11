@@ -1,4 +1,5 @@
 import setFoodData from "./handlers/setFoodData.js";
+import getFoodsInDate from "./handlers/getFoodData.js";
 
 async function addFood(req, res) {
     const foodData = {
@@ -23,6 +24,19 @@ async function addFood(req, res) {
     }
 }
 
+async function getFoods(req, res) {
+    const { date, user } = req.params;
+
+    try {
+        const foods = await getFoodsInDate(date, user);
+        res.json(foods);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+}
+
 export {
-    addFood
+    addFood,
+    getFoods
 }
