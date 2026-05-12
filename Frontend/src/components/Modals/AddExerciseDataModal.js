@@ -4,11 +4,11 @@ import AddCardioForm from "./addCardioForm";
 import AddStrengthForm from "./addStrengthForm";
 import { colorStyle } from "../../styles/Colors";
 
-export default function AddExerciseDataModal({ date }) {
+export default function AddExerciseDataModal({ date, onClose }) {
     const [selectedType, setSelectedType] = useState("");
 
     if (selectedType == "CARDIO") {
-        return <AddCardioForm date={date} />;
+        return <AddCardioForm date={date} onClose={onClose} />;
     }
 
     if (selectedType == "SRENGTH") {

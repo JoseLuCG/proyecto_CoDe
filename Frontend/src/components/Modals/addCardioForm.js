@@ -1,27 +1,36 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import {
+    StyleSheet, TouchableOpacity, Text, View,
+    Keyboard, TouchableWithoutFeedback, ScrollView,
+    ActivityIndicator
+} from "react-native";
 import InputField from "../InputField";
 import * as apiService from "./../../services/exerciseService";
 import { User } from '../../contexts/UserContext';
 import { colorStyle } from "../../styles/Colors";
 
-export default function AddCardioForm({ date }) {
+const INITIAL_STATE = {
+    exerciseUser: "",
+    exerciseName: "",
+    exerciseDate: "",
+    exerciseIntensity: "",
+    exerciseDistance: "",
+    exerciseTime: {
+        hours: "",
+        minutes: "",
+        seconds: ""
+    }
+};
+
+export default function AddCardioForm({ date, onClose }) {
     const { user, token } = useContext(User);
-    const [exerciseData, setExerciseData] = useState({
-        exerciseUser: "",
-        exerciseName: "",
-        exerciseDate: "",
-        exerciseIntensity: "",
-        exerciseDistance: "",
-        exerciseTime: {
-            hours: "",
-            minutes: "",
-            seconds: ""
-        }
-    });
+    const [exerciseData, setExerciseData] = useState(INITIAL_STATE);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     function handleInputChange(fieldName, value) {
         setExerciseData(prev => ({ ...prev, [fieldName]: value }));
+        setErrorMessage("");
     }
 
     function handleTimeChange(field, value) {
@@ -29,13 +38,26 @@ export default function AddCardioForm({ date }) {
             ...prev,
             exerciseTime: { ...prev.exerciseTime, [field]: value }
         }));
+        setErrorMessage("");
     }
 
     async function submitForm() {
+        if (!exerciseData.exerciseName.trim()) {
+            setErrorMessage("Exercise name is required");
+            return;
+        }
+
+        setIsLoading(true);
+        setErrorMessage("");
         try {
             await apiService.addCardioExercise(exerciseData, token);
+            setExerciseData(INITIAL_STATE);
+            onClose();
         } catch (error) {
+            setErrorMessage(error.message || "Failed to save exercise");
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -45,76 +67,97 @@ export default function AddCardioForm({ date }) {
     }, []);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.formContainer}>
-                <InputField
-                    label="Exercise name"
-                    value={exerciseData.exerciseName}
-                    onChangeText={(text) => handleInputChange("exerciseName", text)}
-                    keyboardType="text-pad"
-                    centered={true}
-                />
-
-                <Text style={styles.sectionLabel}>Time</Text>
-                <View style={styles.row}>
-                    <View style={styles.measureTime}>
-                        <InputField
-                            label="Hours"
-                            value={exerciseData.exerciseTime.hours}
-                            onChangeText={(text) => handleTimeChange("hours", text)}
-                            keyboardType="number-pad"
-                            centered={true}
-                        />
-                    </View>
-                    <View style={styles.measureTime}>
-                        <InputField
-                            label="Minutes"
-                            value={exerciseData.exerciseTime.minutes}
-                            onChangeText={(text) => handleTimeChange("minutes", text)}
-                            keyboardType="number-pad"
-                            centered={true}
-                        />
-                    </View>
-                    <View style={styles.measureTime}>
-                        <InputField
-                            label="Seconds"
-                            value={exerciseData.exerciseTime.seconds}
-                            onChangeText={(text) => handleTimeChange("seconds", text)}
-                            keyboardType="number-pad"
-                            centered={true}
-                        />
-                    </View>
-                </View>
-
-                <InputField
-                    label="Distance (Km)"
-                    value={exerciseData.exerciseDistance}
-                    onChangeText={(text) => handleInputChange("exerciseDistance", text)}
-                    keyboardType="number-pad"
-                    centered={true}
-                />
-
-                <InputField
-                    label="Intensity (%)"
-                    value={exerciseData.exerciseIntensity}
-                    onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
-                    keyboardType="number-pad"
-                    centered={true}
-                />
-            </View>
-
-            <TouchableOpacity
-                style={[styles.saveButton, { backgroundColor: colorStyle.mainGradient[0] }]}
-                onPress={submitForm}
-                activeOpacity={0.8}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
             >
-                <Text style={styles.saveButtonText}>Save</Text>
-            </TouchableOpacity>
-        </View>
+                <View style={styles.container}>
+                    <View style={styles.formContainer}>
+                        <InputField
+                            label="Exercise name"
+                            value={exerciseData.exerciseName}
+                            onChangeText={(text) => handleInputChange("exerciseName", text)}
+                            keyboardType="text-pad"
+                            centered={true}
+                        />
+
+                        <Text style={styles.sectionLabel}>Time</Text>
+                        <View style={styles.row}>
+                            <View style={styles.measureTime}>
+                                <InputField
+                                    label="Hours"
+                                    value={exerciseData.exerciseTime.hours}
+                                    onChangeText={(text) => handleTimeChange("hours", text)}
+                                    keyboardType="number-pad"
+                                    centered={true}
+                                />
+                            </View>
+                            <View style={styles.measureTime}>
+                                <InputField
+                                    label="Minutes"
+                                    value={exerciseData.exerciseTime.minutes}
+                                    onChangeText={(text) => handleTimeChange("minutes", text)}
+                                    keyboardType="number-pad"
+                                    centered={true}
+                                />
+                            </View>
+                            <View style={styles.measureTime}>
+                                <InputField
+                                    label="Seconds"
+                                    value={exerciseData.exerciseTime.seconds}
+                                    onChangeText={(text) => handleTimeChange("seconds", text)}
+                                    keyboardType="number-pad"
+                                    centered={true}
+                                />
+                            </View>
+                        </View>
+
+                        <InputField
+                            label="Distance (Km)"
+                            value={exerciseData.exerciseDistance}
+                            onChangeText={(text) => handleInputChange("exerciseDistance", text)}
+                            keyboardType="number-pad"
+                            centered={true}
+                        />
+
+                        <InputField
+                            label="Intensity (%)"
+                            value={exerciseData.exerciseIntensity}
+                            onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
+                            keyboardType="number-pad"
+                            centered={true}
+                        />
+                    </View>
+
+                    {errorMessage ? (
+                        <Text style={styles.errorText}>{errorMessage}</Text>
+                    ) : null}
+
+                    <TouchableOpacity
+                        style={[styles.saveButton, { backgroundColor: colorStyle.mainGradient[0] }]}
+                        onPress={submitForm}
+                        activeOpacity={0.8}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? (
+                            <ActivityIndicator color="#fff" size="small" />
+                        ) : (
+                            <Text style={styles.saveButtonText}>Save</Text>
+                        )}
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </TouchableWithoutFeedback>
     );
 }
 
 const styles = StyleSheet.create({
+    scrollContent: {
+        flexGrow: 1,
+        alignItems: 'center',
+    },
     container: {
         width: '100%',
         alignItems: 'center',
@@ -144,6 +187,12 @@ const styles = StyleSheet.create({
     measureTime: {
         flex: 1,
         maxWidth: '30%',
+    },
+    errorText: {
+        color: '#d32f2f',
+        fontSize: 14,
+        marginTop: 12,
+        textAlign: 'center',
     },
     saveButton: {
         width: '85%',
