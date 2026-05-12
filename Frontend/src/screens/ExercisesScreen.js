@@ -47,8 +47,8 @@ const ExercisesScreen = ({ navigation }) => {
     }
 
     function closeTabToAddExercise() {
-        console.log("close!");
         setAddModalVisible(false);
+        getExercises();
     }
 
     async function getExercises() {
