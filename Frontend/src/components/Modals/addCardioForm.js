@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
         paddingTop: 8,
     },
     sectionCard: {
-        width: '90%',
+        width: '100%',
         backgroundColor: '#fff',
         borderRadius: 16,
         padding: 16,
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     saveButton: {
-        width: '90%',
+        width: '100%',
         height: 52,
         borderRadius: 16,
         alignItems: 'center',
