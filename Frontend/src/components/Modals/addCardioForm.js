@@ -74,7 +74,7 @@ export default function AddCardioForm({ date, onClose }) {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.container}>
-                    <View style={styles.formContainer}>
+                    <View style={styles.sectionCard}>
                         <InputField
                             label="Exercise name"
                             value={exerciseData.exerciseName}
@@ -82,30 +82,34 @@ export default function AddCardioForm({ date, onClose }) {
                             keyboardType="text-pad"
                             centered={true}
                         />
+                    </View>
 
+                    <View style={styles.sectionCard}>
                         <Text style={styles.sectionLabel}>Time</Text>
                         <View style={styles.row}>
-                            <View style={styles.measureTime}>
+                            <View style={styles.timeField}>
                                 <InputField
-                                    label="Hours"
+                                    label="HH"
                                     value={exerciseData.exerciseTime.hours}
                                     onChangeText={(text) => handleTimeChange("hours", text)}
                                     keyboardType="number-pad"
                                     centered={true}
                                 />
                             </View>
-                            <View style={styles.measureTime}>
+                            <Text style={styles.colon}>:</Text>
+                            <View style={styles.timeField}>
                                 <InputField
-                                    label="Minutes"
+                                    label="MM"
                                     value={exerciseData.exerciseTime.minutes}
                                     onChangeText={(text) => handleTimeChange("minutes", text)}
                                     keyboardType="number-pad"
                                     centered={true}
                                 />
                             </View>
-                            <View style={styles.measureTime}>
+                            <Text style={styles.colon}>:</Text>
+                            <View style={styles.timeField}>
                                 <InputField
-                                    label="Seconds"
+                                    label="SS"
                                     value={exerciseData.exerciseTime.seconds}
                                     onChangeText={(text) => handleTimeChange("seconds", text)}
                                     keyboardType="number-pad"
@@ -113,22 +117,31 @@ export default function AddCardioForm({ date, onClose }) {
                                 />
                             </View>
                         </View>
+                    </View>
 
-                        <InputField
-                            label="Distance (Km)"
-                            value={exerciseData.exerciseDistance}
-                            onChangeText={(text) => handleInputChange("exerciseDistance", text)}
-                            keyboardType="number-pad"
-                            centered={true}
-                        />
-
-                        <InputField
-                            label="Intensity (%)"
-                            value={exerciseData.exerciseIntensity}
-                            onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
-                            keyboardType="number-pad"
-                            centered={true}
-                        />
+                    <View style={styles.sectionCard}>
+                        <Text style={styles.sectionLabel}>Metrics</Text>
+                        <View style={styles.row}>
+                            <View style={styles.metricField}>
+                                <InputField
+                                    label="Distance (Km)"
+                                    value={exerciseData.exerciseDistance}
+                                    onChangeText={(text) => handleInputChange("exerciseDistance", text)}
+                                    keyboardType="number-pad"
+                                    centered={true}
+                                />
+                            </View>
+                            <View style={styles.metricSpacer} />
+                            <View style={styles.metricField}>
+                                <InputField
+                                    label="Intensity (%)"
+                                    value={exerciseData.exerciseIntensity}
+                                    onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
+                                    keyboardType="number-pad"
+                                    centered={true}
+                                />
+                            </View>
+                        </View>
                     </View>
 
                     {errorMessage ? (
@@ -157,50 +170,68 @@ const styles = StyleSheet.create({
     scrollContent: {
         flexGrow: 1,
         alignItems: 'center',
+        paddingBottom: 20,
     },
     container: {
         width: '100%',
         alignItems: 'center',
-        paddingTop: 16,
+        paddingTop: 8,
     },
-    formContainer: {
-        width: '100%',
-        alignItems: 'center',
+    sectionCard: {
+        width: '90%',
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        padding: 16,
+        marginBottom: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.06,
+        shadowRadius: 8,
+        elevation: 2,
     },
     sectionLabel: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#888',
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#aaa',
         textTransform: 'uppercase',
         letterSpacing: 1,
-        alignSelf: 'flex-start',
-        marginLeft: '7.5%',
-        marginTop: 8,
-        marginBottom: 4,
+        marginBottom: 10,
     },
     row: {
-        width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
     },
-    measureTime: {
+    timeField: {
         flex: 1,
-        maxWidth: '30%',
+    },
+    colon: {
+        fontSize: 22,
+        fontWeight: '700',
+        color: '#ccc',
+        marginHorizontal: 2,
+        marginTop: 22,
+        alignSelf: 'center',
+    },
+    metricField: {
+        flex: 1,
+    },
+    metricSpacer: {
+        width: 12,
     },
     errorText: {
         color: '#d32f2f',
         fontSize: 14,
-        marginTop: 12,
+        marginTop: 4,
+        marginBottom: 8,
         textAlign: 'center',
     },
     saveButton: {
-        width: '85%',
-        height: 50,
+        width: '90%',
+        height: 52,
         borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 24,
+        marginTop: 8,
     },
     saveButtonText: {
         fontSize: 18,
