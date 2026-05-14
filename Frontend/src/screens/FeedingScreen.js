@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
-import NavigationBar from '../components/NavigationBar';
 import { DaysCarousel } from '../components/DaysCarousel';
 import AddDataModal from '../components/Modals/AddDataModal';
 import { User } from '../contexts/UserContext';
@@ -72,7 +71,6 @@ const FeedingScreen = ({ navigation }) => {
                 date={selectedDate}
                 screen={"Feeding"}
             />
-            <NavigationBar />
         </LinearGradient>
     );
 };

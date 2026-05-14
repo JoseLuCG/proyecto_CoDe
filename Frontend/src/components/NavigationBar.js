@@ -1,22 +1,37 @@
 import { View, StyleSheet } from "react-native";
-import { useNavigationState } from "@react-navigation/native";
 import NavigationTab from "./NavigationTab";
 import { navigationContentArray } from "../utilities/navitationArrayTab";
 
-function NavigationBar() {
-    const currentRoute = useNavigationState(state => state.routes[state.index]?.name);
-
+function NavigationBar({ state, descriptors, navigation }) {
     return (
-        <View style={styles.navigationBar}>
-            {navigationContentArray.map((tab, index) => (
-                <NavigationTab
-                    key={index}
-                    labelText={tab.labelText}
-                    iconSource={tab.iconSource}
-                    navigateTo={tab.navigateTo}
-                    isActive={currentRoute === tab.navigateTo}
-                />
-            ))}
+        <View style={styles.container}>
+            <View style={styles.navigationBar}>
+                {state.routes.map((route, index) => {
+                    const isFocused = state.index === index;
+                    const tabInfo = navigationContentArray.find(t => t.navigateTo === route.name);
+
+                    const onPress = () => {
+                        const event = navigation.emit({
+                            type: 'tabPress',
+                            target: route.key,
+                            canPreventDefault: true,
+                        });
+                        if (!isFocused && !event.defaultPrevented) {
+                            navigation.navigate(route.name);
+                        }
+                    };
+
+                    return (
+                        <NavigationTab
+                            key={route.key}
+                            labelText={tabInfo?.labelText || route.name}
+                            iconSource={tabInfo?.iconSource}
+                            isActive={isFocused}
+                            onPress={onPress}
+                        />
+                    );
+                })}
+            </View>
         </View>
     );
 }
@@ -24,6 +39,10 @@ function NavigationBar() {
 export default NavigationBar;
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        paddingBottom: 15,
+    },
     navigationBar: {
         backgroundColor: '#fff',
         height: 115,
@@ -34,9 +53,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        position: 'absolute',
-        bottom: 0,
-        paddingBottom: 15,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.1,

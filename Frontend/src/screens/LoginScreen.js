@@ -65,7 +65,7 @@ const LoginScreen = ({ navigation }) => {
 
 	useEffect(() => {
 		if (user != null) {
-			navigation.navigate('Home');
+			navigation.navigate('MainTabs');
 		}
 	}, [user]);
 

@@ -1,21 +1,10 @@
 import { View, StyleSheet, Text, Image, Pressable, Animated } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { colorStyle } from "../styles/Colors";
 
-function NavigationTab({labelText, iconSource, navigateTo, isActive}) {
-    const navigation = useNavigation();
-    const fadeAnim = useRef(new Animated.Value(0)).current;
+function NavigationTab({ labelText, iconSource, isActive, onPress }) {
     const scaleAnim = useRef(new Animated.Value(1)).current;
     const activeColor = colorStyle.mainGradient[0];
-
-    useEffect(() => {
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: true,
-        }).start();
-    }, []);
 
     const handlePressIn = () => {
         Animated.spring(scaleAnim, {
@@ -32,20 +21,16 @@ function NavigationTab({labelText, iconSource, navigateTo, isActive}) {
         }).start();
     };
 
-    function goTo() {
-        navigation.navigate(navigateTo);
-    }
-
     return (
         <Pressable
-            onPress={goTo}
+            onPress={onPress}
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
         >
             <Animated.View
                 style={[
                     styles.navigationTab,
-                    { opacity: fadeAnim, transform: [{ scale: scaleAnim }] },
+                    { transform: [{ scale: scaleAnim }] },
                 ]}
             >
                 <Image

@@ -16,7 +16,6 @@ import SideLeftMenu from '../components/SideLeftMenu';
 import TrainingTab from '../components/TrainingTab';
 import { exampleData } from '../services/dataProves';
 import ExerciseModalScreen from './ExerciseModalScreen';
-import NavigationBar from '../components/NavigationBar';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
@@ -90,7 +89,6 @@ const HomeScreen = ({ navigation }) => {
 				onClose={handleCloseModal}
 				exercise={selectedExercise}
 			/>
-			<NavigationBar/>
 		</LinearGradient>
 	);
 };

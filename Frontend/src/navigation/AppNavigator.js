@@ -1,13 +1,30 @@
 import React, { useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/Register';
 import HomeScreen from '../screens/HomeScreen';
 import { User } from '../contexts/UserContext';
 import ExercisesScreen from '../screens/ExercisesScreen';
 import FeedingScreen from '../screens/FeedingScreen';
+import NavigationBar from '../components/NavigationBar';
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function MainTabs() {
+    return (
+        <Tab.Navigator
+            tabBar={props => <NavigationBar {...props} />}
+            screenOptions={{ headerShown: false }}
+            initialRouteName="Home"
+        >
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Exercises" component={ExercisesScreen} />
+            <Tab.Screen name="Feeding" component={FeedingScreen} />
+        </Tab.Navigator>
+    );
+}
 
 const AppNavigator = () => {
 	const { user, isLoading } = useContext(User);
@@ -32,22 +49,8 @@ const AppNavigator = () => {
 			/>
 			{isAuthenticated && (
 				<Stack.Screen
-					name="Home"
-					component={HomeScreen}
-					options={{ headerShown: false }}
-				/>
-			)}
-			{isAuthenticated && (
-				<Stack.Screen
-					name="Exercises"
-					component={ExercisesScreen}
-					options={{ headerShown: false }}
-				/>
-			)}
-			{isAuthenticated && (
-				<Stack.Screen
-					name="Feeding"
-					component={FeedingScreen}
+					name="MainTabs"
+					component={MainTabs}
 					options={{ headerShown: false }}
 				/>
 			)}

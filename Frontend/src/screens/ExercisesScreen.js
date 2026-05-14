@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
-import NavigationBar from '../components/NavigationBar';
 import { DaysCarousel } from '../components/DaysCarousel';
 import { defaultBRadius } from '../styles/DefaultVaules';
 import AddDataModal from '../components/Modals/AddDataModal';
@@ -110,7 +109,6 @@ const ExercisesScreen = ({ navigation }) => {
                 onClose={handleCloseModal}
                 exercise={selectedExercise}
             />
-            <NavigationBar />
         </LinearGradient>
     );
 };
