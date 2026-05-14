@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType, centered }) => {
   return (
     <View style={styles.inputContainer}>
-      <Text style={centered ? styles.labelCentered : styles.label}>{label}</Text>
+      {label ? <Text style={centered ? styles.labelCentered : styles.label}>{label}</Text> : null}
       <TextInput
         style={styles.input}
         value={value}

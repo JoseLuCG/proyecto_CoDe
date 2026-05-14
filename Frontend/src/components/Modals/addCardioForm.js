@@ -76,13 +76,15 @@ export default function AddCardioForm({ date, onClose }) {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.container}>
+                    <View style={styles.sectionCard}>
+                        <Text style={styles.sectionLabel}>Exercise name</Text>
                         <InputField
-                            label="Exercise name"
+                            label=""
                             value={exerciseData.exerciseName}
                             onChangeText={(text) => handleInputChange("exerciseName", text)}
                             keyboardType="text-pad"
-                            centered={true}
                         />
+                    </View>
 
                     <View style={styles.sectionCard}>
                         <Text style={styles.sectionLabel}>Time</Text>
@@ -181,12 +183,14 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: '#fff',
         borderRadius: 16,
+        padding: 16,
         marginBottom: 12,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.06,
         shadowRadius: 8,
         elevation: 2,
+        alignItems: 'center',
     },
     sectionLabel: {
         fontSize: 13,
@@ -195,29 +199,26 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         letterSpacing: 1,
         marginBottom: 10,
-        paddingLeft: 10,
-        marginLeft: 8,
-        marginTop: 4
+        alignSelf: 'flex-start',
     },
     row: {
-        display: "flex",
         flexDirection: 'row',
-        alignItems: 'stretch',
+        alignItems: 'center',
+        width: '100%',
     },
     timeField: {
         flex: 1,
-        width: "20%"
+        alignItems: 'center',
     },
     colon: {
         fontSize: 22,
         fontWeight: '700',
         color: '#ccc',
-        marginHorizontal: 2,
-        marginTop: 22,
-        alignSelf: 'center',
+        marginHorizontal: 4,
     },
     metricField: {
         flex: 1,
+        alignItems: 'center',
     },
     metricSpacer: {
         width: 12,
