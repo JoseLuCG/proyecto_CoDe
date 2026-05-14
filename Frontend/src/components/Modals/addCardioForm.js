@@ -2,13 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import {
     StyleSheet, TouchableOpacity, Text, View,
     Keyboard, TouchableWithoutFeedback, ScrollView,
-    ActivityIndicator
+    ActivityIndicator,
+    Dimensions
 } from "react-native";
 import InputField from "../InputField";
 import * as apiService from "./../../services/exerciseService";
 import { User } from '../../contexts/UserContext';
 import { colorStyle } from "../../styles/Colors";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
+const {width} = Dimensions.get('window');
 const INITIAL_STATE = {
     exerciseUser: "",
     exerciseName: "",
@@ -169,19 +172,19 @@ export default function AddCardioForm({ date, onClose }) {
 const styles = StyleSheet.create({
     scrollContent: {
         flexGrow: 1,
-        alignItems: 'center',
         paddingBottom: 20,
+        width: width
     },
     container: {
         width: '100%',
-        alignItems: 'center',
+        alignSelf: 'center',
         paddingTop: 8,
     },
     sectionCard: {
-        width: '100%',
+        width: '90%',
         backgroundColor: '#fff',
         borderRadius: 16,
-        padding: 16,
+        /*padding: 16,*/
         marginBottom: 12,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
