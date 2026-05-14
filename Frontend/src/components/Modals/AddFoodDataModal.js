@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { View, StyleSheet, Dimensions, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Dimensions, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import InputField from "../InputField";
 import { User } from "../../contexts/UserContext";
 import { colorStyle } from "../../styles/Colors";
@@ -7,8 +7,9 @@ import { addFood } from "../../services/FoodService";
 
 const { height } = Dimensions.get('window');
 
-export default function AddFoodDataModal({ date }) {
+export default function AddFoodDataModal({ date, onClose }) {
     const { user, token } = useContext(User);
+    const [isLoading, setIsLoading] = useState(false);
     const [foodRecordedData, setFoodRecordedData] = useState({
         nameOrIngredients: "",
         kcal: 0,
@@ -22,6 +23,9 @@ export default function AddFoodDataModal({ date }) {
     }
 
     async function submitForm() {
+        if (!foodRecordedData.nameOrIngredients.trim()) return;
+
+        setIsLoading(true);
         const foodData = {
             uuidUser: user.uuidUser,
             intakeDate: date.format('DD-MM-YYYY'),
@@ -34,8 +38,11 @@ export default function AddFoodDataModal({ date }) {
 
         try {
             await addFood(foodData, token);
+            onClose();
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -87,8 +94,13 @@ export default function AddFoodDataModal({ date }) {
                 style={[styles.saveButton, { backgroundColor: colorStyle.mainGradient[0] }]}
                 onPress={submitForm}
                 activeOpacity={0.8}
+                disabled={isLoading}
             >
-                <Text style={styles.saveButtonText}>Save</Text>
+                {isLoading ? (
+                    <ActivityIndicator color="#fff" size="small" />
+                ) : (
+                    <Text style={styles.saveButtonText}>Save</Text>
+                )}
             </TouchableOpacity>
         </View>
     );

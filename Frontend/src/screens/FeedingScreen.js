@@ -44,6 +44,7 @@ const FeedingScreen = ({ navigation }) => {
 
     function closeTabToAddExercise() {
         setAddModalVisible(false);
+        getFoods();
     }
 
     return (

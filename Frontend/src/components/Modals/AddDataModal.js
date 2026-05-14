@@ -25,7 +25,7 @@ export default function AddDataModal({ isVisible, onClose, date, screen }) {
                      screen == "Exercises" ?
                           <AddExerciseDataModal date={date} onClose={onClose} />
                          :
-                         <AddFoodDataModal date={date} />
+                         <AddFoodDataModal date={date} onClose={onClose} />
                  }
              </View>
          </Modal>
