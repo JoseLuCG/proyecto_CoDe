@@ -9,7 +9,6 @@ import InputField from "../InputField";
 import * as apiService from "./../../services/exerciseService";
 import { User } from '../../contexts/UserContext';
 import { colorStyle } from "../../styles/Colors";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const {width} = Dimensions.get('window');
 const INITIAL_STATE = {
@@ -77,7 +76,6 @@ export default function AddCardioForm({ date, onClose }) {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.container}>
-                    <View style={styles.sectionCard}>
                         <InputField
                             label="Exercise name"
                             value={exerciseData.exerciseName}
@@ -85,7 +83,6 @@ export default function AddCardioForm({ date, onClose }) {
                             keyboardType="text-pad"
                             centered={true}
                         />
-                    </View>
 
                     <View style={styles.sectionCard}>
                         <Text style={styles.sectionLabel}>Time</Text>
@@ -184,7 +181,6 @@ const styles = StyleSheet.create({
         width: '90%',
         backgroundColor: '#fff',
         borderRadius: 16,
-        /*padding: 16,*/
         marginBottom: 12,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -199,13 +195,18 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         letterSpacing: 1,
         marginBottom: 10,
+        paddingLeft: 10,
+        marginLeft: 8,
+        marginTop: 4
     },
     row: {
+        display: "flex",
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'stretch',
     },
     timeField: {
         flex: 1,
+        width: "20%"
     },
     colon: {
         fontSize: 22,
@@ -242,83 +243,3 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
 });
-
-/*
-    return (
-        <KeyboardAwareScrollView
-            bottomOffset={50}
-            enableOnAndroid={true}
-            contentContainerStyle={styles.content}
-        >
-            <View style={styles.container}>
-                <InputField
-                    label="Exercise name:"
-                    value={exerciseData.exerciseName}
-                    onChangeText={(text) => handleInputChange("exerciseName", text)}
-                    keyboardType="text-pad"
-                />
-
-                <WorkoutSwitch
-                    exerciseType={exerciseData.exerciseType}
-                    setExerciseType={(value) => handleInputChange('exerciseType', value)}
-                />
-
-                {
-                    exerciseData.exerciseType ?
-                        // Strenght Input
-                        <InputField
-                            label="Weight:"
-                            value={exerciseData.exerciseWeight}
-                            onChangeText={(text) => handleInputChange("exerciseWeight", text)}
-                            keyboardType="phone-pad"
-                        />
-                        :
-                        // Cardio Input
-                        <InputField
-                            label="Time:"
-                            value={exerciseData.exerciseTime}
-                            onChangeText={(text) => handleInputChange("exerciseTime", text)}
-                            keyboardType="text-pad"
-                        />
-                }
-
-                {
-                    exerciseData.exerciseType ?
-                        <InputField
-                            label="Repeats:"
-                            value={exerciseData.exerciseRepeats}
-                            onChangeText={(text) => handleInputChange("exerciseRepeats", text)}
-                            keyboardType="phone-pad"
-                        />
-                        :
-                        <InputField
-                            label="Distance:"
-                            value={exerciseData.exerciseDistance}
-                            onChangeText={(text) => handleInputChange("exerciseDistance", text)}
-                            keyboardType="phone-pad"
-                        />
-                }
-
-                {
-                    exerciseData.exerciseType ?
-                        null
-                        :
-                        <InputField
-                            label="Intensity:"
-                            value={exerciseData.exerciseIntensity}
-                            onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
-                            keyboardType="phone-pad"
-                        />
-                }
-                {
-                    exerciseData.exerciseType ? <SavedSetInfoDisplay /> : null
-                }
-                <TouchableOpacity style={styles.addButton} onPress={submitForm}>
-                    <Text style={styles.buttonText}>ADD</Text>
-                </TouchableOpacity>
-
-            </View>
-        </KeyboardAwareScrollView>
-
-    );
-*/
