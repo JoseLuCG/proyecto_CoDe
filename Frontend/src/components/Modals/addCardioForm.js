@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         width: width
     },
     container: {
-        width: '100%',
+        width: '95%',
         alignSelf: 'center',
         paddingTop: 8,
     },
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     saveButton: {
-        width: '100%',
+        width: '90%',
         height: 52,
         borderRadius: 16,
         alignItems: 'center',
