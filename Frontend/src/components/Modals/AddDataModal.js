@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 25,
         padding: 20,
         alignItems: 'center',
+        width: "100%"
     },
     modalHandle: {
         width: 40,
