@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     },
     navBtnText: {
         fontSize: 24,
-        color: '#3a8abb',
+        color: colorStyle.mainGradient[0],
         lineHeight: 26,
         fontWeight: '600',
     },

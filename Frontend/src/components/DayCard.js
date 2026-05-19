@@ -1,4 +1,5 @@
 import { Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { colorStyle } from '../styles/Colors';
 
 const { width } = Dimensions.get('window');
 
@@ -36,16 +37,16 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     cardSelected: {
-        backgroundColor: '#3a8abb',
+        backgroundColor: colorStyle.mainGradient[0],
     },
     dayText: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#1A1A2E',
     },
     weekdayText: {
         fontSize: 14,
-        color: '#888',
+        color: '#6B6B8D',
     },
     dayTextSelected: {
         color: '#fff',

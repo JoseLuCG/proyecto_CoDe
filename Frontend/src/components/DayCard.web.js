@@ -1,4 +1,5 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { colorStyle } from '../styles/Colors';
 
 const DayCard = ({ day, isSelected, onPress }) => (
     <TouchableOpacity
@@ -42,6 +43,6 @@ const styles = StyleSheet.create({
         marginTop: 2,
     },
     dayTextSelected: {
-        color: '#3a8abb',
+        color: colorStyle.mainGradient[0],
     },
 });

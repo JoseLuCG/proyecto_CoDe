@@ -1,4 +1,5 @@
 import { View, StyleSheet, Text } from "react-native";
+import { colorStyle } from '../styles/Colors';
 
 export default function FoodTab({ data }) {
     return (
@@ -46,12 +47,12 @@ const styles = StyleSheet.create({
     foodName: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#1A1A2E',
     },
     kcal: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#e67e22',
+        color: colorStyle.mainGradient[0],
     },
     macros: {
         flexDirection: 'row',
@@ -63,11 +64,11 @@ const styles = StyleSheet.create({
     macroValue: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#555',
+        color: '#6B6B8D',
     },
     macroLabel: {
         fontSize: 11,
-        color: '#999',
+        color: '#8888AA',
         marginTop: 2,
     },
 });

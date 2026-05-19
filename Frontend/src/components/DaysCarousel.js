@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import dayjs from 'dayjs';
 import DayCard from './DayCard';
+import { colorStyle } from '../styles/Colors';
 
 const { width } = Dimensions.get('window');
 
@@ -88,13 +89,13 @@ const styles = StyleSheet.create({
 	monthYear: {
 		fontSize: 18,
 		fontWeight: 'bold',
-		color: '#333',
-	},
-	arrowButton: {
+        color: '#1A1A2E',
+    },
+    arrowButton: {
 		paddingHorizontal: 12,
 	},
 	arrowText: {
 		fontSize: 20,
-		color: '#007AFF',
+        color: colorStyle.mainGradient[0],
 	},
 });

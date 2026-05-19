@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Text, Image, ActivityIndicator, Animated, Pressable } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import { colorStyle } from '../styles/Colors';
 
 function TrainingTab({ data, onPress }) {
     // Assets:
@@ -87,7 +88,7 @@ function TrainingTab({ data, onPress }) {
     if (!data) {
         return (
             <View style={[styles.trainingTab, styles.loadingContainer]}>
-                <ActivityIndicator size="large" color="#00ff00" />
+                <ActivityIndicator size="large" color={colorStyle.mainGradient[0]} />
                 <Text style={styles.loadingText}>Cargando ejercicio...</Text>
             </View>
         );
@@ -104,7 +105,7 @@ function TrainingTab({ data, onPress }) {
             <Animated.View style={[styles.trainingTab, { opacity: fadeAnim, transform: [{ scale: scaleAnim }] }]}>
                 <View style={styles.imageContainer}>
                     <LinearGradient
-                        colors={['rgba(58,138,187,0.25)', 'rgba(59,59,157,0.25)']}
+                        colors={[colorStyle.mainGradient[0] + '40', colorStyle.mainGradient[1] + '40']}
                         style={styles.imageBackground}
                     >
                         <Image
@@ -165,11 +166,11 @@ const styles = StyleSheet.create({
     exerciseName: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#1A1A2E',
     },
     dataField: {
         fontSize: 12,
-        color: '#555',
+        color: '#6B6B8D',
     },
     // * ----- Loading Styles -----
     loadingContainer: {
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
     loadingText: {
         marginTop: 10,
         fontSize: 14,
-        color: '#333',
+        color: '#1A1A2E',
     },
     // * ----- Component Styles -----
     trainingTab: {
