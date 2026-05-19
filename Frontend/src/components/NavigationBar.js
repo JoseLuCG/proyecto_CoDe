@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         paddingBottom: 0,
     },
     navigationBar: {
-        backgroundColor: '#fff',
+        backgroundColor: '#1A1A2E',
         height: 135,
         width: 320,
         paddingHorizontal: 24,

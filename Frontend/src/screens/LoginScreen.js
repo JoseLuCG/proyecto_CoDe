@@ -77,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
 		>
 			<LinearGradient
 				style={styles.container}
-				colors={['#6A266F', '#00B7FF', '#6A266F']}
+				colors={[colorStyle.mainGradient[0], colorStyle.mainGradient[1], colorStyle.mainGradient[0]]}
 			>
 				<View style={styles.imageContainer}>
 					<Image
