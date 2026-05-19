@@ -101,6 +101,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		padding: 16,
+		paddingBottom: 155,
 	},
 	menuButton: {
 		position: 'absolute',

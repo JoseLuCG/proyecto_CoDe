@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         padding: 16,
+        paddingBottom: 155,
     },
     foodsContainer: {
         width: width * 0.90,

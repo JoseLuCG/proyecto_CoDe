@@ -40,8 +40,11 @@ export default NavigationBar;
 
 const styles = StyleSheet.create({
     container: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
         alignItems: 'center',
-        paddingBottom: 0,
     },
     navigationBar: {
         backgroundColor: '#1A1A2E',
