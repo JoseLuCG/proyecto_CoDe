@@ -11,7 +11,7 @@ const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType,
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         placeholder={label}
-        placeholderTextColor="#bbb"
+        placeholderTextColor="#6B6B8D"
       />
     </View>
   );
@@ -25,25 +25,25 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#555',
+    color: '#B0B0C8',
     marginBottom: 6,
   },
   labelCentered: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#555',
+    color: '#B0B0C8',
     marginBottom: 6,
     textAlign: 'center',
   },
   input: {
     height: 44,
-    borderColor: '#e0e0e0',
+    borderColor: '#2A2A4E',
     borderWidth: 1,
     borderRadius: 12,
     paddingHorizontal: 14,
     fontSize: 16,
-    color: '#333',
-    backgroundColor: '#fafafa',
+    color: '#FFFFFF',
+    backgroundColor: '#2A2A4E',
   },
 });
 

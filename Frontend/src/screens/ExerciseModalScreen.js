@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
+import { colorStyle } from '../styles/Colors';
 
 const { height } = Dimensions.get('window');
 
@@ -21,7 +22,6 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise }) {
                 <View style={styles.modalHandle} />
                 <Text style={styles.modalTitle}>{exercise.exerciseName}</Text>
                 <Text style={styles.modalSubtitle}>Repeticiones: {exercise.numberOfReps}</Text>
-                {/* Puedes agregar más datos si quieres */}
             </View>
         </Modal>
     );
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         height: height * 0.85,
-        backgroundColor: 'rgba(255, 255, 255, 0.91)',
+        backgroundColor: '#1A1A2E',
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         padding: 20,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     modalHandle: {
         width: 40,
         height: 5,
-        backgroundColor: '#ccc',
+        backgroundColor: '#6B6B8D',
         borderRadius: 2.5,
         marginBottom: 10,
     },
@@ -51,9 +51,10 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: 'bold',
         marginBottom: 10,
+        color: '#FFFFFF',
     },
     modalSubtitle: {
         fontSize: 18,
-        color: '#666',
+        color: '#B0B0C8',
     },
 });

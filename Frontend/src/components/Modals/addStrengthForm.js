@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     sectionLabel: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#888',
+        color: '#8888AA',
         textTransform: 'uppercase',
         letterSpacing: 1,
         alignSelf: 'flex-start',

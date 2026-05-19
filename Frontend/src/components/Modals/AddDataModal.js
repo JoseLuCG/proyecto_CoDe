@@ -2,6 +2,7 @@ import { View, StyleSheet, Dimensions, Text } from "react-native";
 import Modal from 'react-native-modal';
 import AddExerciseDataModal from "./AddExerciseDataModal";
 import AddFoodDataModal from "./AddFoodDataModal";
+import { colorStyle } from "../../styles/Colors";
 
 const { height } = Dimensions.get('window');
 
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         height: height * 0.85,
-        backgroundColor: 'rgba(255, 255, 255, 0.91)',
+        backgroundColor: '#1A1A2E',
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         padding: 20,
@@ -49,14 +50,15 @@ const styles = StyleSheet.create({
     modalHandle: {
         width: 40,
         height: 5,
-        backgroundColor: '#ccc',
+        backgroundColor: '#6B6B8D',
         borderRadius: 2.5,
         marginBottom: 10,
     },
     modalTitle: {
         fontSize: 22,
         marginBottom: 10,
-        fontFamily: "main-font"
+        fontFamily: "main-font",
+        color: '#FFFFFF',
     },
     modalSubtitle: {
         fontSize: 18,

@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
     sectionCard: {
         width: '90%',
-        backgroundColor: '#fff',
+        backgroundColor: '#2A2A4E',
         borderRadius: 16,
         padding: 16,
         marginBottom: 12,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     sectionLabel: {
         fontSize: 13,
         fontWeight: '700',
-        color: '#aaa',
+        color: '#8888AA',
         textTransform: 'uppercase',
         letterSpacing: 1,
         marginBottom: 10,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     colon: {
         fontSize: 22,
         fontWeight: '700',
-        color: '#ccc',
+        color: '#6B6B8D',
         marginHorizontal: 4,
     },
     metricField: {

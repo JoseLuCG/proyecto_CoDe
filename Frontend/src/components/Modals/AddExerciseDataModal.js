@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 18,
         fontWeight: '600',
-        color: '#555',
+        color: '#FFFFFF',
         marginBottom: 24,
     },
     typeButton: {
