@@ -41,12 +41,12 @@ export default NavigationBar;
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        paddingBottom: 15,
+        paddingBottom: 0,
     },
     navigationBar: {
         backgroundColor: '#fff',
-        height: 115,
-        width: 330,
+        height: 135,
+        width: 350,
         paddingHorizontal: 24,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
