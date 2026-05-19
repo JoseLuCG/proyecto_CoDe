@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Platform } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from '../screens/LoginScreen';
@@ -8,6 +9,7 @@ import { User } from '../contexts/UserContext';
 import ExercisesScreen from '../screens/ExercisesScreen';
 import FeedingScreen from '../screens/FeedingScreen';
 import NavigationBar from '../components/NavigationBar';
+import { runnigInBrowser } from '../utilities/defineConfig';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,6 +19,7 @@ function MainTabs() {
         <Tab.Navigator
             tabBar={props => <NavigationBar {...props} />}
             screenOptions={{ headerShown: false }}
+            tabBarPosition={runnigInBrowser ? 'top' : 'bottom'}
             initialRouteName="Home"
         >
             <Tab.Screen name="Home" component={HomeScreen} />

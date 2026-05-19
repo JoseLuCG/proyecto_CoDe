@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 const HOST_IP = "http://192.168.1.135:3000";
 const apiRoutes = {
     user: {
@@ -20,7 +22,10 @@ const apiRoutes = {
     }
 }
 
+const runnigInBrowser = Platform.OS === "web";
+
 export {
     HOST_IP,
-    apiRoutes
+    apiRoutes,
+    runnigInBrowser
 }
