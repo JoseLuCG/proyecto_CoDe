@@ -55,6 +55,12 @@ const styles = StyleSheet.create({
                 zIndex: 100,
             },
         }),
+        /*
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 100,
+        */
     },
     headerContent: {
         flexDirection: 'row',
