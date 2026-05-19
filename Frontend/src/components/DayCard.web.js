@@ -30,7 +30,10 @@ const styles = StyleSheet.create({
         transition: 'all 0.2s ease',
     },
     cardSelected: {
-        backgroundColor: '#fff',
+        backgroundColor: colorStyle.mainGradient[0],
+    },
+    dayTextSelected: {
+        color: '#fff',
     },
     dayText: {
         fontSize: 16,
@@ -42,7 +45,5 @@ const styles = StyleSheet.create({
         color: 'rgba(255,255,255,0.6)',
         marginTop: 2,
     },
-    dayTextSelected: {
-        color: colorStyle.mainGradient[0],
-    },
+
 });

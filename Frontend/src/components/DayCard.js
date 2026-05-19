@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
         width: width * 0.18,
         height: 80,
         borderRadius: 16,
-        backgroundColor: '#fff',
+        backgroundColor: '#1A1A2E',
         marginHorizontal: 6,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#e0e0e0',
+        borderColor: '#2A2A4E',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.08,
@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
     dayText: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#1A1A2E',
+        color: '#FFFFFF',
     },
     weekdayText: {
         fontSize: 14,
-        color: '#6B6B8D',
+        color: '#8888AA',
     },
     dayTextSelected: {
         color: '#fff',
