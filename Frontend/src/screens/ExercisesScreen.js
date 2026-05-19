@@ -95,7 +95,7 @@ const ExercisesScreen = ({ navigation }) => {
 
 
             {/* Button to open the modal */}
-            <AddButton onOpen={openTabToAddExercise}/>
+            <AddButton onOpen={openTabToAddExercise} />
 
             {/* Modal to add exercises: */}
             <AddDataModal
@@ -103,11 +103,6 @@ const ExercisesScreen = ({ navigation }) => {
                 onClose={closeTabToAddExercise}
                 date={selectedDate}
                 screen={"Exercises"}
-            />
-            <ExerciseModalScreen
-                isVisible={modalVisible}
-                onClose={handleCloseModal}
-                exercise={selectedExercise}
             />
         </LinearGradient>
     );
