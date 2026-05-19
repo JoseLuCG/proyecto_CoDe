@@ -18,8 +18,10 @@ function MainTabs() {
     return (
         <Tab.Navigator
             tabBar={props => <NavigationBar {...props} />}
-            screenOptions={{ headerShown: false }}
-            tabBarPosition={runnigInBrowser ? 'top' : 'bottom'}
+            screenOptions={{
+                headerShown: false,
+                tabBarPosition: runnigInBrowser ? 'top' : 'bottom',
+            }}
             initialRouteName="Home"
         >
             <Tab.Screen name="Home" component={HomeScreen} />
