@@ -13,10 +13,10 @@ export default AddButton;
 const styles = StyleSheet.create({
     addButton: {
         position: 'absolute',
-        bottom: 140,
+        bottom: 20,
         right: 20,
         zIndex: 3,
-        backgroundColor: '#ddd',
+        backgroundColor: '#fff',
         width: 50,
         height: 50,
         borderRadius: 30,

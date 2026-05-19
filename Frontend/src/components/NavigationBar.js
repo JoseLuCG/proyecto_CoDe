@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     navigationBar: {
         backgroundColor: '#fff',
         height: 135,
-        width: 350,
+        width: 320,
         paddingHorizontal: 24,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
