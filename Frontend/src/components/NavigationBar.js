@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import NavigationTab from "./NavigationTab";
 import { navigationContentArray } from "../utilities/navitationArrayTab";
+import { colorStyle } from "../styles/Colors";
 
 function NavigationBar({ state, descriptors, navigation }) {
     return (
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     navigationBar: {
-        backgroundColor: '#1A1A2E',
+        backgroundColor: colorStyle.bgDark,
         height: 135,
         width: 320,
         paddingHorizontal: 24,

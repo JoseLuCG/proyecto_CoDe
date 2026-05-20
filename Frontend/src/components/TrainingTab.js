@@ -166,11 +166,11 @@ const styles = StyleSheet.create({
     exerciseName: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     dataField: {
         fontSize: 12,
-        color: '#B0B0C8',
+        color: colorStyle.textSecondary,
     },
     // * ----- Loading Styles -----
     loadingContainer: {
@@ -181,11 +181,11 @@ const styles = StyleSheet.create({
     loadingText: {
         marginTop: 10,
         fontSize: 14,
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     // * ----- Component Styles -----
     trainingTab: {
-        backgroundColor: '#1A1A2E',
+        backgroundColor: colorStyle.bgDark,
         height: 80,
         width: 330,
         borderRadius: 30,

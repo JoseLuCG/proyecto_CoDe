@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 	container: {
 		width: 330,
 		top: 10,
-		backgroundColor: '#1A1A2E',
+		backgroundColor: colorStyle.bgDark,
 		borderRadius: 30,
 		padding: 16,
 		height: 150,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
 	monthYear: {
 		fontSize: 18,
 		fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     arrowButton: {
 		paddingHorizontal: 12,

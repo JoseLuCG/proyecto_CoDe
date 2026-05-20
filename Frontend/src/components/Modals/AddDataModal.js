@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         height: height * 0.85,
-        backgroundColor: '#1A1A2E',
+        backgroundColor: colorStyle.bgDark,
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         padding: 20,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     modalHandle: {
         width: 40,
         height: 5,
-        backgroundColor: '#6B6B8D',
+        backgroundColor: colorStyle.textInactive,
         borderRadius: 2.5,
         marginBottom: 10,
     },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         marginBottom: 10,
         fontFamily: "main-font",
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     modalSubtitle: {
         fontSize: 18,

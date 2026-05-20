@@ -1,4 +1,5 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { colorStyle } from '../styles/Colors';
 
 const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType, centered }) => {
   return (
@@ -11,7 +12,7 @@ const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType,
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         placeholder={label}
-        placeholderTextColor="#6B6B8D"
+        placeholderTextColor={colorStyle.textInactive}
       />
     </View>
   );
@@ -25,25 +26,25 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#B0B0C8',
+    color: colorStyle.textSecondary,
     marginBottom: 6,
   },
   labelCentered: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#B0B0C8',
+    color: colorStyle.textSecondary,
     marginBottom: 6,
     textAlign: 'center',
   },
   input: {
     height: 44,
-    borderColor: '#2A2A4E',
+    borderColor: colorStyle.bgCard,
     borderWidth: 1,
     borderRadius: 12,
     paddingHorizontal: 14,
     fontSize: 16,
-    color: '#FFFFFF',
-    backgroundColor: '#2A2A4E',
+    color: colorStyle.textPrimary,
+    backgroundColor: colorStyle.bgCard,
   },
 });
 

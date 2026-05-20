@@ -97,7 +97,7 @@ export default function AddFoodDataModal({ date, onClose }) {
                 disabled={isLoading}
             >
                 {isLoading ? (
-                    <ActivityIndicator color="#fff" size="small" />
+                    <ActivityIndicator color={colorStyle.textPrimary} size="small" />
                 ) : (
                     <Text style={styles.saveButtonText}>Save</Text>
                 )}
@@ -132,6 +132,6 @@ const styles = StyleSheet.create({
     saveButtonText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#fff',
+        color: colorStyle.textPrimary,
     },
 });

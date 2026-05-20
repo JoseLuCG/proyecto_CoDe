@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
+import { colorStyle } from "./Colors";
 
 export const buttonStyles = StyleSheet.create({
     logOutButton: {
-      backgroundColor: '#D32F2F',
+      backgroundColor: colorStyle.error,
       paddingVertical: 14,
       paddingHorizontal: 24,
       borderRadius: 8,
@@ -19,7 +20,7 @@ export const buttonStyles = StyleSheet.create({
       left: 20,
     },
     logOutButtonPressed: {
-      backgroundColor: '#B71C1C', 
+      backgroundColor: '#8B0000', 
       transform: [{ scale: 0.98 }],
     },
   });

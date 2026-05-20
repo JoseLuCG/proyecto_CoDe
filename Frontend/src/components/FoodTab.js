@@ -28,7 +28,7 @@ export default function FoodTab({ data }) {
 
 const styles = StyleSheet.create({
     foodTab: {
-        backgroundColor: '#1A1A2E',
+        backgroundColor: colorStyle.bgDark,
         borderRadius: 16,
         padding: 16,
         marginTop: 10,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     foodName: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     kcal: {
         fontSize: 16,
@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
     macroValue: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#B0B0C8',
+        color: colorStyle.textSecondary,
     },
     macroLabel: {
         fontSize: 11,
-        color: '#6B6B8D',
+        color: colorStyle.textInactive,
         marginTop: 2,
     },
 });

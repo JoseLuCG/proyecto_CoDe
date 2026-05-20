@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         top: 0,
         bottom: 0,
         width: menuWidth,
-        backgroundColor: '#fff',
+        backgroundColor: colorStyle.bgDark,
         paddingTop: 80,
         paddingHorizontal: 20,
         zIndex: 4,
@@ -90,11 +90,12 @@ const styles = StyleSheet.create({
     menuItem: {
         paddingVertical: 15,
         borderBottomWidth: 1,
-        borderBottomColor: '#eee',
+        borderBottomColor: colorStyle.bgCard,
     },
     menuText: {
         fontSize: 18,
-        fontFamily: "main-font"
+        fontFamily: "main-font",
+        color: colorStyle.textPrimary,
     },
     content: {
         flex: 1,

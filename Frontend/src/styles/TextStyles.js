@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colorStyle } from "./Colors";
 
 export const textStyle = StyleSheet.create({
     title: {
@@ -22,7 +23,7 @@ export const textStyle = StyleSheet.create({
     button: {
         fontFamily: "main-font",
         textAlign: 'center',
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
         fontSize: 12,
         textTransform: 'uppercase',
         letterSpacing: 1.5

@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         maxWidth: 420,
-        backgroundColor: '#1A1A2E',
+        backgroundColor: colorStyle.bgDark,
         borderRadius: 20,
         padding: 20,
         shadowColor: '#000',
@@ -122,13 +122,13 @@ const styles = StyleSheet.create({
     monthYear: {
         fontSize: 18,
         fontWeight: '700',
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     navBtn: {
         width: 36,
         height: 36,
         borderRadius: 18,
-        backgroundColor: '#2A2A4E',
+        backgroundColor: colorStyle.bgCard,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     weekdayText: {
         fontSize: 13,
         fontWeight: '600',
-        color: '#8888AA',
+        color: colorStyle.textMuted,
         textTransform: 'uppercase',
     },
     grid: {
@@ -174,10 +174,10 @@ const styles = StyleSheet.create({
     dayText: {
         fontSize: 15,
         fontWeight: '500',
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     dayTextSelected: {
-        color: '#fff',
+        color: colorStyle.textPrimary,
         fontWeight: '700',
     },
 });

@@ -157,7 +157,7 @@ export default function AddCardioForm({ date, onClose }) {
                         disabled={isLoading}
                     >
                         {isLoading ? (
-                            <ActivityIndicator color="#fff" size="small" />
+                            <ActivityIndicator color={colorStyle.textPrimary} size="small" />
                         ) : (
                             <Text style={styles.saveButtonText}>Save</Text>
                         )}
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
     sectionCard: {
         width: '90%',
-        backgroundColor: '#2A2A4E',
+        backgroundColor: colorStyle.bgCard,
         borderRadius: 16,
         padding: 16,
         marginBottom: 12,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     sectionLabel: {
         fontSize: 13,
         fontWeight: '700',
-        color: '#8888AA',
+        color: colorStyle.textMuted,
         textTransform: 'uppercase',
         letterSpacing: 1,
         marginBottom: 10,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     colon: {
         fontSize: 22,
         fontWeight: '700',
-        color: '#6B6B8D',
+        color: colorStyle.textInactive,
         marginHorizontal: 4,
     },
     metricField: {
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
         width: 12,
     },
     errorText: {
-        color: '#d32f2f',
+        color: colorStyle.error,
         fontSize: 14,
         marginTop: 4,
         marginBottom: 8,
@@ -241,6 +241,6 @@ const styles = StyleSheet.create({
     saveButtonText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#fff',
+        color: colorStyle.textPrimary,
     },
 });

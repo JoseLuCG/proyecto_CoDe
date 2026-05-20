@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         backgroundColor: colorStyle.mainGradient[0],
     },
     dayTextSelected: {
-        color: '#fff',
+        color: colorStyle.textPrimary,
     },
     dayText: {
         fontSize: 16,

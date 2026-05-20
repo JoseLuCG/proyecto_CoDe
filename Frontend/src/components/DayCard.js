@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
         width: width * 0.18,
         height: 80,
         borderRadius: 16,
-        backgroundColor: '#1A1A2E',
+        backgroundColor: colorStyle.bgDark,
         marginHorizontal: 6,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: '#2A2A4E',
+        borderColor: colorStyle.bgCard,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.08,
@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
     dayText: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#FFFFFF',
+        color: colorStyle.textPrimary,
     },
     weekdayText: {
         fontSize: 14,
-        color: '#8888AA',
+        color: colorStyle.textMuted,
     },
     dayTextSelected: {
-        color: '#fff',
+        color: colorStyle.textPrimary,
     },
 });

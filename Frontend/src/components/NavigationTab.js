@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
         height: 26,
         width: 26,
         resizeMode: 'contain',
-        tintColor: '#6B6B8D',
+        tintColor: colorStyle.textInactive,
     },
     label: {
         fontSize: 11,
-        color: '#6B6B8D',
+        color: colorStyle.textInactive,
         marginTop: 4,
     },
     activeDot: {

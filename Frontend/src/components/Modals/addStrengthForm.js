@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     sectionLabel: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#8888AA',
+        color: colorStyle.textMuted,
         textTransform: 'uppercase',
         letterSpacing: 1,
         alignSelf: 'flex-start',
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     saveButtonText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#fff',
+        color: colorStyle.textPrimary,
     },
 });
 
