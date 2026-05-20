@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    Platform
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
@@ -73,26 +74,29 @@ const ExercisesScreen = ({ navigation }) => {
             style={styles.mainContainer}
             colors={colorStyle.mainGradient}
         >
-            <DaysCarousel setSelectedDate={setSelectedDate} />
-            <View style={styles.exercisesContainer}>
-                {
-                    cardioExercises != null ?
-                        cardioExercises.map(
-                            (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
-                        )
-                        :
-                        ""
-                }
-                {
-                    strenghtExercises != null ?
-                        strenghtExercises.map(
-                            (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
-                        )
-                        :
-                        ""
-                }
+            <View style={Platform.OS === 'web' ? styles.webRow : styles.mobileColumn}>
+                <View style={Platform.OS === 'web' ? styles.calendarColumn : null}>
+                    <DaysCarousel setSelectedDate={setSelectedDate} />
+                </View>
+                <View style={Platform.OS === 'web' ? styles.exercisesColumn : styles.exercisesContainer}>
+                    {
+                        cardioExercises != null ?
+                            cardioExercises.map(
+                                (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
+                            )
+                            :
+                            ""
+                    }
+                    {
+                        strenghtExercises != null ?
+                            strenghtExercises.map(
+                                (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
+                            )
+                            :
+                            ""
+                    }
+                </View>
             </View>
-
 
             {/* Button to open the modal */}
             <AddButton onOpen={openTabToAddExercise} />
@@ -117,6 +121,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         paddingBottom: 155,
+    },
+    webRow: {
+        flex: 1,
+        flexDirection: 'row',
+        width: '100%',
+        maxWidth: 1200,
+        gap: 24,
+    },
+    mobileColumn: {
+        width: '100%',
+        alignItems: 'center',
+    },
+    calendarColumn: {
+        flex: 0.4,
+        maxWidth: 420,
+    },
+    exercisesColumn: {
+        flex: 0.6,
     },
     title: {
         fontSize: 22,
