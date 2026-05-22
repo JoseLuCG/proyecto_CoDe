@@ -1,6 +1,4 @@
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import Modal from 'react-native-modal';
+import { View, Text, StyleSheet, Dimensions, Modal, TouchableOpacity } from 'react-native';
 import { colorStyle } from '../styles/Colors';
 
 const { height } = Dimensions.get('window');
@@ -8,14 +6,12 @@ const { height } = Dimensions.get('window');
 export default function ExerciseModalScreen({ isVisible, onClose, exercise }) {
     return (
         <Modal
-            isVisible={isVisible}
-            onBackdropPress={onClose}
-            onSwipeComplete={onClose}
-            swipeDirection="down"
-            style={styles.modalContainer}
-            backdropTransitionOutTiming={0}
-            useNativeDriverForBackdrop
+            visible={isVisible}
+            transparent
+            animationType="slide"
+            onRequestClose={onClose}
         >
+            <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
             <View style={styles.modalContent}>
                 <View style={styles.modalHandle} />
                 <Text style={styles.modalTitle}>{exercise?.exerciseName}</Text>
@@ -26,11 +22,15 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise }) {
 }
 
 const styles = StyleSheet.create({
-    modalContainer: {
-        justifyContent: 'flex-end',
-        margin: 0,
+    backdrop: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalContent: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
         height: height * 0.85,
         backgroundColor: colorStyle.bgDark,
         borderTopLeftRadius: 25,

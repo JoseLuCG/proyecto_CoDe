@@ -108,6 +108,13 @@ const ExercisesScreen = ({ navigation }) => {
                 date={selectedDate}
                 screen={"Exercises"}
             />
+
+            {/* Modal to view exercise details: */}
+            <ExerciseModalScreen
+                isVisible={modalVisible}
+                onClose={handleCloseModal}
+                exercise={selectedExercise}
+            />
         </LinearGradient>
     );
 };

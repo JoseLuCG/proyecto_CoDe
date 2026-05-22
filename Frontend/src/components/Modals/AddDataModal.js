@@ -14,8 +14,9 @@ export default function AddDataModal({ isVisible, onClose, date, screen }) {
              onSwipeComplete={onClose}
              swipeDirection="down"
              style={styles.modalContainer}
-             backdropTransitionOutTiming={0}
-             useNativeDriverForBackdrop
+             avoidKeyboard={true}
+             useNativeDriver={false}
+             propagateSwipe={true}
          >
              <View style={styles.modalContent}>
                  <View style={styles.modalHandle} />
