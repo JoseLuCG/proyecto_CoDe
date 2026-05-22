@@ -4,8 +4,9 @@ import * as userControllers from "./controllers/user-controllers.js"
 import * as cardioControllers from "./controllers/exerciseControllers/cardioControllers.js"
 import * as strengthControllers from "./controllers/exerciseControllers/strengthControllers.js"
 import * as feedingControllers from "./controllers/feedingControllers/feedingControllers.js";
+import * as cathegoryControllers from "./controllers/cathegoryControllers/cathegoryControllers.js";
 import cors from "cors";
-import { cardioRoutes, strenghtRoutes, userRoutes, feedingRoutes } from "./utils/routes.js";
+import { cardioRoutes, strenghtRoutes, userRoutes, feedingRoutes, cathegoryRoutes } from "./utils/routes.js";
 import { authenticateToken } from "./middleware/auth.js";
 
 dotenv.config();
@@ -40,6 +41,11 @@ app.get(strenghtRoutes.getStrengthExercisesInDate, authenticateToken, strengthCo
 // ---------- Feeding Endpoints ----------
 app.post(feedingRoutes.addFood, jsonParser, authenticateToken, feedingControllers.addFood);
 app.get(feedingRoutes.getFoods, authenticateToken, feedingControllers.getFoods);
+
+// ---------- Cathegory Endpoints ----------
+app.post(cathegoryRoutes.addCathegory, jsonParser, authenticateToken, cathegoryControllers.addCathegory);
+app.get(cathegoryRoutes.getCathegories, authenticateToken, cathegoryControllers.getCathegoriesList);
+app.delete(cathegoryRoutes.deleteCathegory, authenticateToken, cathegoryControllers.deleteCathegory);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

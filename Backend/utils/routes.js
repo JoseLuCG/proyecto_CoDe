@@ -17,3 +17,9 @@ export const feedingRoutes = {
     addFood: "/record-food",
     getFoods: "/user-feeding/:date/:user"
 }
+
+export const cathegoryRoutes = {
+    addCathegory: "/add-cathegory",
+    getCathegories: "/cathegories",
+    deleteCathegory: "/delete-cathegory/:uuid"
+}
