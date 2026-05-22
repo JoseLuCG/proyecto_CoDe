@@ -27,9 +27,14 @@ CREATE TABLE strength_exercise (
     exercise_date DATE NOT NULL,
     uuid_user CHAR(36) NOT NULL,
     exercise_name VARCHAR(50) NOT NULL,
+    uuid_cathegory CHAR(36),
     PRIMARY KEY (uuid_strength_exercise),
     FOREIGN KEY (uuid_user)
         REFERENCES user (uuid_user)
+        ON UPDATE CASCADE,
+    FOREIGN KEY (uuid_cathegory)
+        REFERENCES cathegory (uuid_cathegory)
+        ON DELETE SET NULL
         ON UPDATE CASCADE,
     UNIQUE (exercise_date, uuid_user, exercise_name)
 );
