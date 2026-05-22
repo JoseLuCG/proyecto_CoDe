@@ -8,6 +8,8 @@ export function groupSetByExercise(exercises) {
                 uuid_strength_exercise: id,
                 exercise_name: ex.exercise_name,
                 exercise_date: ex.exercise_date,
+                uuid_cathegory: ex.uuid_cathegory,
+                cathegory_name: ex.cathegory_name,
                 sets: []
             };
         }

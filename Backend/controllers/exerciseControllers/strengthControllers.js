@@ -8,6 +8,7 @@ async function addStrengthExecise(req, res) {
         exerciseUser: req.body.exerciseUser,
         exerciseName: req.body.exerciseName,
         exerciseDate: req.body.exerciseDate,
+        uuidCathegory: req.body.uuidCathegory || null,
         exerciseSet: req.body.set
     }
  

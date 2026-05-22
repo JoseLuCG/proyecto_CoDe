@@ -7,6 +7,8 @@ function getStrengthExerciseInDate(date, user) {
             se.exercise_name,
             se.uuid_user,
             se.exercise_date,
+            se.uuid_cathegory,
+            ca.cathegory_name,
             es.uuid_exercise_set,
             es.set_number,
             es.weight,
@@ -14,6 +16,8 @@ function getStrengthExerciseInDate(date, user) {
         FROM strength_exercise se
         JOIN exercise_set es
             ON es.uuid_strength_exercise = se.uuid_strength_exercise
+        LEFT JOIN cathegory ca
+            ON ca.uuid_cathegory = se.uuid_cathegory
         WHERE
             se.uuid_user = ?
             AND se.exercise_date = ?
