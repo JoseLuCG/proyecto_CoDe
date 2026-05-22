@@ -65,6 +65,14 @@ CREATE TABLE cardio_exercise (
     UNIQUE (exercise_date, uuid_user, exercise_name)
 );
 
+/* ----- CATHEGORY TABLE ----- */
+CREATE TABLE cathegory (
+    uuid_cathegory CHAR(36) NOT NULL,
+    cathegory_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (uuid_cathegory),
+    UNIQUE (cathegory_name)
+);
+
 /* ----- FOOD INTAKE TABLE ----- */
 CREATE TABLE food_intake (
     uuid_food_intake CHAR(36) NOT NULL,
