@@ -34,3 +34,12 @@ INSERT INTO exercise_set(uuid_exercise_set, uuid_strength_exercise, set_number, 
 
 DELETE FROM strength_exercise 
 	WHERE uuid_strength_exercise = "51f1f8c2-9e23-4298-a83f-bec666d7e579";
+
+
+INSERT INTO cathegory (uuid_cathegory, cathegory_name)
+	VALUES(UUID(), "PECHO");
+
+INSERT INTO cathegory (uuid_cathegory, cathegory_name)
+	VALUES(UUID(), "PIERNA");
+INSERT INTO cathegory (uuid_cathegory, cathegory_name)
+	VALUES(UUID(), "ABS");

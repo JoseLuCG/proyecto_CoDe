@@ -100,3 +100,14 @@ FROM strength_exercise se
 JOIN exercise_set es
   ON se.uuid_strength_exercise = es.uuid_strength_exercise
 GROUP BY se.uuid_strength_exercise;
+
+/* ----- 2. Add uuid_cathegory column to strength_exercise ----- */
+ALTER TABLE strength_exercise
+    ADD COLUMN uuid_cathegory CHAR(36);
+/* ----- 3. Add foreign key constraint ----- */
+ALTER TABLE strength_exercise
+    ADD CONSTRAINT fk_strength_cathegory
+    FOREIGN KEY (uuid_cathegory)
+    REFERENCES cathegory (uuid_cathegory)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
