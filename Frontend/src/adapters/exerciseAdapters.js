@@ -38,7 +38,9 @@ export function exerciseStrengthMapper(data){
                 uuidExercise: exercise.uuid_strength_exercise,
                 date: exercise.exercise_date,
                 name: exercise.exercise_name,
-                sets: exercise.sets
+                sets: exercise.sets,
+                uuidCathegory: exercise.uuid_cathegory,
+                cathegoryName: exercise.cathegory_name
             }
             
             dataMapped.push(exerciseMapped);
