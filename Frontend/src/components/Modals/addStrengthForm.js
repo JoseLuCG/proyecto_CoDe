@@ -1,16 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, View, ScrollView } from "react-native";
 import InputField from "../InputField";
 import * as apiService from "./../../services/exerciseService";
+import * as cathegoryService from "./../../services/cathegoryService";
 import { User } from '../../contexts/UserContext';
 import { colorStyle } from "../../styles/Colors";
 
 export default function AddStrengthForm({ date }) {
     const { user, token } = useContext(User);
+    const [cathegories, setCathegories] = useState([]);
+    const [showCathegoryPicker, setShowCathegoryPicker] = useState(false);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
         exerciseDate: "",
+        uuidCathegory: "",
         set: {
             setNumber: 1,
             setWeight: "",
@@ -46,6 +50,9 @@ export default function AddStrengthForm({ date }) {
     useEffect(() => {
         handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));
         handleInputChange("exerciseUser", user.uuidUser);
+        cathegoryService.getCathegories(token)
+            .then(setCathegories)
+            .catch(console.error);
     }, []);
 
     return (
@@ -58,6 +65,47 @@ export default function AddStrengthForm({ date }) {
                     keyboardType="text-pad"
                     centered={true}
                 />
+
+                {/* Category selector */}
+                <TouchableOpacity
+                    style={styles.cathegorySelector}
+                    onPress={() => setShowCathegoryPicker(!showCathegoryPicker)}
+                    activeOpacity={0.8}
+                >
+                    <Text style={styles.cathegorySelectorText}>
+                        {exerciseData.uuidCathegory
+                            ? cathegories.find(c => c.uuid_cathegory === exerciseData.uuidCathegory)?.cathegory_name
+                            : "Select category"}
+                    </Text>
+                </TouchableOpacity>
+
+                {showCathegoryPicker && (
+                    <View style={styles.cathegoryPickerContainer}>
+                        <ScrollView style={styles.cathegoryPickerList}>
+                            <TouchableOpacity
+                                style={styles.cathegoryPickerItem}
+                                onPress={() => {
+                                    handleInputChange("uuidCathegory", "");
+                                    setShowCathegoryPicker(false);
+                                }}
+                            >
+                                <Text style={[styles.cathegoryPickerItemText, cathegories.length === 0 && styles.cathegoryPickerItemTextEmpty]}>None</Text>
+                            </TouchableOpacity>
+                            {cathegories.map((cat) => (
+                                <TouchableOpacity
+                                    key={cat.uuid_cathegory}
+                                    style={styles.cathegoryPickerItem}
+                                    onPress={() => {
+                                        handleInputChange("uuidCathegory", cat.uuid_cathegory);
+                                        setShowCathegoryPicker(false);
+                                    }}
+                                >
+                                    <Text style={styles.cathegoryPickerItemText}>{cat.cathegory_name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </View>
+                )}
 
                 <Text style={styles.sectionLabel}>Set {exerciseData.set.setNumber}</Text>
                 <View style={styles.row}>
@@ -136,6 +184,48 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: colorStyle.textPrimary,
+    },
+    cathegorySelector: {
+        width: '85%',
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        backgroundColor: colorStyle.mainGradient[0] + '30',
+        marginTop: 8,
+        marginBottom: 4,
+    },
+    cathegorySelectorText: {
+        color: colorStyle.textPrimary,
+        fontSize: 15,
+        textAlign: 'center',
+    },
+    cathegoryPickerContainer: {
+        width: '85%',
+        maxHeight: 180,
+        backgroundColor: colorStyle.bgDark,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: colorStyle.mainGradient[0] + '60',
+        marginBottom: 8,
+        overflow: 'hidden',
+    },
+    cathegoryPickerList: {
+        width: '100%',
+    },
+    cathegoryPickerItem: {
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: colorStyle.mainGradient[0] + '20',
+    },
+    cathegoryPickerItemText: {
+        color: colorStyle.textPrimary,
+        fontSize: 14,
+        textAlign: 'center',
+    },
+    cathegoryPickerItemTextEmpty: {
+        color: colorStyle.textInactive,
+        fontStyle: 'italic',
     },
 });
 
