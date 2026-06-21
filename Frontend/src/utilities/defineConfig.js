@@ -19,6 +19,11 @@ const apiRoutes = {
     feeding: {
         addFood: "/record-food",
         getFoods: "/user-feeding/"
+    },
+    cathegory: {
+        addCathegory: "/add-cathegory",
+        getCathegories: "/cathegories",
+        deleteCathegory: "/delete-cathegory/"
     }
 }
 
