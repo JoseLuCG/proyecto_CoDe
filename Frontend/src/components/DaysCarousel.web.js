@@ -8,8 +8,10 @@ const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 export const DaysCarousel = ({ setSelectedDate }) => {
     const [selectedDay, setSelectedDay] = useState(dayjs());
     const [currentDate, setCurrentDate] = useState(dayjs());
+    const [isOpen, setIsOpen] = useState(false);
 
     const monthYearLabel = currentDate.format('MMMM YYYY');
+    const displayDate = selectedDay.format('DD MMM YYYY');
 
     const calendarGrid = useMemo(() => {
         const startOfMonth = currentDate.startOf('month');
@@ -38,6 +40,7 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 
     const handleDayPress = (date) => {
         setSelectedDay(date);
+        setIsOpen(false);
     };
 
     useEffect(() => {
@@ -46,72 +49,106 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 
     return (
         <View style={styles.wrapper}>
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
-                        <Text style={styles.navBtnText}>‹</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.monthYear}>{monthYearLabel}</Text>
-                    <TouchableOpacity onPress={goToNextMonth} style={styles.navBtn}>
-                        <Text style={styles.navBtnText}>›</Text>
-                    </TouchableOpacity>
-                </View>
+            <TouchableOpacity
+                style={styles.triggerButton}
+                onPress={() => setIsOpen(!isOpen)}
+                activeOpacity={0.8}
+            >
+                <Text style={styles.triggerIcon}>📅</Text>
+                <Text style={styles.triggerText}>{displayDate}</Text>
+                <Text style={styles.triggerArrow}>{isOpen ? '▲' : '▼'}</Text>
+            </TouchableOpacity>
 
-                <View style={styles.weekdayRow}>
-                    {WEEKDAYS.map((d) => (
-                        <View key={d} style={styles.weekdayCell}>
-                            <Text style={styles.weekdayText}>{d}</Text>
-                        </View>
-                    ))}
-                </View>
+            {isOpen && (
+                <View style={styles.dropdown}>
+                    <View style={styles.header}>
+                        <TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
+                            <Text style={styles.navBtnText}>‹</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.monthYear}>{monthYearLabel}</Text>
+                        <TouchableOpacity onPress={goToNextMonth} style={styles.navBtn}>
+                            <Text style={styles.navBtnText}>›</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={styles.grid}>
-                    {calendarGrid.map(({ date, isCurrentMonth, key }) => (
-                        <TouchableOpacity
-                            key={key}
-                            style={[
-                                styles.dayCell,
-                                !isCurrentMonth && { opacity: 0.25 },
-                                isSelected(date) && styles.dayCellSelected,
-                                isToday(date) && !isSelected(date) && styles.dayCellToday,
-                            ]}
-                            onPress={() => handleDayPress(date)}
-                            activeOpacity={0.7}
-                        >
+                    <View style={styles.weekdayRow}>
+                        {WEEKDAYS.map((d) => (
+                            <View key={d} style={styles.weekdayCell}>
+                                <Text style={styles.weekdayText}>{d}</Text>
+                            </View>
+                        ))}
+                    </View>
+
+                    <View style={styles.grid}>
+                        {calendarGrid.map(({ date, isCurrentMonth, key }) => (
+                            <TouchableOpacity
+                                key={key}
+                                style={[
+                                    styles.dayCell,
+                                    !isCurrentMonth && { opacity: 0.25 },
+                                    isSelected(date) && styles.dayCellSelected,
+                                    isToday(date) && !isSelected(date) && styles.dayCellToday,
+                                ]}
+                                onPress={() => handleDayPress(date)}
+                                activeOpacity={0.7}
+                            >
                                 <Text
                                     style={[
                                         styles.dayText,
                                         isSelected(date) && styles.dayTextSelected,
                                     ]}
-                            >
-                                {date.format('D')}
-                            </Text>
-                        </TouchableOpacity>
-                    ))}
+                                >
+                                    {date.format('D')}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 </View>
-            </View>
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     wrapper: {
+        alignSelf: 'center',
         width: '100%',
-        alignItems: 'center',
+        maxWidth: 300,
+        zIndex: 10,
         paddingHorizontal: 16,
         paddingTop: 8,
     },
-    container: {
-        width: '100%',
-        maxWidth: 420,
+    triggerButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: colorStyle.bgDark,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
         borderRadius: 20,
+        gap: 8,
+    },
+    triggerIcon: {
+        fontSize: 18,
+    },
+    triggerText: {
+        color: colorStyle.textPrimary,
+        fontWeight: 'bold',
+        fontSize: 14,
+    },
+    triggerArrow: {
+        color: colorStyle.textPrimary,
+        fontSize: 10,
+        marginLeft: 4,
+    },
+    dropdown: {
+        backgroundColor: colorStyle.bgDark,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
         padding: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 12,
-        elevation: 8,
+        borderWidth: 1,
+        borderTopWidth: 0,
+        borderColor: colorStyle.mainGradient[0] + '40',
     },
     header: {
         flexDirection: 'row',

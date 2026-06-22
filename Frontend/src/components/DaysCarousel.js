@@ -8,77 +8,122 @@ const { width } = Dimensions.get('window');
 
 export const DaysCarousel = ({ setSelectedDate }) => {
 	const [selectedDay, setSelectedDay] = useState(dayjs());
-	const [currentDate, setCurrentDate] = useState(dayjs()); // controls month/year
+	const [currentDate, setCurrentDate] = useState(dayjs());
+	const [isOpen, setIsOpen] = useState(false);
 	const flatListRef = useRef(null);
 
 	const daysInMonth = currentDate.daysInMonth();
 	const days = Array.from({ length: daysInMonth }, (_, i) => currentDate.date(i + 1));
 	const todayIndex = currentDate.isSame(dayjs(), 'month') ? dayjs().date() - 1 : -1;
 
-	// Handlers to move between months
 	const goToPreviousMonth = () => setCurrentDate(currentDate.subtract(1, 'month'));
 	const goToNextMonth = () => setCurrentDate(currentDate.add(1, 'month'));
 
 	const monthYearLabel = currentDate.format('MMMM YYYY');
+	const displayDate = selectedDay.format('DD MMM YYYY');
 
-	useEffect(()=> {
+	useEffect(() => {
 		setSelectedDate(selectedDay);
 	}, [selectedDay]);
 
-	return (
-		<View style={styles.container}>
-			<View style={styles.header}>
-				<TouchableOpacity onPress={goToPreviousMonth} style={styles.arrowButton}>
-					<Text style={styles.arrowText}>◀</Text>
-				</TouchableOpacity>
-				<Text style={styles.monthYear}>{monthYearLabel}</Text>
-				<TouchableOpacity onPress={goToNextMonth} style={styles.arrowButton}>
-					<Text style={styles.arrowText}>▶</Text>
-				</TouchableOpacity>
-			</View>
+	const handleSelectDay = (day) => {
+		setSelectedDay(day);
+		setIsOpen(false);
+	};
 
-			<FlatList
-				key={currentDate.format('YYYY-MM')}
-				ref={flatListRef}
-				data={days}
-				horizontal
-				showsHorizontalScrollIndicator={false}
-				snapToAlignment="center"
-				decelerationRate="fast"
-				keyExtractor={(item) => item.format('YYYY-MM-DD')}
-				initialScrollIndex={todayIndex >= 0 ? todayIndex : 0}
-				getItemLayout={(_, index) => ({
-					length: width * 0.18 + 12,
-					offset: (width * 0.18 + 12) * index,
-					index,
-				})}
-				renderItem={({ item }) => (
-					<DayCard
-						day={item}
-						isSelected={item.isSame(selectedDay, 'day')}
-						onPress={setSelectedDay}
+	return (
+		<View style={styles.wrapper}>
+			<TouchableOpacity
+				style={styles.triggerButton}
+				onPress={() => setIsOpen(!isOpen)}
+				activeOpacity={0.8}
+			>
+				<Text style={styles.triggerIcon}>📅</Text>
+				<Text style={styles.triggerText}>{displayDate}</Text>
+				<Text style={styles.triggerArrow}>{isOpen ? '▲' : '▼'}</Text>
+			</TouchableOpacity>
+
+			{isOpen && (
+				<View style={styles.dropdown}>
+					<View style={styles.header}>
+						<TouchableOpacity onPress={goToPreviousMonth} style={styles.arrowButton}>
+							<Text style={styles.arrowText}>◀</Text>
+						</TouchableOpacity>
+						<Text style={styles.monthYear}>{monthYearLabel}</Text>
+						<TouchableOpacity onPress={goToNextMonth} style={styles.arrowButton}>
+							<Text style={styles.arrowText}>▶</Text>
+						</TouchableOpacity>
+					</View>
+
+					<FlatList
+						key={currentDate.format('YYYY-MM')}
+						ref={flatListRef}
+						data={days}
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						snapToAlignment="center"
+						decelerationRate="fast"
+						keyExtractor={(item) => item.format('YYYY-MM-DD')}
+						initialScrollIndex={todayIndex >= 0 ? todayIndex : 0}
+						getItemLayout={(_, index) => ({
+							length: width * 0.18 + 12,
+							offset: (width * 0.18 + 12) * index,
+							index,
+						})}
+						renderItem={({ item }) => (
+							<DayCard
+								day={item}
+								isSelected={item.isSame(selectedDay, 'day')}
+								onPress={handleSelectDay}
+							/>
+						)}
 					/>
-				)}
-			/>
+				</View>
+			)}
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		width: 330,
-		top: 10,
-		backgroundColor: colorStyle.bgDark,
-		borderRadius: 30,
-		padding: 16,
-		height: 150,
+	wrapper: {
+		alignSelf: 'center',
+		width: 300,
+		maxWidth: 380,
+		zIndex: 10,
 		marginTop: 10,
 		marginBottom: 10,
-		shadowColor: '#000',
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 10,
-		elevation: 10,
+	},
+	triggerButton: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: colorStyle.bgDark,
+		paddingVertical: 12,
+		paddingHorizontal: 20,
+		borderRadius: 20,
+		gap: 8,
+	},
+	triggerIcon: {
+		fontSize: 18,
+	},
+	triggerText: {
+		color: colorStyle.textPrimary,
+		fontWeight: 'bold',
+		fontSize: 14,
+	},
+	triggerArrow: {
+		color: colorStyle.textPrimary,
+		fontSize: 10,
+		marginLeft: 4,
+	},
+	dropdown: {
+		backgroundColor: colorStyle.bgDark,
+		borderBottomLeftRadius: 30,
+		borderBottomRightRadius: 30,
+		padding: 16,
+		borderWidth: 1,
+		borderTopWidth: 0,
+		borderColor: colorStyle.mainGradient[0] + '40',
 	},
 	header: {
 		flexDirection: 'row',
@@ -89,13 +134,13 @@ const styles = StyleSheet.create({
 	monthYear: {
 		fontSize: 18,
 		fontWeight: 'bold',
-        color: colorStyle.textPrimary,
-    },
-    arrowButton: {
+		color: colorStyle.textPrimary,
+	},
+	arrowButton: {
 		paddingHorizontal: 12,
 	},
 	arrowText: {
 		fontSize: 20,
-        color: colorStyle.mainGradient[0],
+		color: colorStyle.mainGradient[0],
 	},
 });
