@@ -5,8 +5,6 @@ import {
 	TouchableOpacity,
 	StyleSheet,
 	Animated,
-	Dimensions,
-	TouchableWithoutFeedback,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { textStyle } from '../styles/TextStyles';
@@ -17,7 +15,6 @@ import TrainingTab from '../components/TrainingTab';
 import { exampleData } from '../services/dataProves';
 import ExerciseModalScreen from './ExerciseModalScreen';
 
-const { width } = Dimensions.get('window');
 const menuWidth = 250;
 
 const HomeScreen = ({ navigation }) => {
@@ -65,14 +62,7 @@ const HomeScreen = ({ navigation }) => {
 				<Text style={styles.menuIcon}>☰</Text>
 			</TouchableOpacity>
 
-			{/* Overlay para cerrar menú al tocar fuera */}
-			{menuOpen && (
-				<TouchableWithoutFeedback onPress={closeMenu}>
-					<View style={styles.overlay} />
-				</TouchableWithoutFeedback>
-			)}
-
-			<SideLeftMenu slideAnim={slideAnim} />
+			<SideLeftMenu slideAnim={slideAnim} menuOpen={menuOpen} closeMenu={closeMenu} />
 
 			{/* Contenido principal */}
 			<View style={styles.content}>
@@ -118,41 +108,7 @@ const styles = StyleSheet.create({
 	menuIcon: {
 		fontSize: 24,
 	},
-	overlay: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		width: width,
-		height: '100%',
-		backgroundColor: 'rgba(0,0,0,0.3)',
-		zIndex: 1,
-	},
-	sideMenu: {
-		position: 'absolute',
-		top: 0,
-		bottom: 0,
-		width: menuWidth,
-		backgroundColor: '#fff',
-		paddingTop: 80,
-		paddingHorizontal: 20,
-		zIndex: 2,
-		elevation: 5,
-		shadowColor: '#000',
-		shadowOpacity: 0.3,
-		shadowOffset: { width: 2, height: 0 },
-		shadowRadius: 5,
-		borderTopRightRadius: 20,
-		borderBottomRightRadius: 20,
-	},
-	menuItem: {
-		paddingVertical: 15,
-		borderBottomWidth: 1,
-		borderBottomColor: '#eee',
-	},
-	menuText: {
-		fontSize: 18,
-		fontFamily: "main-font"
-	},
+
 	content: {
 		flex: 1,
 		justifyContent: 'center',
