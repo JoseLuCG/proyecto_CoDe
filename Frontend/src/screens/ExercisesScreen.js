@@ -6,9 +6,9 @@ import {
     Dimensions,
     TouchableOpacity,
     Platform,
-    ScrollView,
-    Modal
+    ScrollView
 } from 'react-native';
+import Animated, { FadeInDown, FadeOutUp, useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
 import { DaysCarousel } from '../components/DaysCarousel';
@@ -33,7 +33,30 @@ const ExercisesScreen = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
     const [cathegories, setCathegories] = useState([]);
-    const [cathegoryModalVisible, setCathegoryModalVisible] = useState(false);
+    const [cathegoryDropdownVisible, setCathegoryDropdownVisible] = useState(false);
+    const animProgress = useSharedValue(0);
+
+    useEffect(() => {
+        animProgress.value = withTiming(cathegoryDropdownVisible ? 1 : 0, { duration: 250 });
+    }, [cathegoryDropdownVisible]);
+
+    const animatedButtonStyle = useAnimatedStyle(() => ({
+        backgroundColor: interpolateColor(
+            animProgress.value,
+            [0, 1],
+            [colorStyle.mainGradient[0], colorStyle.bgDark]
+        ),
+        borderBottomLeftRadius: animProgress.value === 1 ? 0 : 20,
+        borderBottomRightRadius: animProgress.value === 1 ? 0 : 20,
+    }));
+
+    const animatedTextStyle = useAnimatedStyle(() => ({
+        color: interpolateColor(
+            animProgress.value,
+            [0, 1],
+            [colorStyle.textPrimary, colorStyle.mainGradient[0]]
+        ),
+    }));
 
     function handleOpenModal(exercise) {
         setSelectedExercise(exercise);
@@ -55,11 +78,15 @@ const ExercisesScreen = ({ navigation }) => {
         getExercises();
     }
 
-    async function openCathegories() {
+    async function toggleCathegories() {
+        if (cathegoryDropdownVisible) {
+            setCathegoryDropdownVisible(false);
+            return;
+        }
         try {
             const data = await cathegoryService.getCathegories(token);
             setCathegories(data);
-            setCathegoryModalVisible(true);
+            setCathegoryDropdownVisible(true);
         } catch (error) {
             console.error(error);
         }
@@ -103,10 +130,34 @@ const ExercisesScreen = ({ navigation }) => {
                     <DaysCarousel setSelectedDate={setSelectedDate} />
                 </View>
                 <View style={Platform.OS === 'web' ? styles.exercisesColumn : styles.exercisesContainer}>
-                    {/* Cathegories button */}
-                    <TouchableOpacity style={styles.cathegoryButton} onPress={openCathegories} activeOpacity={0.8}>
-                        <Text style={styles.cathegoryButtonText}>Categories</Text>
-                    </TouchableOpacity>
+                    {/* Cathegories dropdown */}
+                    <View style={styles.cathegoryDropdownWrapper}>
+                        <Animated.View style={[styles.cathegoryButton, animatedButtonStyle]}>
+                            <TouchableOpacity
+                                onPress={toggleCathegories}
+                                activeOpacity={0.8}
+                            >
+                                <Animated.Text style={[styles.cathegoryButtonText, animatedTextStyle]}>Categories</Animated.Text>
+                            </TouchableOpacity>
+                        </Animated.View>
+                        {cathegoryDropdownVisible && (
+                            <Animated.View entering={FadeInDown.duration(200)} exiting={FadeOutUp.duration(150)} style={styles.cathegoryDropdown}>
+                                {cathegories.length > 0 ? (
+                                    cathegories.map((cat) => (
+                                        <TouchableOpacity
+                                            key={cat.uuid_cathegory}
+                                            style={styles.cathegoryDropdownItem}
+                                            onPress={() => setCathegoryDropdownVisible(false)}
+                                        >
+                                            <Text style={styles.cathegoryDropdownItemText}>{cat.cathegory_name}</Text>
+                                        </TouchableOpacity>
+                                    ))
+                                ) : (
+                                    <Text style={styles.cathegoryDropdownEmpty}>No categories available</Text>
+                                )}
+                            </Animated.View>
+                        )}
+                    </View>
 
                     {
                         cardioExercises != null ?
@@ -150,36 +201,7 @@ const ExercisesScreen = ({ navigation }) => {
                 exercise={selectedExercise}
             />
 
-            {/* Modal to display cathegories: */}
-            <Modal
-                visible={cathegoryModalVisible}
-                transparent
-                animationType="slide"
-                onRequestClose={() => setCathegoryModalVisible(false)}
-            >
-                <View style={styles.cathegoryModalOverlay}>
-                    <View style={styles.cathegoryModalContent}>
-                        <Text style={styles.cathegoryModalTitle}>Exercise Categories</Text>
-                        <ScrollView style={styles.cathegoryList}>
-                            {cathegories.length > 0 ? (
-                                cathegories.map((cat) => (
-                                    <View key={cat.uuid_cathegory} style={styles.cathegoryItem}>
-                                        <Text style={styles.cathegoryItemText}>{cat.cathegory_name}</Text>
-                                    </View>
-                                ))
-                            ) : (
-                                <Text style={styles.noCathegoriesText}>No categories available</Text>
-                            )}
-                        </ScrollView>
-                        <TouchableOpacity
-                            style={styles.closeCathegoryButton}
-                            onPress={() => setCathegoryModalVisible(false)}
-                        >
-                            <Text style={styles.closeCathegoryButtonText}>Close</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+
         </LinearGradient>
     );
 };
@@ -241,66 +263,47 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 20,
-        alignSelf: 'center',
-        marginBottom: 10,
-        marginTop: 5,
     },
     cathegoryButtonText: {
         color: colorStyle.textPrimary,
         fontWeight: 'bold',
         fontSize: 14,
     },
-    cathegoryModalOverlay: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.6)',
-    },
-    cathegoryModalContent: {
-        width: '80%',
-        maxHeight: '70%',
-        backgroundColor: colorStyle.bgDark,
-        borderRadius: 20,
-        padding: 20,
-        alignItems: 'center',
-    },
-    cathegoryModalTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: colorStyle.textPrimary,
-        marginBottom: 15,
-    },
-    cathegoryList: {
+    cathegoryDropdownWrapper: {
+        alignSelf: 'center',
         width: '100%',
+        maxWidth: 300,
+        marginBottom: 10,
+        marginTop: 5,
+        zIndex: 10,
     },
-    cathegoryItem: {
+    cathegoryDropdown: {
+        backgroundColor: colorStyle.bgDark,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+        padding: 8,
+        minWidth: 200,
+        maxHeight: 200,
+        borderWidth: 1,
+        borderTopWidth: 0,
+        borderColor: colorStyle.mainGradient[0] + '40',
+    },
+    cathegoryDropdownItem: {
         backgroundColor: colorStyle.mainGradient[0] + '30',
-        paddingVertical: 12,
+        paddingVertical: 10,
         paddingHorizontal: 16,
-        borderRadius: 12,
-        marginBottom: 8,
+        borderRadius: 10,
+        marginBottom: 4,
     },
-    cathegoryItemText: {
+    cathegoryDropdownItemText: {
         color: colorStyle.textPrimary,
-        fontSize: 16,
-    },
-    noCathegoriesText: {
-        color: colorStyle.textInactive,
-        textAlign: 'center',
-        marginTop: 20,
         fontSize: 14,
     },
-    closeCathegoryButton: {
-        marginTop: 15,
-        backgroundColor: colorStyle.mainGradient[1],
-        paddingVertical: 10,
-        paddingHorizontal: 30,
-        borderRadius: 15,
-    },
-    closeCathegoryButtonText: {
-        color: colorStyle.textPrimary,
-        fontWeight: 'bold',
-        fontSize: 16,
+    cathegoryDropdownEmpty: {
+        color: colorStyle.textInactive,
+        textAlign: 'center',
+        paddingVertical: 12,
+        fontSize: 14,
     },
     cathegoryGroup: {
         width: '100%',
