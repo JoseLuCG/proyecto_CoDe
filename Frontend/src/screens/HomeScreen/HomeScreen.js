@@ -7,13 +7,13 @@ import {
 	Animated,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { textStyle } from '../styles/TextStyles';
-import { colorStyle } from '../styles/Colors';
-import { buttonStyles } from '../styles/ButtonStyles';
-import SideLeftMenu from '../components/SideLeftMenu';
-import TrainingTab from '../components/TrainingTab';
-import { exampleData } from '../services/dataProves';
-import ExerciseModalScreen from './ExerciseModalScreen';
+import { textStyle } from '../../styles/TextStyles';
+import { colorStyle } from '../../styles/Colors';
+import { buttonStyles } from '../../styles/ButtonStyles';
+import SideLeftMenu from '../../components/SideLeftMenu';
+import TrainingTab from '../../components/TrainingTab';
+import { exampleData } from '../../services/dataProves';
+import ExerciseModalScreen from '../ExerciseModalScreen';
 
 const menuWidth = 250;
 

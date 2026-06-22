@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/Register';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import { User } from '../contexts/UserContext';
 import ExercisesScreen from '../screens/ExercisesScreen';
 import FeedingScreen from '../screens/FeedingScreen';
