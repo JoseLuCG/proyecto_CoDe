@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Text, Button, StyleSheet, Pressable, ActivityIndicator, View, Keyboard } from 'react-native';
-import InputField from '../components/InputField';
+import InputField from '../../components/InputField';
 import { LinearGradient } from 'expo-linear-gradient';
-import { colorStyle } from '../styles/Colors';
-import { textStyle } from '../styles/TextStyles';
-import * as apiService from './../services/AddUserService'
-import { defaultBRadius } from '../styles/DefaultVaules';
-import { User } from '../contexts/UserContext';
+import { colorStyle } from '../../styles/Colors';
+import { textStyle } from '../../styles/TextStyles';
+import * as apiService from '../../services/AddUserService'
+import { defaultBRadius } from '../../styles/DefaultVaules';
+import { User } from '../../contexts/UserContext';
 
 const RegisterScreen = ({ navigation }) => {
     const { user, setUser } = useContext(User);
