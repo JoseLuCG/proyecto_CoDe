@@ -1,11 +1,21 @@
 import { StyleSheet } from "react-native";
 import { defaultBRadius } from '../../styles/DefaultVaules';
+import { colorStyle } from '../../styles/Colors';
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
         padding: 16,
+    },
+    card: {
+        backgroundColor: colorStyle.bgCard,
+        borderRadius: 20,
+        padding: 24,
+        width: '100%',
+        maxWidth: 400,
+        alignItems: 'center',
     },
     link: {
         color: '#007BFF',
@@ -20,6 +30,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         minHeight: 48,
         marginVertical: 10,
+        width: '100%',
     },
     buttonPressed: {
         backgroundColor: '#223D35',
