@@ -3,7 +3,7 @@ import { colorStyle } from "./Colors";
 
 export const textStyle = StyleSheet.create({
     title: {
-        fontFamily: "main-font",
+        /*fontFamily: "main-font",*/
         fontSize: 24,
         textAlign: 'center',
         marginBottom: 24,
