@@ -7,9 +7,9 @@ import {
 	Animated,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { textStyle } from '../../styles/TextStyles';
 import { colorStyle } from '../../styles/Colors';
 import { buttonStyles } from '../../styles/ButtonStyles';
+import { styles } from './HomeScreen.styles';
 import SideLeftMenu from '../../components/SideLeftMenu';
 import TrainingTab from '../../components/TrainingTab';
 import { exampleData } from '../../services/dataProves';
@@ -84,44 +84,3 @@ const HomeScreen = ({ navigation }) => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-	mainContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		padding: 16,
-		paddingBottom: 155,
-	},
-	menuButton: {
-		position: 'absolute',
-		top: 40,
-		left: 20,
-		zIndex: 3,
-		backgroundColor: '#ddd',
-		width: 50,
-		height: 50,
-		borderRadius: 15,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	menuIcon: {
-		fontSize: 24,
-	},
-
-	content: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	title: {
-		fontSize: 22,
-		fontWeight: 'bold',
-	},
-	routinesContainer: {
-		backgroundColor: 'rgba(201, 237, 255, 0.76)',
-		height: 200,
-		width: 300,
-		borderRadius: 14,
-	}
-});
