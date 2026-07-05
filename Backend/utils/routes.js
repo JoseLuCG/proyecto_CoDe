@@ -1,5 +1,6 @@
 export const userRoutes = {
-    
+    singUpNewUser: "/addUser",
+    loginUser: "/checkLogin"
 }
 
 export const cardioRoutes = {
@@ -10,4 +11,9 @@ export const cardioRoutes = {
 export const strenghtRoutes = {
     addStrengthExercise: "/record-strength-exercise",
     getStrengthExercisesInDate: "/strength-exercises/:date/:user"
+}
+
+export const feedingRoutes = {
+    addFood: "/record-food",
+    getFoods: "/user-feeding/:date/:user"
 }

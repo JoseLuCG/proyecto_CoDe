@@ -3,9 +3,9 @@ export function cardioAdapter(data) {
             exerciseUser: data.exerciseUser? data.exerciseUser : "Empty",
             exerciseName: data.exerciseName,
             exerciseDate: data.exerciseDate,
-            exerciseTime: `${data.exerciseTime.hours}:${data.exerciseTime.minutes}:${data.exerciseTime.seconds}`,
-            exerciseDistance: data.exerciseDistance,
-            exerciseIntensity: data.exerciseIntensity
+            exerciseTime: `${data.exerciseTime.hours || "00"}:${data.exerciseTime.minutes || "00"}:${data.exerciseTime.seconds || "00"}`,
+            exerciseDistance: data.exerciseDistance || "0",
+            exerciseIntensity: data.exerciseIntensity || "0"
         }
 }
 

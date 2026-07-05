@@ -1,85 +1,71 @@
-import { useContext } from "react";
-import { StyleSheet, Dimensions, TouchableOpacity, Text, View } from "react-native";
-import InputField from "../InputField";
-import { useEffect, useState } from "react";
-import WorkoutSwitch from "../WorkoutSwitch";
-import * as apiService from "./../../services/exerciseService";
-import { User } from '../../contexts/UserContext';
-import SavedSetInfoDisplay from "./SavedSetInfoDisplay";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { textStyle } from "../../styles/TextStyles";
+import { useState } from "react";
+import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import AddCardioForm from "./addCardioForm";
 import AddStrengthForm from "./addStrengthForm";
+import { colorStyle } from "../../styles/Colors";
 
-const { width } = Dimensions.get('window');
-
-export default function AddExerciseDataModal({ date }) {
-    // States:
-    const [user] = useContext(User);
+export default function AddExerciseDataModal({ date, onClose }) {
     const [selectedType, setSelectedType] = useState("");
 
-    // Handlers:
-    function handleTypeChange(value) {
-        setSelectedType(value);
-    }
-    /*
-    useEffect(
-        () => {
-            
-        }, [selectedType]
-    );
-    */
     if (selectedType == "CARDIO") {
-        return (
-            <AddCardioForm date={date} />
-        );
+        return <AddCardioForm date={date} onClose={onClose} />;
     }
 
     if (selectedType == "SRENGTH") {
-        return (
-            <AddStrengthForm date={date} />
-        );
+        return <AddStrengthForm date={date} />;
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.textContainer}>
-                <Text style={textStyle.text}>Select the type of exercise to record:</Text>
-                <TouchableOpacity style={styles.eitherButton} onPress={() => handleTypeChange("CARDIO")}>
-                    <Text style={styles.buttonText}>CARDIO</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.eitherButton} onPress={() => handleTypeChange("SRENGTH")}>
-                    <Text style={styles.buttonText}>STRENGTH</Text>
-                </TouchableOpacity>
-            </View>
+            <Text style={styles.title}>Select exercise type</Text>
+            <TouchableOpacity
+                style={[styles.typeButton, { backgroundColor: colorStyle.mainGradient[0] }]}
+                onPress={() => setSelectedType("CARDIO")}
+                activeOpacity={0.8}
+            >
+                <Text style={styles.typeButtonText}>Cardio</Text>
+                <Text style={styles.typeButtonSubtext}>Record time, distance & intensity</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={[styles.typeButton, { backgroundColor: colorStyle.mainGradient[1] }]}
+                onPress={() => setSelectedType("SRENGTH")}
+                activeOpacity={0.8}
+            >
+                <Text style={styles.typeButtonText}>Strength</Text>
+                <Text style={styles.typeButtonSubtext}>Log sets, weight & reps</Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        //width: width * 0.95,
-    },
-    textHeader: {
-
-    },
-    textContainer: {
-        marginTop: 20,
-        display: "flex",
+        width: '100%',
         alignItems: 'center',
+        paddingTop: 20,
     },
-    eitherButton: {
-        backgroundColor: '#1563ac88',
-        width: 190,
-        height: 50,
-        borderRadius: 10,
+    title: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#555',
+        marginBottom: 24,
+    },
+    typeButton: {
+        width: '85%',
+        paddingVertical: 20,
+        borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10,
-        marginBottom: 10
+        marginBottom: 16,
     },
-    buttonText: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    }
+    typeButtonText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
+    typeButtonSubtext: {
+        fontSize: 13,
+        color: 'rgba(255,255,255,0.8)',
+        marginTop: 4,
+    },
 });

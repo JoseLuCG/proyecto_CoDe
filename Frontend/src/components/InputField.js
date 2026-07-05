@@ -1,11 +1,9 @@
-import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { borderRadius, defaultBRadius } from '../styles/DefaultVaules';
 
 const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType, centered }) => {
   return (
     <View style={styles.inputContainer}>
-      <Text style={centered?styles.labelCentered : styles.label}>{label}</Text>
+      {label ? <Text style={centered ? styles.labelCentered : styles.label}>{label}</Text> : null}
       <TextInput
         style={styles.input}
         value={value}
@@ -13,6 +11,7 @@ const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType,
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         placeholder={label}
+        placeholderTextColor="#bbb"
       />
     </View>
   );
@@ -21,27 +20,30 @@ const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType,
 const styles = StyleSheet.create({
   inputContainer: {
     marginBottom: 12,
-    width: "90%",
+    width: '90%',
   },
   label: {
-    fontSize: 16,
-    marginBottom: 8,
-    fontFamily: "main-font",
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#555',
+    marginBottom: 6,
   },
   labelCentered: {
-    fontSize: 16,
-    marginBottom: 8,
-    fontFamily: "main-font",
-    textAlign: "center"
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#555',
+    marginBottom: 6,
+    textAlign: 'center',
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
+    height: 44,
+    borderColor: '#e0e0e0',
     borderWidth: 1,
-    borderRadius: defaultBRadius,
-    padding: 10,
-    fontFamily: "main-font",
-    backgroundColor: "#FFF",
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    fontSize: 16,
+    color: '#333',
+    backgroundColor: '#fafafa',
   },
 });
 

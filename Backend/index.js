@@ -1,42 +1,45 @@
 import express from "express";
-import * as controllers from "./controllers/controller.js";
+import dotenv from "dotenv";
 import * as userControllers from "./controllers/user-controllers.js"
 import * as cardioControllers from "./controllers/exerciseControllers/cardioControllers.js"
 import * as strengthControllers from "./controllers/exerciseControllers/strengthControllers.js"
+import * as feedingControllers from "./controllers/feedingControllers/feedingControllers.js";
 import cors from "cors";
-import { cardioRoutes, strenghtRoutes } from "./utils/routes.js";
+import { cardioRoutes, strenghtRoutes, userRoutes, feedingRoutes } from "./utils/routes.js";
+import { authenticateToken } from "./middleware/auth.js";
+
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const jsonParser = express.json();
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",")
+    : ["*"];
+
 const corsOptions = {
-  origin: '*',//(https://your-client-app.com)
+  origin: allowedOrigins.includes("*") ? "*" : allowedOrigins,
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 
-// * User End-points:
-app.post("/addUser", jsonParser, userControllers.addNewUser);
-app.post("/checkLogin", jsonParser, userControllers.checkLogin); 
-// TODO: Add endpoint to update the user
-// TODO: Add endpoint to recover the password
-// TODO: Add endpoint to delete users
+// ---------- User Endpoints ----------
+app.post(userRoutes.singUpNewUser, jsonParser, userControllers.addNewUser);
+app.post(userRoutes.loginUser, jsonParser, userControllers.checkLogin);
 
-// * Cardio End-points
-app.post(cardioRoutes.addCardioExercise, jsonParser, cardioControllers.addCardioExercise);
-app.get(cardioRoutes.getCardioExercisesInDate, cardioControllers.getCardioExercises);
-// TODO: Add endpoint to update the exercise
-// TODO: Add endpoint to delete the exercise
+// ---------- Cardio Endpoints ----------
+app.post(cardioRoutes.addCardioExercise, jsonParser, authenticateToken, cardioControllers.addCardioExercise);
+app.get(cardioRoutes.getCardioExercisesInDate, authenticateToken, cardioControllers.getCardioExercises);
 
-// * Strength End-points
-app.post(strenghtRoutes.addStrengthExercise, jsonParser, strengthControllers.addStrengthExecise);
-app.get(strenghtRoutes.getStrengthExercisesInDate, strengthControllers.getStrengthExercises);
-// TODO: Add endpoint to update the exercise
-// TODO: Add endpoint to delete the exercise
+// ---------- Strenght Endpoints ----------
+app.post(strenghtRoutes.addStrengthExercise, jsonParser, authenticateToken, strengthControllers.addStrengthExecise);
+app.get(strenghtRoutes.getStrengthExercisesInDate, authenticateToken, strengthControllers.getStrengthExercises);
 
-app.use("/test", controllers.testPruebas);
+// ---------- Feeding Endpoints ----------
+app.post(feedingRoutes.addFood, jsonParser, authenticateToken, feedingControllers.addFood);
+app.get(feedingRoutes.getFoods, authenticateToken, feedingControllers.getFoods);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

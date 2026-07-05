@@ -12,7 +12,7 @@ CREATE TABLE user(
     last_name_user VARCHAR(40) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     phone_number VARCHAR(9) NOT NULL,
-    user_password varchar(40) NOT NULL,
+    user_password VARCHAR(255) NOT NULL,
     age INTEGER NOT NULL DEFAULT 0,
     weight DECIMAL(5,2) NOT NULL DEFAULT (0.00),
     height SMALLINT UNSIGNED NOT NULL DEFAULT (100),
@@ -63,6 +63,20 @@ CREATE TABLE cardio_exercise (
     PRIMARY KEY (uuid_cardio_exercise),
     FOREIGN KEY (uuid_user) REFERENCES user (uuid_user) ON UPDATE CASCADE,
     UNIQUE (exercise_date, uuid_user, exercise_name)
+);
+
+/* ----- FOOD INTAKE TABLE ----- */
+CREATE TABLE food_intake (
+    uuid_food_intake CHAR(36) NOT NULL,
+    intake_date DATE NOT NULL,
+    uuid_user CHAR(36) NOT NULL,
+    food_name VARCHAR(100) NOT NULL,
+    kcal DOUBLE NOT NULL DEFAULT 0,
+    proteins DOUBLE NOT NULL DEFAULT 0,
+    carbohydrates DOUBLE NOT NULL DEFAULT 0,
+    fat DOUBLE NOT NULL DEFAULT 0,
+    PRIMARY KEY (uuid_food_intake),
+    FOREIGN KEY (uuid_user) REFERENCES user (uuid_user) ON UPDATE CASCADE
 );
 
 -- USEFULL REFERENCE --

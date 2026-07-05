@@ -1,19 +1,12 @@
-import { useContext } from "react";
-import { StyleSheet, Dimensions, TouchableOpacity, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import InputField from "../InputField";
-import { useEffect, useState } from "react";
-import WorkoutSwitch from "../WorkoutSwitch";
 import * as apiService from "./../../services/exerciseService";
 import { User } from '../../contexts/UserContext';
-import SavedSetInfoDisplay from "./SavedSetInfoDisplay";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { textStyle } from "../../styles/TextStyles";
+import { colorStyle } from "../../styles/Colors";
 
-const { width } = Dimensions.get('window');
-
-export default function AddStrengthForm({ date, onClose }) {
-    // States:
-    const [user] = useContext(User);
+export default function AddStrengthForm({ date }) {
+    const { user, token } = useContext(User);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
@@ -25,42 +18,29 @@ export default function AddStrengthForm({ date, onClose }) {
         }
     });
 
-    // Handlers:
     function handleInputChange(fieldName, value) {
-        setExerciseData(prevState => ({
-            ...prevState,
-            [fieldName]: value
-        }));
+        setExerciseData(prev => ({ ...prev, [fieldName]: value }));
     }
 
     function handleSetChange(field, value) {
-        setExerciseData(prevState => ({
-            ...prevState,
-            set: {
-                ...prevState.set,
-                [field]: value
-            }
+        setExerciseData(prev => ({
+            ...prev,
+            set: { ...prev.set, [field]: value }
         }));
     }
 
     async function submitForm() {
         try {
-            const response = await apiService.addStrengthExecise(exerciseData);
-            
+            const response = await apiService.addStrengthExecise(exerciseData, token);
             if (response.ok) {
-                setExerciseData(prevState => ({
-                    ...prevState,
-                    exerciseSetNumber: prevState.exerciseSetNumber + 1,
-                    exerciseWeight: "",
-                    exerciseRepeats: ""
+                setExerciseData(prev => ({
+                    ...prev,
+                    set: { setNumber: prev.set.setNumber + 1, setWeight: "", setRepeats: "" }
                 }));
             }
         } catch (error) {
-            throw new Error("Something is wrong");
-            // TODO: add conditionals for the diferents use cases if the user don't work
             console.error(error);
         }
-
     }
 
     useEffect(() => {
@@ -71,30 +51,29 @@ export default function AddStrengthForm({ date, onClose }) {
     return (
         <View style={styles.container}>
             <View style={styles.formContainer}>
-                {/* Exercise name */}
                 <InputField
-                    label="Exercise name:"
+                    label="Exercise name"
                     value={exerciseData.exerciseName}
                     onChangeText={(text) => handleInputChange("exerciseName", text)}
                     keyboardType="text-pad"
                     centered={true}
                 />
 
-                {/* Exercise set data: */}
-                <View style={styles.setDataField}>
-                    <View style={styles.setInfoField}>
+                <Text style={styles.sectionLabel}>Set {exerciseData.set.setNumber}</Text>
+                <View style={styles.row}>
+                    <View style={styles.setField}>
                         <InputField
-                            label="Weight:"
-                            value={exerciseData.set}
+                            label="Weight (kg)"
+                            value={exerciseData.set.setWeight}
                             onChangeText={(text) => handleSetChange("setWeight", text)}
                             keyboardType="number-pad"
                             centered={true}
                         />
                     </View>
-                    <View style={styles.setInfoField}>
+                    <View style={styles.setField}>
                         <InputField
-                            label="Repeats:"
-                            value={exerciseData.set}
+                            label="Repeats"
+                            value={exerciseData.set.setRepeats}
                             onChangeText={(text) => handleSetChange("setRepeats", text)}
                             keyboardType="number-pad"
                             centered={true}
@@ -102,74 +81,62 @@ export default function AddStrengthForm({ date, onClose }) {
                     </View>
                 </View>
 
-                {/* AddSet Button */}
-                <View style={styles.addSetButtonContainer}>
-                    <TouchableOpacity style={styles.saveButton} onPress={submitForm}>
-                        <Text style={styles.buttonText}>ADD SET</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            {/* Sava button }
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.saveButton} onPress={submitForm}>
-                    <Text style={styles.buttonText}>Done</Text>
+                <TouchableOpacity
+                    style={[styles.saveButton, { backgroundColor: colorStyle.mainGradient[0] }]}
+                    onPress={submitForm}
+                    activeOpacity={0.8}
+                >
+                    <Text style={styles.saveButtonText}>Add Set</Text>
                 </TouchableOpacity>
             </View>
-            */}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        width: width * 0.95,
-        //backgroundColor: "rgba(9, 9, 9, 0.31)",
+        width: '100%',
+        alignItems: 'center',
+        paddingTop: 16,
     },
     formContainer: {
-        width: width * 0.90,
-        marginTop: 20,
-        display: "flex",
-        alignItems: "center"
+        width: '100%',
+        alignItems: 'center',
     },
-    setDataField: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center"
+    sectionLabel: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: '#888',
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+        alignSelf: 'flex-start',
+        marginLeft: '7.5%',
+        marginTop: 8,
+        marginBottom: 4,
     },
-    setInfoField: {
-        width: "40%",
-    },
-    addSetButtonContainer: {
-        width: "100%",
-        display: "flex",
-        alignItems: "flex-end",
-        //backgroundColor: "rgba(9, 9, 9, 0.31)",
-        marginRight: width * 0.05
-    },
-    intensityField: {
-        width: 160
-    },
-    saveButton: {
-        backgroundColor: '#1563ac88',
-        width: 100,
-        height: 50,
-        borderRadius: 10,
+    row: {
+        width: '100%',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 10,
-        marginBottom: 10
     },
-    buttonText: {
-        fontSize: 24,
-        fontWeight: 'bold'
+    setField: {
+        flex: 1,
+        maxWidth: '40%',
     },
-    buttonContainer: {
-        display: "flex",
-        alignItems: "center"
-    }
+    saveButton: {
+        width: '85%',
+        height: 50,
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 24,
+    },
+    saveButtonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
 });
 
 /*

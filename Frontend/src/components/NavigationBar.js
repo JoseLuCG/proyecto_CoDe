@@ -1,20 +1,37 @@
-import { View, StyleSheet, Text } from "react-native";
-import { defaultBRadius } from '../styles/DefaultVaules';
+import { View, StyleSheet } from "react-native";
 import NavigationTab from "./NavigationTab";
 import { navigationContentArray } from "../utilities/navitationArrayTab";
 
-function NavigationBar({navigation}) {
+function NavigationBar({ state, descriptors, navigation }) {
+    return (
+        <View style={styles.container}>
+            <View style={styles.navigationBar}>
+                {state.routes.map((route, index) => {
+                    const isFocused = state.index === index;
+                    const tabInfo = navigationContentArray.find(t => t.navigateTo === route.name);
 
-    
-    return(
-        <View style={styles.navigationBar}>
-            {
-                navigationContentArray.map(
-                    (tab, index) => {
-                       return <NavigationTab key={index} labelText={tab.labelText} iconSource={tab.iconSource} navigateTo={tab.navigateTo}/>
-                    }
-                )
-            }
+                    const onPress = () => {
+                        const event = navigation.emit({
+                            type: 'tabPress',
+                            target: route.key,
+                            canPreventDefault: true,
+                        });
+                        if (!isFocused && !event.defaultPrevented) {
+                            navigation.navigate(route.name);
+                        }
+                    };
+
+                    return (
+                        <NavigationTab
+                            key={route.key}
+                            labelText={tabInfo?.labelText || route.name}
+                            iconSource={tabInfo?.iconSource}
+                            isActive={isFocused}
+                            onPress={onPress}
+                        />
+                    );
+                })}
+            </View>
         </View>
     );
 }
@@ -22,20 +39,24 @@ function NavigationBar({navigation}) {
 export default NavigationBar;
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        paddingBottom: 0,
+    },
     navigationBar: {
-        backgroundColor: 'rgba(255, 255, 255, 0.91)',
-        height: 80,
-        width: 350,
-        borderRadius: defaultBRadius,
-        padding: 0,
-        marginTop: 10,
-		bottom: 40,
-		zIndex: 3,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
+        backgroundColor: '#fff',
+        height: 135,
+        width: 320,
+        paddingHorizontal: 24,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         flexDirection: 'row',
-        position: 'absolute',
-        bottom: 50,
-    }, 
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        elevation: 10,
+    },
 });

@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
-import NavigationBar from '../components/NavigationBar';
 import { DaysCarousel } from '../components/DaysCarousel';
 import { defaultBRadius } from '../styles/DefaultVaules';
 import AddDataModal from '../components/Modals/AddDataModal';
@@ -16,13 +15,14 @@ import { User } from '../contexts/UserContext';
 import * as apiService from "./../services/exerciseService";
 import TrainingTab from '../components/TrainingTab';
 import ExerciseModalScreen from './ExerciseModalScreen';
+import AddButton from '../components/AddButton';
 
 const { width } = Dimensions.get('window');
 const menuWidth = 250;
 
 const ExercisesScreen = ({ navigation }) => {
     // States:
-    const [user] = useContext(User);
+    const { user, token } = useContext(User);
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
     const [cardioExercises, setCardioExercises] = useState(null);
@@ -46,15 +46,15 @@ const ExercisesScreen = ({ navigation }) => {
     }
 
     function closeTabToAddExercise() {
-        console.log("close!");
         setAddModalVisible(false);
+        getExercises();
     }
 
     async function getExercises() {
         try {
             if (selectedDate != null) {
-                const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser);
-                const responseStrenghtExercises = await apiService.getStrengthExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser);
+                const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token);
+                const responseStrenghtExercises = await apiService.getStrengthExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token);
                 setCardioExercises(response);
                 setStrenghtExercises(responseStrenghtExercises);
             }
@@ -95,9 +95,7 @@ const ExercisesScreen = ({ navigation }) => {
 
 
             {/* Button to open the modal */}
-            <TouchableOpacity style={styles.addButton} onPress={openTabToAddExercise}>
-                <Text style={styles.buttonText}>+</Text>
-            </TouchableOpacity>
+            <AddButton onOpen={openTabToAddExercise} />
 
             {/* Modal to add exercises: */}
             <AddDataModal
@@ -106,12 +104,6 @@ const ExercisesScreen = ({ navigation }) => {
                 date={selectedDate}
                 screen={"Exercises"}
             />
-            <ExerciseModalScreen
-                isVisible={modalVisible}
-                onClose={handleCloseModal}
-                exercise={selectedExercise}
-            />
-            <NavigationBar />
         </LinearGradient>
     );
 };

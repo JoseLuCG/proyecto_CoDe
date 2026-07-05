@@ -1,6 +1,4 @@
-import { Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-
-const { width } = Dimensions.get('window');
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const DayCard = ({ day, isSelected, onPress }) => (
     <TouchableOpacity
@@ -20,34 +18,30 @@ export default DayCard;
 
 const styles = StyleSheet.create({
     card: {
-        width: width * 0.18,
-        height: 80,
-        borderRadius: 16,
-        backgroundColor: '#fff',
-        marginHorizontal: 6,
+        paddingVertical: 8,
+        paddingHorizontal: 14,
+        borderRadius: 20,
+        backgroundColor: 'rgba(255,255,255,0.15)',
+        marginHorizontal: 4,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#e0e0e0',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.08,
-        shadowRadius: 4,
-        elevation: 3,
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
     },
     cardSelected: {
-        backgroundColor: '#3a8abb',
+        backgroundColor: '#fff',
     },
     dayText: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: '#333',
+        fontSize: 16,
+        fontWeight: '600',
+        color: 'rgba(255,255,255,0.8)',
     },
     weekdayText: {
-        fontSize: 14,
-        color: '#888',
+        fontSize: 11,
+        color: 'rgba(255,255,255,0.6)',
+        marginTop: 2,
     },
     dayTextSelected: {
-        color: '#fff',
+        color: '#3a8abb',
     },
 });

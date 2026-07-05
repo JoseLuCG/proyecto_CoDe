@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 const HOST_IP = "http://192.168.1.135:3000";
 const apiRoutes = {
     user: {
@@ -13,10 +15,17 @@ const apiRoutes = {
             addExercise: "/record-strength-exercise",
             getStrengthExercisesInDate: "/strength-exercises/"
         }
+    },
+    feeding: {
+        addFood: "/record-food",
+        getFoods: "/user-feeding/"
     }
 }
 
+const runnigInBrowser = Platform.OS === "web";
+
 export {
     HOST_IP,
-    apiRoutes
+    apiRoutes,
+    runnigInBrowser
 }
