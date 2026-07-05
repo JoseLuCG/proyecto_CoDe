@@ -4,8 +4,8 @@ import InputField from '../../components/InputField';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../../styles/Colors';
 import { textStyle } from '../../styles/TextStyles';
+import { styles } from './RegisterScreen.styles';
 import * as apiService from '../../services/AddUserService'
-import { defaultBRadius } from '../../styles/DefaultVaules';
 import { User } from '../../contexts/UserContext';
 
 const RegisterScreen = ({ navigation }) => {
@@ -147,52 +147,5 @@ const RegisterScreen = ({ navigation }) => {
         </LinearGradient>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 16,
-    },
-    link: {
-        color: '#007BFF',
-        textDecorationLine: 'underline',
-        marginTop: 40,
-    },
-    button: {
-        backgroundColor: '#1DA27A',
-        borderRadius: defaultBRadius,
-        padding: 14,
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: 48,
-        marginVertical: 10,
-    },
-    buttonPressed: {
-        backgroundColor: '#223D35',
-    },
-    buttonDisabled: {
-        opacity: 0.6,
-    },
-    errorText: {
-        color: '#FF3B30',
-        fontSize: 13,
-        alignSelf: 'flex-start',
-        marginLeft: '5%',
-        marginTop: -8,
-        marginBottom: 4,
-    },
-    errorGeneral: {
-        color: '#FF3B30',
-        fontSize: 14,
-        backgroundColor: 'rgba(255, 59, 48, 0.1)',
-        padding: 12,
-        borderRadius: 8,
-        width: '90%',
-        textAlign: 'center',
-        marginBottom: 10,
-        alignSelf: 'center',
-    },
-});
 
 export default RegisterScreen;
