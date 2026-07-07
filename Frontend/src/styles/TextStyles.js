@@ -6,6 +6,7 @@ export const textStyle = StyleSheet.create({
         /*fontFamily: "main-font",*/
         fontSize: 24,
         textAlign: 'center',
+        color: colorStyle.textPrimary,
         marginBottom: 24,
     },
     textInField: {

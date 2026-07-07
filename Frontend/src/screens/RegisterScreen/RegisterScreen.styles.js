@@ -17,13 +17,14 @@ export const styles = StyleSheet.create({
         maxWidth: 400,
         alignItems: 'center',
     },
-    link: {
-        color: '#007BFF',
-        textDecorationLine: 'underline',
-        marginTop: 40,
+    linkButton: {
+        padding: 8,
+        marginTop: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     button: {
-        backgroundColor: '#1DA27A',
+        backgroundColor: colorStyle.mainGradient[0],
         borderRadius: defaultBRadius,
         padding: 14,
         alignItems: 'center',
@@ -31,9 +32,12 @@ export const styles = StyleSheet.create({
         minHeight: 48,
         marginVertical: 10,
         width: '100%',
+        maxWidth: 150
     },
-    buttonPressed: {
-        backgroundColor: '#223D35',
+    buttonText: {
+        fontSize: 16,
+        color: colorStyle.textPrimary,
+        textAlign: 'center',
     },
     buttonDisabled: {
         opacity: 0.6,

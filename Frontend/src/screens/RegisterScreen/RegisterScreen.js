@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Text, Button, Pressable, ActivityIndicator, View, Keyboard } from 'react-native';
+import React, { useState, useContext, useRef } from 'react';
+import { Text, Pressable, ActivityIndicator, View, Keyboard, Animated } from 'react-native';
 import InputField from '../../components/InputField';
 import { LinearGradient } from 'expo-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
@@ -20,6 +20,39 @@ const RegisterScreen = ({ navigation }) => {
     });
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+
+    const regScaleAnim = useRef(new Animated.Value(1)).current;
+    const linkScaleAnim = useRef(new Animated.Value(1)).current;
+
+    const handleRegPressIn = () => {
+        Animated.spring(regScaleAnim, {
+            toValue: 0.95,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handleRegPressOut = () => {
+        Animated.spring(regScaleAnim, {
+            toValue: 1,
+            friction: 3,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handleLinkPressIn = () => {
+        Animated.spring(linkScaleAnim, {
+            toValue: 0.95,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handleLinkPressOut = () => {
+        Animated.spring(linkScaleAnim, {
+            toValue: 1,
+            friction: 3,
+            useNativeDriver: true,
+        }).start();
+    };
 
     function handleInputChange(fieldName, value) {
         setNewUser(prevState => ({
@@ -137,20 +170,29 @@ const RegisterScreen = ({ navigation }) => {
                     <Pressable
                         onPress={submitForm}
                         disabled={isLoading}
-                        style={({ pressed }) => [
-                            styles.button,
-                            pressed && styles.buttonPressed,
-                            isLoading && styles.buttonDisabled
-                        ]}
+                        onPressIn={handleRegPressIn}
+                        onPressOut={handleRegPressOut}
+                        style={[styles.button, isLoading && styles.buttonDisabled]}
                     >
-                        {isLoading ? (
-                            <ActivityIndicator color="#fff" size="small" />
-                        ) : (
-                            <Text style={textStyle.button}>Registrarse</Text>
-                        )}
+                        <Animated.View style={{ transform: [{ scale: regScaleAnim }] }}>
+                            {isLoading ? (
+                                <ActivityIndicator color="#fff" size="small" />
+                            ) : (
+                                <Text style={styles.buttonText}>Registrarse</Text>
+                            )}
+                        </Animated.View>
                     </Pressable>
 
-                    <Button title="Inicia sesión" onPress={backToLogin} />
+                    <Pressable
+                        onPress={backToLogin}
+                        onPressIn={handleLinkPressIn}
+                        onPressOut={handleLinkPressOut}
+                        style={styles.linkButton}
+                    >
+                        <Animated.View style={{ transform: [{ scale: linkScaleAnim }] }}>
+                            <Text style={styles.buttonText}>Inicia sesión</Text>
+                        </Animated.View>
+                    </Pressable>
                 </View>
             </LinearGradient>
         </KeyboardAwareScrollView>
