@@ -1,21 +1,47 @@
-import { Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { useRef } from 'react';
+import { Text, TouchableOpacity, StyleSheet, Dimensions, Animated } from 'react-native';
 import { colorStyle } from '../styles/Colors';
 
 const { width } = Dimensions.get('window');
 
-const DayCard = ({ day, isSelected, onPress }) => (
-    <TouchableOpacity
-        onPress={() => onPress(day)}
-        style={[styles.card, isSelected && styles.cardSelected]}
-    >
-        <Text style={[styles.dayText, isSelected && styles.dayTextSelected]}>
-            {day.format('DD')}
-        </Text>
-        <Text style={[styles.weekdayText, isSelected && styles.dayTextSelected]}>
-            {day.format('ddd')}
-        </Text>
-    </TouchableOpacity>
-);
+const DayCard = ({ day, isSelected, onPress }) => {
+    const scaleAnim = useRef(new Animated.Value(1)).current;
+
+    const handlePressIn = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 0.9,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const handlePressOut = () => {
+        Animated.spring(scaleAnim, {
+            toValue: 1,
+            friction: 3,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    return (
+        <TouchableOpacity
+            onPress={() => onPress(day)}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+            activeOpacity={1}
+        >
+            <Animated.View
+                style={[styles.card, isSelected && styles.cardSelected, { transform: [{ scale: scaleAnim }] }]}
+            >
+                <Text style={[styles.dayText, isSelected && styles.dayTextSelected]}>
+                    {day.format('DD')}
+                </Text>
+                <Text style={[styles.weekdayText, isSelected && styles.dayTextSelected]}>
+                    {day.format('ddd')}
+                </Text>
+            </Animated.View>
+        </TouchableOpacity>
+    );
+};
 
 export default DayCard;
 

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import dayjs from 'dayjs';
 import { colorStyle } from '../styles/Colors';
+import { defaultBRadius } from '../styles/DefaultVaules';
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -54,7 +55,6 @@ export const DaysCarousel = ({ setSelectedDate }) => {
                 onPress={() => setIsOpen(!isOpen)}
                 activeOpacity={0.8}
             >
-                <Text style={styles.triggerIcon}>📅</Text>
                 <Text style={styles.triggerText}>{displayDate}</Text>
                 <Text style={styles.triggerArrow}>{isOpen ? '▲' : '▼'}</Text>
             </TouchableOpacity>
@@ -127,9 +127,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 20,
         gap: 8,
-    },
-    triggerIcon: {
-        fontSize: 18,
     },
     triggerText: {
         color: colorStyle.textPrimary,

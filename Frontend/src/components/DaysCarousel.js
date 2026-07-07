@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet, Text, TouchableOpacity, Dimensions } from '
 import dayjs from 'dayjs';
 import DayCard from './DayCard';
 import { colorStyle } from '../styles/Colors';
+import { defaultBRadius } from '../styles/DefaultVaules';
 
 const { width } = Dimensions.get('window');
 
@@ -38,7 +39,6 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 				onPress={() => setIsOpen(!isOpen)}
 				activeOpacity={0.8}
 			>
-				<Text style={styles.triggerIcon}>📅</Text>
 				<Text style={styles.triggerText}>{displayDate}</Text>
 				<Text style={styles.triggerArrow}>{isOpen ? '▲' : '▼'}</Text>
 			</TouchableOpacity>
@@ -46,12 +46,12 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 			{isOpen && (
 				<View style={styles.dropdown}>
 					<View style={styles.header}>
-						<TouchableOpacity onPress={goToPreviousMonth} style={styles.arrowButton}>
-							<Text style={styles.arrowText}>◀</Text>
+						<TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
+							<Text style={styles.navBtnText}>‹</Text>
 						</TouchableOpacity>
 						<Text style={styles.monthYear}>{monthYearLabel}</Text>
-						<TouchableOpacity onPress={goToNextMonth} style={styles.arrowButton}>
-							<Text style={styles.arrowText}>▶</Text>
+						<TouchableOpacity onPress={goToNextMonth} style={styles.navBtn}>
+							<Text style={styles.navBtnText}>›</Text>
 						</TouchableOpacity>
 					</View>
 
@@ -103,9 +103,6 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		gap: 8,
 	},
-	triggerIcon: {
-		fontSize: 18,
-	},
 	triggerText: {
 		color: colorStyle.textPrimary,
 		fontWeight: 'bold',
@@ -118,8 +115,8 @@ const styles = StyleSheet.create({
 	},
 	dropdown: {
 		backgroundColor: colorStyle.bgDark,
-		borderBottomLeftRadius: 30,
-		borderBottomRightRadius: 30,
+		borderBottomLeftRadius: 20,
+		borderBottomRightRadius: 20,
 		padding: 16,
 		borderWidth: 1,
 		borderTopWidth: 0,
@@ -136,11 +133,18 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: colorStyle.textPrimary,
 	},
-	arrowButton: {
-		paddingHorizontal: 12,
+	navBtn: {
+		width: 36,
+		height: 36,
+		borderRadius: 18,
+		backgroundColor: colorStyle.bgCard,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
-	arrowText: {
-		fontSize: 20,
+	navBtnText: {
+		fontSize: 24,
 		color: colorStyle.mainGradient[0],
+		lineHeight: 26,
+		fontWeight: '600',
 	},
 });

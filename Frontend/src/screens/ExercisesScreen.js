@@ -46,8 +46,6 @@ const ExercisesScreen = ({ navigation }) => {
             [0, 1],
             [colorStyle.mainGradient[0], colorStyle.bgDark]
         ),
-        borderBottomLeftRadius: animProgress.value === 1 ? 0 : 20,
-        borderBottomRightRadius: animProgress.value === 1 ? 0 : 20,
     }));
 
     const animatedTextStyle = useAnimatedStyle(() => ({
@@ -234,35 +232,15 @@ const styles = StyleSheet.create({
     exercisesColumn: {
         flex: 0.6,
     },
-    title: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        top: 50
-    },
-    addButton: {
-        position: 'absolute',
-        bottom: 140,
-        right: 20,
-        zIndex: 3,
-        backgroundColor: '#ddd',
-        width: 50,
-        height: 50,
-        borderRadius: defaultBRadius,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    buttonText: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    },
     exercisesContainer: {
-        width: width * 0.90
+        width: width * 0.90,
+        alignItems: 'center',
     },
     cathegoryButton: {
         backgroundColor: colorStyle.mainGradient[0],
-        paddingVertical: 10,
+        paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 20,
+        borderRadius: defaultBRadius,
     },
     cathegoryButtonText: {
         color: colorStyle.textPrimary,
@@ -279,8 +257,8 @@ const styles = StyleSheet.create({
     },
     cathegoryDropdown: {
         backgroundColor: colorStyle.bgDark,
-        borderBottomLeftRadius: 12,
-        borderBottomRightRadius: 12,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
         padding: 8,
         minWidth: 200,
         maxHeight: 200,
@@ -292,7 +270,7 @@ const styles = StyleSheet.create({
         backgroundColor: colorStyle.mainGradient[0] + '30',
         paddingVertical: 10,
         paddingHorizontal: 16,
-        borderRadius: 10,
+        borderRadius: defaultBRadius,
         marginBottom: 4,
     },
     cathegoryDropdownItemText: {
@@ -312,10 +290,8 @@ const styles = StyleSheet.create({
     cathegoryGroupTitle: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: colorStyle.textSecondary,
+        color: colorStyle.textPrimary,
         marginLeft: 8,
         marginBottom: 4,
-        textTransform: 'uppercase',
-        letterSpacing: 1,
     },
 });
