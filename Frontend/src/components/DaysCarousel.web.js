@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 import dayjs from 'dayjs';
 import { colorStyle } from '../styles/Colors';
 import { defaultBRadius } from '../styles/DefaultVaules';
@@ -10,6 +11,29 @@ export const DaysCarousel = ({ setSelectedDate }) => {
     const [selectedDay, setSelectedDay] = useState(dayjs());
     const [currentDate, setCurrentDate] = useState(dayjs());
     const [isOpen, setIsOpen] = useState(false);
+    const [shouldRender, setShouldRender] = useState(false);
+    const animProgress = useSharedValue(0);
+
+    useEffect(() => {
+        animProgress.value = withTiming(isOpen ? 1 : 0, { duration: 250 });
+        if (!isOpen) {
+            const timer = setTimeout(() => setShouldRender(false), 250);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen]);
+
+    const animatedTextStyle = useAnimatedStyle(() => ({
+        color: interpolateColor(
+            animProgress.value,
+            [0, 1],
+            [colorStyle.textPrimary, colorStyle.mainGradient[0]]
+        ),
+    }));
+
+    const animatedDropdownStyle = useAnimatedStyle(() => ({
+        opacity: animProgress.value,
+        transform: [{ translateY: (1 - animProgress.value) * -10 }],
+    }));
 
     const monthYearLabel = currentDate.format('MMMM YYYY');
     const displayDate = selectedDay.format('DD MMM YYYY');
@@ -39,6 +63,16 @@ export const DaysCarousel = ({ setSelectedDate }) => {
     const isToday = (date) => date.isSame(dayjs(), 'day');
     const isSelected = (date) => date.isSame(selectedDay, 'day');
 
+    function toggleOpen() {
+        if (isOpen) {
+            setIsOpen(false);
+        } else {
+            animProgress.value = 0;
+            setShouldRender(true);
+            setIsOpen(true);
+        }
+    }
+
     const handleDayPress = (date) => {
         setSelectedDay(date);
         setIsOpen(false);
@@ -52,15 +86,15 @@ export const DaysCarousel = ({ setSelectedDate }) => {
         <View style={styles.wrapper}>
             <TouchableOpacity
                 style={[styles.triggerButton, isOpen && styles.triggerButtonOpen]}
-                onPress={() => setIsOpen(!isOpen)}
+                onPress={toggleOpen}
                 activeOpacity={0.8}
             >
-                <Text style={styles.triggerText}>{displayDate}</Text>
+                <Animated.Text style={[styles.triggerText, animatedTextStyle]}>{displayDate}</Animated.Text>
                 <Text style={styles.triggerArrow}>{isOpen ? '▲' : '▼'}</Text>
             </TouchableOpacity>
 
-            {isOpen && (
-                <View style={styles.dropdown}>
+            {shouldRender && (
+                <Animated.View style={[styles.dropdown, animatedDropdownStyle]} pointerEvents={isOpen ? 'auto' : 'none'}>
                     <View style={styles.header}>
                         <TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
                             <Text style={styles.navBtnText}>‹</Text>
@@ -103,7 +137,7 @@ export const DaysCarousel = ({ setSelectedDate }) => {
                             </TouchableOpacity>
                         ))}
                     </View>
-                </View>
+                </Animated.View>
             )}
         </View>
     );

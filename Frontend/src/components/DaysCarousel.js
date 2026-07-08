@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
+import Animated, { FadeInDown, FadeOutUp, useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 import dayjs from 'dayjs';
 import DayCard from './DayCard';
 import { colorStyle } from '../styles/Colors';
@@ -12,6 +13,19 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 	const [currentDate, setCurrentDate] = useState(dayjs());
 	const [isOpen, setIsOpen] = useState(false);
 	const flatListRef = useRef(null);
+	const animProgress = useSharedValue(0);
+
+	useEffect(() => {
+		animProgress.value = withTiming(isOpen ? 1 : 0, { duration: 250 });
+	}, [isOpen]);
+
+	const animatedTextStyle = useAnimatedStyle(() => ({
+		color: interpolateColor(
+			animProgress.value,
+			[0, 1],
+			[colorStyle.textPrimary, colorStyle.mainGradient[0]]
+		),
+	}));
 
 	const daysInMonth = currentDate.daysInMonth();
 	const days = Array.from({ length: daysInMonth }, (_, i) => currentDate.date(i + 1));
@@ -39,12 +53,12 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 				onPress={() => setIsOpen(!isOpen)}
 				activeOpacity={0.8}
 			>
-				<Text style={styles.triggerText}>{displayDate}</Text>
+				<Animated.Text style={[styles.triggerText, animatedTextStyle]}>{displayDate}</Animated.Text>
 				<Text style={styles.triggerArrow}>{isOpen ? '▲' : '▼'}</Text>
 			</TouchableOpacity>
 
 			{isOpen && (
-				<View style={styles.dropdown}>
+				<Animated.View entering={FadeInDown.duration(200)} exiting={FadeOutUp.duration(150)} style={styles.dropdown}>
 					<View style={styles.header}>
 						<TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
 							<Text style={styles.navBtnText}>‹</Text>
@@ -78,7 +92,7 @@ export const DaysCarousel = ({ setSelectedDate }) => {
 							/>
 						)}
 					/>
-				</View>
+				</Animated.View>
 			)}
 		</View>
 	);
