@@ -248,6 +248,7 @@ const styles = StyleSheet.create({
         color: colorStyle.textPrimary,
         fontWeight: 'bold',
         fontSize: 14,
+        textAlign: 'center',
     },
     cathegoryDropdownWrapper: {
         alignSelf: 'center',
