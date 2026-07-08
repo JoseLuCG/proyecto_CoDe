@@ -51,7 +51,7 @@ export const DaysCarousel = ({ setSelectedDate }) => {
     return (
         <View style={styles.wrapper}>
             <TouchableOpacity
-                style={styles.triggerButton}
+                style={[styles.triggerButton, isOpen && styles.triggerButtonOpen]}
                 onPress={() => setIsOpen(!isOpen)}
                 activeOpacity={0.8}
             >
@@ -137,6 +137,10 @@ const styles = StyleSheet.create({
         color: colorStyle.textPrimary,
         fontSize: 10,
         marginLeft: 4,
+    },
+    triggerButtonOpen: {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
     },
     dropdown: {
         backgroundColor: colorStyle.bgDark,

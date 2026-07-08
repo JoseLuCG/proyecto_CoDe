@@ -46,6 +46,8 @@ const ExercisesScreen = ({ navigation }) => {
             [0, 1],
             [colorStyle.mainGradient[0], colorStyle.bgDark]
         ),
+        borderBottomLeftRadius: animProgress.value === 1 ? 0 : 20,
+        borderBottomRightRadius: animProgress.value === 1 ? 0 : 20,
     }));
 
     const animatedTextStyle = useAnimatedStyle(() => ({
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
         backgroundColor: colorStyle.mainGradient[0],
         paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: defaultBRadius,
+        borderRadius: 20
     },
     cathegoryButtonText: {
         color: colorStyle.textPrimary,
@@ -270,7 +272,7 @@ const styles = StyleSheet.create({
         backgroundColor: colorStyle.mainGradient[0] + '30',
         paddingVertical: 10,
         paddingHorizontal: 16,
-        borderRadius: defaultBRadius,
+        borderRadius: 20,
         marginBottom: 4,
     },
     cathegoryDropdownItemText: {
