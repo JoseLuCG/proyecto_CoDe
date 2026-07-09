@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, { FadeInDown, FadeOutUp, useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 import { colorStyle } from '../styles/Colors';
 import { User } from '../contexts/UserContext';
@@ -9,6 +9,8 @@ export const CathegoriesDropdown = () => {
     const { token } = useContext(User);
     const [cathegories, setCathegories] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [showInput, setShowInput] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState('');
     const animProgress = useSharedValue(0);
 
     useEffect(() => {
@@ -33,15 +35,33 @@ export const CathegoriesDropdown = () => {
         ),
     }));
 
-    async function toggle() {
-        if (isOpen) {
-            setIsOpen(false);
-            return;
-        }
+    async function loadCategories() {
         try {
             const data = await cathegoryService.getCathegories(token);
             setCathegories(data);
-            setIsOpen(true);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function toggle() {
+        if (isOpen) {
+            setIsOpen(false);
+            setShowInput(false);
+            return;
+        }
+        await loadCategories();
+        setIsOpen(true);
+    }
+
+    async function handleAddCategory() {
+        const name = newCategoryName.trim();
+        if (!name) return;
+        try {
+            await cathegoryService.addCathegory(name, token);
+            setNewCategoryName('');
+            setShowInput(false);
+            await loadCategories();
         } catch (error) {
             console.error(error);
         }
@@ -69,6 +89,30 @@ export const CathegoriesDropdown = () => {
                     ) : (
                         <Text style={styles.dropdownEmpty}>No categories available</Text>
                     )}
+                    <View style={styles.addSection}>
+                        {showInput ? (
+                            <View style={styles.addInputRow}>
+                                <TextInput
+                                    style={styles.addInput}
+                                    value={newCategoryName}
+                                    onChangeText={setNewCategoryName}
+                                    placeholder="Category name"
+                                    placeholderTextColor={colorStyle.textInactive}
+                                    autoFocus
+                                />
+                                <TouchableOpacity style={styles.addConfirmBtn} onPress={handleAddCategory}>
+                                    <Text style={styles.addConfirmText}>Add</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.addCancelBtn} onPress={() => { setShowInput(false); setNewCategoryName(''); }}>
+                                    <Text style={styles.addCancelText}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+                        ) : (
+                            <TouchableOpacity style={styles.addButton} onPress={() => setShowInput(true)}>
+                                <Text style={styles.addButtonText}>+ Add category</Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
                 </Animated.View>
             )}
         </View>
@@ -123,5 +167,53 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingVertical: 12,
         fontSize: 14,
+    },
+    addSection: {
+        borderTopWidth: 1,
+        borderTopColor: colorStyle.mainGradient[0] + '40',
+        marginTop: 4,
+        paddingTop: 8,
+    },
+    addButton: {
+        paddingVertical: 10,
+        alignItems: 'center',
+    },
+    addButtonText: {
+        color: colorStyle.mainGradient[0],
+        fontSize: 14,
+        fontWeight: '600',
+    },
+    addInputRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    addInput: {
+        flex: 1,
+        height: 36,
+        backgroundColor: colorStyle.bgCard,
+        borderRadius: 20,
+        paddingHorizontal: 12,
+        fontSize: 14,
+        color: colorStyle.textPrimary,
+    },
+    addConfirmBtn: {
+        backgroundColor: colorStyle.mainGradient[0],
+        paddingVertical: 8,
+        paddingHorizontal: 14,
+        borderRadius: 20,
+    },
+    addConfirmText: {
+        color: colorStyle.textPrimary,
+        fontWeight: '600',
+        fontSize: 13,
+    },
+    addCancelBtn: {
+        paddingVertical: 8,
+        paddingHorizontal: 6,
+    },
+    addCancelText: {
+        color: colorStyle.textInactive,
+        fontSize: 13,
     },
 });
