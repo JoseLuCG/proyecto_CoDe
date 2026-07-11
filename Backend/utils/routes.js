@@ -23,3 +23,7 @@ export const cathegoryRoutes = {
     getCathegories: "/cathegories",
     deleteCathegory: "/delete-cathegory/:uuid"
 }
+
+export const presetRoutes = {
+    getExercisePresets: "/exercise-presets"
+}
