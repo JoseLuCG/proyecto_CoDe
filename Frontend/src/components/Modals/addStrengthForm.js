@@ -54,13 +54,14 @@ export default function AddStrengthForm({ date }) {
     async function handleCategorySelect(cat) {
         setSelectedCathegory(cat);
         handleInputChange("uuidCathegory", cat.uuid_cathegory);
+        setStep('presets');
         setLoadingPresets(true);
         try {
             const data = await presetService.getPresets("strength", cat.uuid_cathegory, token);
             setPresets(data);
-            setStep('presets');
         } catch (error) {
             console.error(error);
+            setPresets([]);
         } finally {
             setLoadingPresets(false);
         }
@@ -129,7 +130,7 @@ export default function AddStrengthForm({ date }) {
                                 </TouchableOpacity>
                             ))
                         ) : (
-                            <Text style={styles.emptyText}>No presets for this category</Text>
+                            <Text style={styles.emptyText}>No hay ejercicios de esta categoría disponibles</Text>
                         )}
                         <TouchableOpacity
                             style={[styles.customButton, { backgroundColor: colorStyle.mainGradient[1] }]}
