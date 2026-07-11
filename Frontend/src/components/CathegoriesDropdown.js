@@ -76,6 +76,15 @@ export const CathegoriesDropdown = ({ onCategorySelect, selectedCategory }) => {
             </Animated.View>
             {isOpen && (
                 <Animated.View entering={FadeInDown.duration(200)} exiting={FadeOutUp.duration(150)} style={styles.dropdown}>
+                    <TouchableOpacity
+                        style={[styles.dropdownItem, !selectedCategory && styles.dropdownItemActive]}
+                        onPress={() => {
+                            onCategorySelect?.(null);
+                            setIsOpen(false);
+                        }}
+                    >
+                        <Text style={styles.dropdownItemText}>All categories</Text>
+                    </TouchableOpacity>
                     {cathegories.length > 0 ? (
                         cathegories.map((cat) => (
                             <TouchableOpacity
