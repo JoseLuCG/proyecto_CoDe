@@ -29,6 +29,7 @@ const ExercisesScreen = ({ navigation }) => {
     const [strenghtExercises, setStrenghtExercises] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     function handleOpenModal(exercise) {
         setSelectedExercise(exercise);
@@ -88,10 +89,10 @@ const ExercisesScreen = ({ navigation }) => {
                     <DaysCarousel setSelectedDate={setSelectedDate} />
                 </View>
                 <View style={Platform.OS === 'web' ? styles.exercisesColumn : styles.exercisesContainer}>
-                    <CathegoriesDropdown />
+                    <CathegoriesDropdown onCategorySelect={setSelectedCategory} selectedCategory={selectedCategory} />
 
                     {
-                        cardioExercises != null ?
+                        cardioExercises != null && !selectedCategory ?
                             cardioExercises.map(
                                 (exercise) => <TrainingTab key={exercise.uuidExercise} data={exercise} onPress={() => handleOpenModal(exercise)} />
                             )
@@ -100,7 +101,13 @@ const ExercisesScreen = ({ navigation }) => {
                     }
                     {
                         strenghtExercises != null ?
-                            Object.entries(groupByCathegory(strenghtExercises)).map(([cathegory, exercises]) => (
+                            Object.entries(
+                                groupByCathegory(
+                                    selectedCategory
+                                        ? strenghtExercises.filter(ex => ex.cathegoryName === selectedCategory.cathegory_name)
+                                        : strenghtExercises
+                                )
+                            ).map(([cathegory, exercises]) => (
                                 <View key={cathegory} style={styles.cathegoryGroup}>
                                     <Text style={styles.cathegoryGroupTitle}>{cathegory}</Text>
                                     {exercises.map(exercise => (

@@ -5,7 +5,7 @@ import { colorStyle } from '../styles/Colors';
 import { User } from '../contexts/UserContext';
 import * as cathegoryService from "../services/cathegoryService";
 
-export const CathegoriesDropdown = () => {
+export const CathegoriesDropdown = ({ onCategorySelect, selectedCategory }) => {
     const { token } = useContext(User);
     const [cathegories, setCathegories] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -80,8 +80,13 @@ export const CathegoriesDropdown = () => {
                         cathegories.map((cat) => (
                             <TouchableOpacity
                                 key={cat.uuid_cathegory}
-                                style={styles.dropdownItem}
-                                onPress={() => setIsOpen(false)}
+                                style={[styles.dropdownItem, selectedCategory?.uuid_cathegory === cat.uuid_cathegory && styles.dropdownItemActive]}
+                                onPress={() => {
+                                    onCategorySelect?.(
+                                        selectedCategory?.uuid_cathegory === cat.uuid_cathegory ? null : cat
+                                    );
+                                    setIsOpen(false);
+                                }}
                             >
                                 <Text style={styles.dropdownItemText}>{cat.cathegory_name}</Text>
                             </TouchableOpacity>
@@ -157,6 +162,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderRadius: 20,
         marginBottom: 4,
+    },
+    dropdownItemActive: {
+        backgroundColor: colorStyle.mainGradient[0],
     },
     dropdownItemText: {
         color: colorStyle.textPrimary,
