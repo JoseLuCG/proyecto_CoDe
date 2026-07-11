@@ -1,7 +1,7 @@
 import getExercisePresets from "./handlers/getExercisePresets.js";
 
 async function getPresets(req, res) {
-    const { type, cathegory } = req.query;
+    const { type, cathegory, user } = req.query;
 
     if (!type) {
         res.status(400).json({ error: "Exercise type is required" });
@@ -9,7 +9,7 @@ async function getPresets(req, res) {
     }
 
     try {
-        const presets = await getExercisePresets(type, cathegory || null);
+        const presets = await getExercisePresets(type, cathegory || null, user || null);
         res.json(presets);
     } catch (error) {
         console.error(error);

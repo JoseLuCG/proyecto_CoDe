@@ -57,7 +57,7 @@ export default function AddStrengthForm({ date }) {
         setStep('presets');
         setLoadingPresets(true);
         try {
-            const data = await presetService.getPresets("strength", cat.uuid_cathegory, token);
+            const data = await presetService.getPresets("strength", cat.uuid_cathegory, user.uuidUser, token);
             setPresets(data);
         } catch (error) {
             console.error(error);
