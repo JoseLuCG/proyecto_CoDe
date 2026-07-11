@@ -2,11 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import {
     StyleSheet, TouchableOpacity, Text, View,
     Keyboard, TouchableWithoutFeedback, ScrollView,
-    ActivityIndicator,
-    Dimensions
+    ActivityIndicator, Dimensions
 } from "react-native";
 import InputField from "../InputField";
 import * as apiService from "./../../services/exerciseService";
+import * as presetService from "./../../services/exercisePresetService";
 import { User } from '../../contexts/UserContext';
 import { colorStyle } from "../../styles/Colors";
 
@@ -29,6 +29,8 @@ export default function AddCardioForm({ date, onClose }) {
     const [exerciseData, setExerciseData] = useState(INITIAL_STATE);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [presets, setPresets] = useState([]);
+    const [loadingPresets, setLoadingPresets] = useState(true);
 
     function handleInputChange(fieldName, value) {
         setExerciseData(prev => ({ ...prev, [fieldName]: value }));
@@ -41,6 +43,10 @@ export default function AddCardioForm({ date, onClose }) {
             exerciseTime: { ...prev.exerciseTime, [field]: value }
         }));
         setErrorMessage("");
+    }
+
+    function handlePresetSelect(preset) {
+        handleInputChange("exerciseName", preset.exercise_name);
     }
 
     async function submitForm() {
@@ -66,6 +72,10 @@ export default function AddCardioForm({ date, onClose }) {
     useEffect(() => {
         handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));
         handleInputChange("exerciseUser", user.uuidUser);
+        presetService.getPresets("cardio", null, token)
+            .then(setPresets)
+            .catch(console.error)
+            .finally(() => setLoadingPresets(false));
     }, []);
 
     return (
@@ -76,6 +86,32 @@ export default function AddCardioForm({ date, onClose }) {
                 showsVerticalScrollIndicator={false}
             >
                 <View style={styles.container}>
+                    {loadingPresets ? (
+                        <ActivityIndicator size="small" color={colorStyle.mainGradient[0]} />
+                    ) : presets.length > 0 ? (
+                        <View style={styles.sectionCard}>
+                            <Text style={styles.sectionLabel}>Quick select</Text>
+                            <View style={styles.presetRow}>
+                                {presets.map((preset) => (
+                                    <TouchableOpacity
+                                        key={preset.uuid_exercise_preset}
+                                        style={[
+                                            styles.presetChip,
+                                            exerciseData.exerciseName === preset.exercise_name && styles.presetChipActive
+                                        ]}
+                                        onPress={() => handlePresetSelect(preset)}
+                                        activeOpacity={0.8}
+                                    >
+                                        <Text style={[
+                                            styles.presetChipText,
+                                            exerciseData.exerciseName === preset.exercise_name && styles.presetChipTextActive
+                                        ]}>{preset.exercise_name}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </View>
+                    ) : null}
+
                     <View style={styles.sectionCard}>
                         <Text style={styles.sectionLabel}>Exercise name</Text>
                         <InputField
@@ -191,6 +227,7 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 2,
         alignItems: 'center',
+        alignSelf: 'center',
     },
     sectionLabel: {
         fontSize: 13,
@@ -200,6 +237,33 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         marginBottom: 10,
         alignSelf: 'flex-start',
+    },
+    presetRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: 8,
+    },
+    presetChip: {
+        backgroundColor: colorStyle.mainGradient[0] + '25',
+        paddingVertical: 8,
+        paddingHorizontal: 14,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: colorStyle.mainGradient[0] + '40',
+    },
+    presetChipActive: {
+        backgroundColor: colorStyle.mainGradient[0],
+        borderColor: colorStyle.mainGradient[0],
+    },
+    presetChipText: {
+        color: colorStyle.textPrimary,
+        fontSize: 14,
+        fontWeight: '500',
+    },
+    presetChipTextActive: {
+        color: colorStyle.textPrimary,
+        fontWeight: '700',
     },
     row: {
         flexDirection: 'row',
@@ -237,6 +301,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 8,
+        alignSelf: 'center',
     },
     saveButtonText: {
         fontSize: 18,

@@ -21,6 +21,28 @@ CREATE TABLE user(
     CHECK (height BETWEEN 50 AND 250)
 );
 
+/* ----- CATHEGORY TABLE ----- */
+CREATE TABLE cathegory (
+    uuid_cathegory CHAR(36) NOT NULL,
+    cathegory_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (uuid_cathegory),
+    UNIQUE (cathegory_name)
+);
+
+/* ----- EXERCISE PRESET TABLE ----- */
+CREATE TABLE exercise_preset (
+    uuid_exercise_preset CHAR(36) NOT NULL,
+    exercise_name VARCHAR(50) NOT NULL,
+    exercise_type ENUM('strength', 'cardio') NOT NULL,
+    uuid_cathegory CHAR(36),
+    PRIMARY KEY (uuid_exercise_preset),
+    FOREIGN KEY (uuid_cathegory)
+        REFERENCES cathegory (uuid_cathegory)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE,
+    UNIQUE (exercise_name)
+);
+
 /* ----- STRENGTH TABLE ----- */
 CREATE TABLE strength_exercise (
     uuid_strength_exercise CHAR(36) NOT NULL,
@@ -70,14 +92,6 @@ CREATE TABLE cardio_exercise (
     UNIQUE (exercise_date, uuid_user, exercise_name)
 );
 
-/* ----- CATHEGORY TABLE ----- */
-CREATE TABLE cathegory (
-    uuid_cathegory CHAR(36) NOT NULL,
-    cathegory_name VARCHAR(50) NOT NULL,
-    PRIMARY KEY (uuid_cathegory),
-    UNIQUE (cathegory_name)
-);
-
 /* ----- FOOD INTAKE TABLE ----- */
 CREATE TABLE food_intake (
     uuid_food_intake CHAR(36) NOT NULL,
@@ -91,23 +105,3 @@ CREATE TABLE food_intake (
     PRIMARY KEY (uuid_food_intake),
     FOREIGN KEY (uuid_user) REFERENCES user (uuid_user) ON UPDATE CASCADE
 );
-
--- USEFULL REFERENCE --
-SELECT
-    se.exercise_name,
-    COUNT(es.uuid_exercise_set) AS total_sets
-FROM strength_exercise se
-JOIN exercise_set es
-  ON se.uuid_strength_exercise = es.uuid_strength_exercise
-GROUP BY se.uuid_strength_exercise;
-
-/* ----- 2. Add uuid_cathegory column to strength_exercise ----- */
-ALTER TABLE strength_exercise
-    ADD COLUMN uuid_cathegory CHAR(36);
-/* ----- 3. Add foreign key constraint ----- */
-ALTER TABLE strength_exercise
-    ADD CONSTRAINT fk_strength_cathegory
-    FOREIGN KEY (uuid_cathegory)
-    REFERENCES cathegory (uuid_cathegory)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE;

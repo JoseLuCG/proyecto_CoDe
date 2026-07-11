@@ -1,15 +1,19 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, Text, View, ScrollView } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, View, ScrollView, ActivityIndicator } from "react-native";
 import InputField from "../InputField";
 import * as apiService from "./../../services/exerciseService";
 import * as cathegoryService from "./../../services/cathegoryService";
+import * as presetService from "./../../services/exercisePresetService";
 import { User } from '../../contexts/UserContext';
 import { colorStyle } from "../../styles/Colors";
 
 export default function AddStrengthForm({ date }) {
     const { user, token } = useContext(User);
     const [cathegories, setCathegories] = useState([]);
-    const [showCathegoryPicker, setShowCathegoryPicker] = useState(false);
+    const [step, setStep] = useState('category');
+    const [selectedCathegory, setSelectedCathegory] = useState(null);
+    const [presets, setPresets] = useState([]);
+    const [loadingPresets, setLoadingPresets] = useState(false);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
@@ -47,6 +51,31 @@ export default function AddStrengthForm({ date }) {
         }
     }
 
+    async function handleCategorySelect(cat) {
+        setSelectedCathegory(cat);
+        handleInputChange("uuidCathegory", cat.uuid_cathegory);
+        setLoadingPresets(true);
+        try {
+            const data = await presetService.getPresets("strength", cat.uuid_cathegory, token);
+            setPresets(data);
+            setStep('presets');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoadingPresets(false);
+        }
+    }
+
+    function handlePresetSelect(preset) {
+        handleInputChange("exerciseName", preset.exercise_name);
+        setStep('details');
+    }
+
+    function handleCustomExercise() {
+        handleInputChange("exerciseName", "");
+        setStep('details');
+    }
+
     useEffect(() => {
         handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));
         handleInputChange("exerciseUser", user.uuidUser);
@@ -55,8 +84,71 @@ export default function AddStrengthForm({ date }) {
             .catch(console.error);
     }, []);
 
+    if (step === 'category') {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.stepTitle}>Select a category</Text>
+                <ScrollView style={styles.pickerList}>
+                    {cathegories.map((cat) => (
+                        <TouchableOpacity
+                            key={cat.uuid_cathegory}
+                            style={styles.pickerItem}
+                            onPress={() => handleCategorySelect(cat)}
+                            activeOpacity={0.8}
+                        >
+                            <Text style={styles.pickerItemText}>{cat.cathegory_name}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            </View>
+        );
+    }
+
+    if (step === 'presets') {
+        return (
+            <View style={styles.container}>
+                <TouchableOpacity onPress={() => setStep('category')} style={styles.backButton}>
+                    <Text style={styles.backButtonText}>{"< Back"}</Text>
+                </TouchableOpacity>
+                <Text style={styles.stepTitle}>
+                    {selectedCathegory ? selectedCathegory.cathegory_name : ""} exercises
+                </Text>
+                {loadingPresets ? (
+                    <ActivityIndicator size="large" color={colorStyle.mainGradient[0]} />
+                ) : (
+                    <ScrollView style={styles.pickerList}>
+                        {presets.length > 0 ? (
+                            presets.map((preset) => (
+                                <TouchableOpacity
+                                    key={preset.uuid_exercise_preset}
+                                    style={styles.pickerItem}
+                                    onPress={() => handlePresetSelect(preset)}
+                                    activeOpacity={0.8}
+                                >
+                                    <Text style={styles.pickerItemText}>{preset.exercise_name}</Text>
+                                </TouchableOpacity>
+                            ))
+                        ) : (
+                            <Text style={styles.emptyText}>No presets for this category</Text>
+                        )}
+                        <TouchableOpacity
+                            style={[styles.customButton, { backgroundColor: colorStyle.mainGradient[1] }]}
+                            onPress={handleCustomExercise}
+                            activeOpacity={0.8}
+                        >
+                            <Text style={styles.customButtonText}>Custom exercise</Text>
+                        </TouchableOpacity>
+                    </ScrollView>
+                )}
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => setStep('presets')} style={styles.backButton}>
+                <Text style={styles.backButtonText}>{"< Back"}</Text>
+            </TouchableOpacity>
             <View style={styles.formContainer}>
                 <InputField
                     label="Exercise name"
@@ -65,47 +157,6 @@ export default function AddStrengthForm({ date }) {
                     keyboardType="text-pad"
                     centered={true}
                 />
-
-                {/* Category selector */}
-                <TouchableOpacity
-                    style={styles.cathegorySelector}
-                    onPress={() => setShowCathegoryPicker(!showCathegoryPicker)}
-                    activeOpacity={0.8}
-                >
-                    <Text style={styles.cathegorySelectorText}>
-                        {exerciseData.uuidCathegory
-                            ? cathegories.find(c => c.uuid_cathegory === exerciseData.uuidCathegory)?.cathegory_name
-                            : "Select category"}
-                    </Text>
-                </TouchableOpacity>
-
-                {showCathegoryPicker && (
-                    <View style={styles.cathegoryPickerContainer}>
-                        <ScrollView style={styles.cathegoryPickerList}>
-                            <TouchableOpacity
-                                style={styles.cathegoryPickerItem}
-                                onPress={() => {
-                                    handleInputChange("uuidCathegory", "");
-                                    setShowCathegoryPicker(false);
-                                }}
-                            >
-                                <Text style={[styles.cathegoryPickerItemText, cathegories.length === 0 && styles.cathegoryPickerItemTextEmpty]}>None</Text>
-                            </TouchableOpacity>
-                            {cathegories.map((cat) => (
-                                <TouchableOpacity
-                                    key={cat.uuid_cathegory}
-                                    style={styles.cathegoryPickerItem}
-                                    onPress={() => {
-                                        handleInputChange("uuidCathegory", cat.uuid_cathegory);
-                                        setShowCathegoryPicker(false);
-                                    }}
-                                >
-                                    <Text style={styles.cathegoryPickerItemText}>{cat.cathegory_name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View>
-                )}
 
                 <Text style={styles.sectionLabel}>Set {exerciseData.set.setNumber}</Text>
                 <View style={styles.row}>
@@ -151,6 +202,60 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
     },
+    stepTitle: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: colorStyle.textPrimary,
+        marginBottom: 16,
+    },
+    backButton: {
+        alignSelf: 'flex-start',
+        marginLeft: 16,
+        marginBottom: 8,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+    },
+    backButtonText: {
+        color: colorStyle.mainGradient[0],
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    pickerList: {
+        width: '85%',
+        maxHeight: 300,
+    },
+    pickerItem: {
+        backgroundColor: colorStyle.mainGradient[0] + '30',
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        marginBottom: 8,
+    },
+    pickerItemText: {
+        color: colorStyle.textPrimary,
+        fontSize: 16,
+        textAlign: 'center',
+        fontWeight: '500',
+    },
+    customButton: {
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        marginTop: 8,
+        alignItems: 'center',
+    },
+    customButtonText: {
+        color: colorStyle.textPrimary,
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    emptyText: {
+        color: colorStyle.textInactive,
+        fontSize: 14,
+        textAlign: 'center',
+        paddingVertical: 20,
+        fontStyle: 'italic',
+    },
     sectionLabel: {
         fontSize: 14,
         fontWeight: '600',
@@ -185,126 +290,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colorStyle.textPrimary,
     },
-    cathegorySelector: {
-        width: '85%',
-        paddingVertical: 14,
-        paddingHorizontal: 16,
-        borderRadius: 12,
-        backgroundColor: colorStyle.mainGradient[0] + '30',
-        marginTop: 8,
-        marginBottom: 4,
-    },
-    cathegorySelectorText: {
-        color: colorStyle.textPrimary,
-        fontSize: 15,
-        textAlign: 'center',
-    },
-    cathegoryPickerContainer: {
-        width: '85%',
-        maxHeight: 180,
-        backgroundColor: colorStyle.bgDark,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: colorStyle.mainGradient[0] + '60',
-        marginBottom: 8,
-        overflow: 'hidden',
-    },
-    cathegoryPickerList: {
-        width: '100%',
-    },
-    cathegoryPickerItem: {
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: colorStyle.mainGradient[0] + '20',
-    },
-    cathegoryPickerItemText: {
-        color: colorStyle.textPrimary,
-        fontSize: 14,
-        textAlign: 'center',
-    },
-    cathegoryPickerItemTextEmpty: {
-        color: colorStyle.textInactive,
-        fontStyle: 'italic',
-    },
 });
-
-/*
-    return (
-        <KeyboardAwareScrollView
-            bottomOffset={50}
-            enableOnAndroid={true}
-            contentContainerStyle={styles.content}
-        >
-            <View style={styles.container}>
-                <InputField
-                    label="Exercise name:"
-                    value={exerciseData.exerciseName}
-                    onChangeText={(text) => handleInputChange("exerciseName", text)}
-                    keyboardType="text-pad"
-                />
-
-                <WorkoutSwitch
-                    exerciseType={exerciseData.exerciseType}
-                    setExerciseType={(value) => handleInputChange('exerciseType', value)}
-                />
-
-                {
-                    exerciseData.exerciseType ?
-                        // Strenght Input
-                        <InputField
-                            label="Weight:"
-                            value={exerciseData.exerciseWeight}
-                            onChangeText={(text) => handleInputChange("exerciseWeight", text)}
-                            keyboardType="phone-pad"
-                        />
-                        :
-                        // Cardio Input
-                        <InputField
-                            label="Time:"
-                            value={exerciseData.exerciseTime}
-                            onChangeText={(text) => handleInputChange("exerciseTime", text)}
-                            keyboardType="text-pad"
-                        />
-                }
-
-                {
-                    exerciseData.exerciseType ?
-                        <InputField
-                            label="Repeats:"
-                            value={exerciseData.exerciseRepeats}
-                            onChangeText={(text) => handleInputChange("exerciseRepeats", text)}
-                            keyboardType="phone-pad"
-                        />
-                        :
-                        <InputField
-                            label="Distance:"
-                            value={exerciseData.exerciseDistance}
-                            onChangeText={(text) => handleInputChange("exerciseDistance", text)}
-                            keyboardType="phone-pad"
-                        />
-                }
-
-                {
-                    exerciseData.exerciseType ?
-                        null
-                        :
-                        <InputField
-                            label="Intensity:"
-                            value={exerciseData.exerciseIntensity}
-                            onChangeText={(text) => handleInputChange("exerciseIntensity", text)}
-                            keyboardType="phone-pad"
-                        />
-                }
-                {
-                    exerciseData.exerciseType ? <SavedSetInfoDisplay /> : null
-                }
-                <TouchableOpacity style={styles.addButton} onPress={submitForm}>
-                    <Text style={styles.buttonText}>ADD</Text>
-                </TouchableOpacity>
-
-            </View>
-        </KeyboardAwareScrollView>
-
-    );
-*/

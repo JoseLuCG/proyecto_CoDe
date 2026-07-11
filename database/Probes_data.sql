@@ -43,3 +43,86 @@ INSERT INTO cathegory (uuid_cathegory, cathegory_name)
 	VALUES(UUID(), "PIERNA");
 INSERT INTO cathegory (uuid_cathegory, cathegory_name)
 	VALUES(UUID(), "ABS");
+INSERT INTO cathegory (uuid_cathegory, cathegory_name)
+	VALUES(UUID(), "ESPALDA");
+INSERT INTO cathegory (uuid_cathegory, cathegory_name)
+	VALUES(UUID(), "HOMBRO");
+INSERT INTO cathegory (uuid_cathegory, cathegory_name)
+	VALUES(UUID(), "BRAZO");
+
+-- EXERCISE PRESETS --
+-- PECHO
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Press Banca", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PECHO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Press Inclinado Mancuernas", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PECHO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Aperturas Mancuernas", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PECHO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Fondos", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PECHO"));
+
+-- PIERNA
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Sentadilla", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PIERNA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Peso Muerto", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PIERNA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Prensa Pierna", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PIERNA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Zancadas", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PIERNA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Extension Cuadriceps", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PIERNA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Curl Femoral", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "PIERNA"));
+
+-- ABS
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Plancha", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ABS"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Crunches", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ABS"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Elevacion Piernas", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ABS"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Russian Twist", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ABS"));
+
+-- ESPALDA
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Remo Barra", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ESPALDA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Dominadas", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ESPALDA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Jalon al Pecho", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ESPALDA"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Remo Mancuerna", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "ESPALDA"));
+
+-- HOMBRO
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Press Militar", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "HOMBRO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Elevaciones Laterales", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "HOMBRO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Pajaros", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "HOMBRO"));
+
+-- BRAZO
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Curl Biceps", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "BRAZO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Curl Martillo", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "BRAZO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Press Frances", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "BRAZO"));
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Fondos Triceps", "strength", (SELECT uuid_cathegory FROM cathegory WHERE cathegory_name = "BRAZO"));
+
+-- CARDIO (no category)
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Carrera", "cardio", NULL);
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Bicicleta", "cardio", NULL);
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Natacion", "cardio", NULL);
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Eliptica", "cardio", NULL);
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Remo", "cardio", NULL);
+INSERT INTO exercise_preset (uuid_exercise_preset, exercise_name, exercise_type, uuid_cathegory)
+    VALUES(UUID(), "Cuerda Saltar", "cardio", NULL);

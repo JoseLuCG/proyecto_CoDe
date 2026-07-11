@@ -5,8 +5,9 @@ import * as cardioControllers from "./controllers/exerciseControllers/cardioCont
 import * as strengthControllers from "./controllers/exerciseControllers/strengthControllers.js"
 import * as feedingControllers from "./controllers/feedingControllers/feedingControllers.js";
 import * as cathegoryControllers from "./controllers/cathegoryControllers/cathegoryControllers.js";
+import * as presetsControllers from "./controllers/exerciseControllers/presetsControllers.js";
 import cors from "cors";
-import { cardioRoutes, strenghtRoutes, userRoutes, feedingRoutes, cathegoryRoutes } from "./utils/routes.js";
+import { cardioRoutes, strenghtRoutes, userRoutes, feedingRoutes, cathegoryRoutes, presetRoutes } from "./utils/routes.js";
 import { authenticateToken } from "./middleware/auth.js";
 
 dotenv.config();
@@ -46,6 +47,9 @@ app.get(feedingRoutes.getFoods, authenticateToken, feedingControllers.getFoods);
 app.post(cathegoryRoutes.addCathegory, jsonParser, authenticateToken, cathegoryControllers.addCathegory);
 app.get(cathegoryRoutes.getCathegories, authenticateToken, cathegoryControllers.getCathegoriesList);
 app.delete(cathegoryRoutes.deleteCathegory, authenticateToken, cathegoryControllers.deleteCathegory);
+
+// ---------- Exercise Presets Endpoints ----------
+app.get(presetRoutes.getExercisePresets, authenticateToken, presetsControllers.getPresets);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
