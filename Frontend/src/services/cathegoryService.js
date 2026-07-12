@@ -1,5 +1,7 @@
 import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 import { authHeaders } from "../utilities/authFunctions";
+import { isOnline } from "../utilities/networkState";
+import { enqueue } from "../utilities/offlineQueue";
 
 export async function getCathegories(token) {
     const apiEndPointDirection = HOST_IP + apiRoutes.cathegory.getCathegories;
@@ -18,6 +20,17 @@ export async function addCathegory(cathegoryName, token) {
         headers: authHeaders(token),
         body: JSON.stringify({ cathegoryName })
     };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "POST",
+            endpoint: apiRoutes.cathegory.addCathegory,
+            body: { cathegoryName },
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
     const response = await fetch(apiEndPointDirection, fetchOptions);
     if (!response.ok) {
         const errorData = await response.text().catch(() => "Error en la solicitud");
@@ -32,6 +45,17 @@ export async function deleteCathegory(uuid, token) {
         method: "DELETE",
         headers: authHeaders(token)
     };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "DELETE",
+            endpoint: apiRoutes.cathegory.deleteCathegory + uuid,
+            body: null,
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
     const response = await fetch(apiEndPointDirection, fetchOptions);
     if (!response.ok) {
         throw new Error("Error al eliminar categoría");

@@ -1,6 +1,8 @@
 import { cardioAdapter, exerciseMapper, exerciseStrengthMapper } from "../adapters/exerciseAdapters";
 import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 import { authHeaders } from "../utilities/authFunctions";
+import { isOnline } from "../utilities/networkState";
+import { enqueue } from "../utilities/offlineQueue";
 
 export async function addCardioExercise(newData, token) {
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.addExercise;
@@ -10,6 +12,17 @@ export async function addCardioExercise(newData, token) {
         headers: authHeaders(token),
         body: JSON.stringify(adaptedData)
     };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "POST",
+            endpoint: apiRoutes.exercise.cardio.addExercise,
+            body: adaptedData,
+            headers: authHeaders(token)
+        });
+        return "queued";
+    }
+
     const response = await fetch(apiEndPointDirection, fetchOptions);
     if (!response.ok) {
         const errorData = await response.text().catch(() => "Error en la solicitud");
@@ -37,6 +50,17 @@ export async function addStrengthExecise(newData, token) {
         headers: authHeaders(token),
         body: JSON.stringify(newData)
     };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "POST",
+            endpoint: apiRoutes.exercise.strength.addExercise,
+            body: newData,
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
     const response = await fetch(apiEndPointDirection, fetchOptions);
     if (!response.ok) {
         const errorData = await response.text().catch(() => "Error en la solicitud");
@@ -73,6 +97,17 @@ export async function updateExerciseSet(uuid, setData, token) {
         headers: authHeaders(token),
         body: JSON.stringify(setData)
     };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "PUT",
+            endpoint: apiRoutes.exercise.strength.updateExerciseSet + uuid,
+            body: setData,
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
     const response = await fetch(apiEndPointDirection, fetchOptions);
     if (!response.ok) {
         const errorData = await response.text().catch(() => "Error en la solicitud");
@@ -87,6 +122,17 @@ export async function deleteExerciseSet(uuid, token) {
         method: "DELETE",
         headers: authHeaders(token)
     };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "DELETE",
+            endpoint: apiRoutes.exercise.strength.deleteExerciseSet + uuid,
+            body: null,
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
     const response = await fetch(apiEndPointDirection, fetchOptions);
     if (!response.ok) {
         const errorData = await response.text().catch(() => "Error en la solicitud");

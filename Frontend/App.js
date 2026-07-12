@@ -4,6 +4,8 @@ import AppNavigator from './src/navigation/AppNavigator';
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { UserProvider } from './src/contexts/UserContext';
+import { NetworkProvider } from './src/contexts/NetworkContext';
+import NetworkBanner from './src/components/NetworkBanner';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 SplashScreen.preventAutoHideAsync();
@@ -35,9 +37,12 @@ const App = () => {
 	return (
 		<KeyboardProvider>
 			<UserProvider>
-				<NavigationContainer onReady={onLayoutRootView}>
-					<AppNavigator />
-				</NavigationContainer>
+				<NetworkProvider>
+					<NavigationContainer onReady={onLayoutRootView}>
+						<NetworkBanner />
+						<AppNavigator />
+					</NavigationContainer>
+				</NetworkProvider>
 			</UserProvider>
 		</KeyboardProvider>
 	);
