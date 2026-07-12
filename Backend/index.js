@@ -38,6 +38,9 @@ app.get(cardioRoutes.getCardioExercisesInDate, authenticateToken, cardioControll
 // ---------- Strenght Endpoints ----------
 app.post(strenghtRoutes.addStrengthExercise, jsonParser, authenticateToken, strengthControllers.addStrengthExecise);
 app.get(strenghtRoutes.getStrengthExercisesInDate, authenticateToken, strengthControllers.getStrengthExercises);
+app.get(strenghtRoutes.getExerciseSets, authenticateToken, strengthControllers.getExerciseSets);
+app.put(strenghtRoutes.updateExerciseSet, jsonParser, authenticateToken, strengthControllers.updateExerciseSet);
+app.delete(strenghtRoutes.deleteExerciseSet, authenticateToken, strengthControllers.deleteExerciseSet);
 
 // ---------- Feeding Endpoints ----------
 app.post(feedingRoutes.addFood, jsonParser, authenticateToken, feedingControllers.addFood);
