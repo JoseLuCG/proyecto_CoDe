@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, Text, View, ScrollView, ActivityIndicator } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, View, ScrollView, ActivityIndicator, TextInput } from "react-native";
 import InputField from "../InputField";
 import * as apiService from "./../../services/exerciseService";
 import * as cathegoryService from "./../../services/cathegoryService";
@@ -14,6 +14,9 @@ export default function AddStrengthForm({ date }) {
     const [selectedCathegory, setSelectedCathegory] = useState(null);
     const [presets, setPresets] = useState([]);
     const [loadingPresets, setLoadingPresets] = useState(false);
+    const [showAddCategory, setShowAddCategory] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState('');
+    const [addingCategory, setAddingCategory] = useState(false);
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
@@ -35,6 +38,27 @@ export default function AddStrengthForm({ date }) {
             ...prev,
             set: { ...prev.set, [field]: value }
         }));
+    }
+
+    async function handleAddCategory() {
+        const name = newCategoryName.trim();
+        if (!name) return;
+        setAddingCategory(true);
+        try {
+            await cathegoryService.addCathegory(name, token);
+            setNewCategoryName('');
+            setShowAddCategory(false);
+            const updated = await cathegoryService.getCathegories(token);
+            setCathegories(updated);
+            const newCat = updated.find(c => c.cathegory_name === name);
+            if (newCat) {
+                handleCategorySelect(newCat);
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setAddingCategory(false);
+        }
     }
 
     async function submitForm() {
@@ -101,6 +125,37 @@ export default function AddStrengthForm({ date }) {
                         </TouchableOpacity>
                     ))}
                 </ScrollView>
+                <View style={styles.addCategorySection}>
+                    {showAddCategory ? (
+                        <View style={styles.addCategoryRow}>
+                            <TextInput
+                                style={styles.addCategoryInput}
+                                value={newCategoryName}
+                                onChangeText={setNewCategoryName}
+                                placeholder="Category name"
+                                placeholderTextColor={colorStyle.textInactive}
+                                autoFocus
+                            />
+                            <TouchableOpacity
+                                style={styles.addCategoryConfirmBtn}
+                                onPress={handleAddCategory}
+                                disabled={addingCategory}
+                            >
+                                <Text style={styles.addCategoryConfirmText}>{addingCategory ? "..." : "Add"}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.addCategoryCancelBtn}
+                                onPress={() => { setShowAddCategory(false); setNewCategoryName(''); }}
+                            >
+                                <Text style={styles.addCategoryCancelText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <TouchableOpacity style={styles.addCategoryButton} onPress={() => setShowAddCategory(true)}>
+                            <Text style={styles.addCategoryButtonText}>+ Add category</Text>
+                        </TouchableOpacity>
+                    )}
+                </View>
             </View>
         );
     }
@@ -256,6 +311,55 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingVertical: 20,
         fontStyle: 'italic',
+    },
+    addCategorySection: {
+        width: '85%',
+        marginTop: 8,
+        borderTopWidth: 1,
+        borderTopColor: colorStyle.mainGradient[0] + '40',
+        paddingTop: 8,
+    },
+    addCategoryButton: {
+        paddingVertical: 10,
+        alignItems: 'center',
+    },
+    addCategoryButtonText: {
+        color: colorStyle.mainGradient[0],
+        fontSize: 14,
+        fontWeight: '600',
+    },
+    addCategoryRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    addCategoryInput: {
+        flex: 1,
+        height: 36,
+        backgroundColor: colorStyle.bgCard,
+        borderRadius: 20,
+        paddingHorizontal: 12,
+        fontSize: 14,
+        color: colorStyle.textPrimary,
+    },
+    addCategoryConfirmBtn: {
+        backgroundColor: colorStyle.mainGradient[0],
+        paddingVertical: 8,
+        paddingHorizontal: 14,
+        borderRadius: 20,
+    },
+    addCategoryConfirmText: {
+        color: colorStyle.textPrimary,
+        fontWeight: '600',
+        fontSize: 13,
+    },
+    addCategoryCancelBtn: {
+        paddingVertical: 8,
+        paddingHorizontal: 6,
+    },
+    addCategoryCancelText: {
+        color: colorStyle.textInactive,
+        fontSize: 13,
     },
     sectionLabel: {
         fontSize: 14,
