@@ -55,3 +55,42 @@ export async function getStrengthExercisesInDate(date, user, token) {
     const mappedData = exerciseStrengthMapper(data);
     return mappedData;
 }
+
+export async function getExerciseSetsByName(date, user, exerciseName, token) {
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.getExerciseSets + date + "/" + user + "/" + encodeURIComponent(exerciseName);
+    const response = await fetch(apiEndPointDirection, { headers: authHeaders(token) });
+    if (!response.ok) {
+        return null;
+    }
+    const data = await response.json();
+    return data;
+}
+
+export async function updateExerciseSet(uuid, setData, token) {
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.updateExerciseSet + uuid;
+    const fetchOptions = {
+        method: "PUT",
+        headers: authHeaders(token),
+        body: JSON.stringify(setData)
+    };
+    const response = await fetch(apiEndPointDirection, fetchOptions);
+    if (!response.ok) {
+        const errorData = await response.text().catch(() => "Error en la solicitud");
+        throw new Error(errorData);
+    }
+    return response;
+}
+
+export async function deleteExerciseSet(uuid, token) {
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.deleteExerciseSet + uuid;
+    const fetchOptions = {
+        method: "DELETE",
+        headers: authHeaders(token)
+    };
+    const response = await fetch(apiEndPointDirection, fetchOptions);
+    if (!response.ok) {
+        const errorData = await response.text().catch(() => "Error en la solicitud");
+        throw new Error(errorData);
+    }
+    return response;
+}

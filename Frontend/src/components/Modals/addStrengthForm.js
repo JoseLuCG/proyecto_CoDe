@@ -17,6 +17,11 @@ export default function AddStrengthForm({ date }) {
     const [showAddCategory, setShowAddCategory] = useState(false);
     const [newCategoryName, setNewCategoryName] = useState('');
     const [addingCategory, setAddingCategory] = useState(false);
+    const [existingSets, setExistingSets] = useState([]);
+    const [loadingSets, setLoadingSets] = useState(false);
+    const [editingSetUuid, setEditingSetUuid] = useState(null);
+    const [editWeight, setEditWeight] = useState('');
+    const [editRepeats, setEditRepeats] = useState('');
     const [exerciseData, setExerciseData] = useState({
         exerciseUser: "",
         exerciseName: "",
@@ -61,13 +66,80 @@ export default function AddStrengthForm({ date }) {
         }
     }
 
+    async function loadExistingSets() {
+        setLoadingSets(true);
+        try {
+            const data = await apiService.getExerciseSetsByName(
+                exerciseData.exerciseDate,
+                exerciseData.exerciseUser,
+                exerciseData.exerciseName,
+                token
+            );
+            if (data) {
+                setExistingSets(data.sets);
+                setExerciseData(prev => ({
+                    ...prev,
+                    set: { ...prev.set, setNumber: data.sets.length + 1 }
+                }));
+            } else {
+                setExistingSets([]);
+                setExerciseData(prev => ({
+                    ...prev,
+                    set: { ...prev.set, setNumber: 1 }
+                }));
+            }
+        } catch (error) {
+            console.error(error);
+            setExistingSets([]);
+        } finally {
+            setLoadingSets(false);
+        }
+    }
+
+    function handleStartEdit(set) {
+        setEditingSetUuid(set.uuid_exercise_set);
+        setEditWeight(String(set.weight));
+        setEditRepeats(String(set.repeats));
+    }
+
+    function handleCancelEdit() {
+        setEditingSetUuid(null);
+        setEditWeight('');
+        setEditRepeats('');
+    }
+
+    async function handleSaveEdit(uuid) {
+        try {
+            await apiService.updateExerciseSet(uuid, {
+                weight: parseFloat(editWeight),
+                repeats: parseInt(editRepeats, 10)
+            }, token);
+            setEditingSetUuid(null);
+            setEditWeight('');
+            setEditRepeats('');
+            await loadExistingSets();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function handleDeleteSet(uuid) {
+        try {
+            await apiService.deleteExerciseSet(uuid, token);
+            await loadExistingSets();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async function submitForm() {
         try {
             const response = await apiService.addStrengthExecise(exerciseData, token);
             if (response.ok) {
+                await loadExistingSets();
                 setExerciseData(prev => ({
                     ...prev,
-                    set: { setNumber: prev.set.setNumber + 1, setWeight: "", setRepeats: "" }
+                    set: { ...prev.set, setWeight: "", setRepeats: "" }
                 }));
             }
         } catch (error) {
@@ -108,6 +180,12 @@ export default function AddStrengthForm({ date }) {
             .then(setCathegories)
             .catch(console.error);
     }, []);
+
+    useEffect(() => {
+        if (step === 'details' && exerciseData.exerciseName) {
+            loadExistingSets();
+        }
+    }, [step, exerciseData.exerciseName]);
 
     if (step === 'category') {
         return (
@@ -213,6 +291,62 @@ export default function AddStrengthForm({ date }) {
                     keyboardType="text-pad"
                     centered={true}
                 />
+
+                {loadingSets ? (
+                    <ActivityIndicator size="small" color={colorStyle.mainGradient[0]} style={{ marginTop: 16 }} />
+                ) : existingSets.length > 0 ? (
+                    <View style={styles.existingSetsSection}>
+                        <Text style={styles.sectionLabel}>Existing sets</Text>
+                        <ScrollView style={styles.existingSetsList}>
+                            {existingSets.map((s) => (
+                                <View key={s.uuid_exercise_set} style={styles.existingSetRow}>
+                                    {editingSetUuid === s.uuid_exercise_set ? (
+                                        <>
+                                            <Text style={styles.setNumberLabel}>Set {s.set_number}</Text>
+                                            <TextInput
+                                                style={styles.editInput}
+                                                value={editWeight}
+                                                onChangeText={setEditWeight}
+                                                keyboardType="number-pad"
+                                                placeholder="kg"
+                                                placeholderTextColor={colorStyle.textInactive}
+                                            />
+                                            <TextInput
+                                                style={styles.editInput}
+                                                value={editRepeats}
+                                                onChangeText={setEditRepeats}
+                                                keyboardType="number-pad"
+                                                placeholder="reps"
+                                                placeholderTextColor={colorStyle.textInactive}
+                                            />
+                                            <TouchableOpacity
+                                                style={styles.editConfirmBtn}
+                                                onPress={() => handleSaveEdit(s.uuid_exercise_set)}
+                                            >
+                                                <Text style={styles.editConfirmText}>OK</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.editCancelBtn} onPress={handleCancelEdit}>
+                                                <Text style={styles.editCancelText}>X</Text>
+                                            </TouchableOpacity>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Text style={styles.setNumberLabel}>Set {s.set_number}</Text>
+                                            <Text style={styles.existingSetText}>{s.weight} kg</Text>
+                                            <Text style={styles.existingSetText}>{s.repeats} reps</Text>
+                                            <TouchableOpacity style={styles.editBtn} onPress={() => handleStartEdit(s)}>
+                                                <Text style={styles.editBtnText}>Edit</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.deleteBtn} onPress={() => handleDeleteSet(s.uuid_exercise_set)}>
+                                                <Text style={styles.deleteBtnText}>Del</Text>
+                                            </TouchableOpacity>
+                                        </>
+                                    )}
+                                </View>
+                            ))}
+                        </ScrollView>
+                    </View>
+                ) : null}
 
                 <Text style={styles.sectionLabel}>Set {exerciseData.set.setNumber}</Text>
                 <View style={styles.row}>
@@ -394,5 +528,86 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: colorStyle.textPrimary,
+    },
+    existingSetsSection: {
+        width: '85%',
+        marginTop: 8,
+    },
+    existingSetsList: {
+        maxHeight: 180,
+    },
+    existingSetRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: colorStyle.mainGradient[0] + '30',
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        borderRadius: 12,
+        marginBottom: 6,
+        gap: 8,
+    },
+    setNumberLabel: {
+        color: colorStyle.textMuted,
+        fontSize: 13,
+        fontWeight: '600',
+        minWidth: 38,
+    },
+    existingSetText: {
+        color: colorStyle.textPrimary,
+        fontSize: 14,
+        flex: 1,
+        textAlign: 'center',
+    },
+    editBtn: {
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        backgroundColor: colorStyle.mainGradient[0] + '60',
+    },
+    editBtnText: {
+        color: colorStyle.textPrimary,
+        fontSize: 12,
+        fontWeight: '600',
+    },
+    deleteBtn: {
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        backgroundColor: '#a03030',
+    },
+    deleteBtnText: {
+        color: colorStyle.textPrimary,
+        fontSize: 12,
+        fontWeight: '600',
+    },
+    editInput: {
+        flex: 1,
+        height: 32,
+        backgroundColor: colorStyle.bgCard,
+        borderRadius: 12,
+        paddingHorizontal: 8,
+        fontSize: 13,
+        color: colorStyle.textPrimary,
+        textAlign: 'center',
+    },
+    editConfirmBtn: {
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 12,
+        backgroundColor: colorStyle.mainGradient[0],
+    },
+    editConfirmText: {
+        color: colorStyle.textPrimary,
+        fontSize: 12,
+        fontWeight: '600',
+    },
+    editCancelBtn: {
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+    },
+    editCancelText: {
+        color: colorStyle.textInactive,
+        fontSize: 12,
+        fontWeight: '600',
     },
 });

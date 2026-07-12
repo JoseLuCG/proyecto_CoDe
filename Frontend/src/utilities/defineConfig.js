@@ -13,7 +13,10 @@ const apiRoutes = {
         },
         strength: {
             addExercise: "/record-strength-exercise",
-            getStrengthExercisesInDate: "/strength-exercises/"
+            getStrengthExercisesInDate: "/strength-exercises/",
+            getExerciseSets: "/strength-exercise-sets/",
+            updateExerciseSet: "/update-exercise-set/",
+            deleteExerciseSet: "/delete-exercise-set/"
         }
     },
     feeding: {
@@ -24,7 +27,8 @@ const apiRoutes = {
         addCathegory: "/add-cathegory",
         getCathegories: "/cathegories",
         deleteCathegory: "/delete-cathegory/"
-    }
+    },
+    exercisePresets: "/exercise-presets"
 }
 
 const runnigInBrowser = Platform.OS === "web";
