@@ -6,7 +6,7 @@ import { User } from '../contexts/UserContext';
 import * as cathegoryService from "../services/cathegoryService";
 
 export const CathegoriesDropdown = ({ onCategorySelect, selectedCategory }) => {
-    const { token } = useContext(User);
+    const { token, isGuest } = useContext(User);
     const [cathegories, setCathegories] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [showInput, setShowInput] = useState(false);
@@ -37,7 +37,7 @@ export const CathegoriesDropdown = ({ onCategorySelect, selectedCategory }) => {
 
     async function loadCategories() {
         try {
-            const data = await cathegoryService.getCathegories(token);
+            const data = await cathegoryService.getCathegories(token, isGuest);
             setCathegories(data);
         } catch (error) {
             console.error(error);
@@ -58,7 +58,7 @@ export const CathegoriesDropdown = ({ onCategorySelect, selectedCategory }) => {
         const name = newCategoryName.trim();
         if (!name) return;
         try {
-            await cathegoryService.addCathegory(name, token);
+            await cathegoryService.addCathegory(name, token, isGuest);
             setNewCategoryName('');
             setShowInput(false);
             await loadCategories();

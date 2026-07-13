@@ -25,7 +25,7 @@ const INITIAL_STATE = {
 };
 
 export default function AddCardioForm({ date, onClose }) {
-    const { user, token } = useContext(User);
+    const { user, token, isGuest } = useContext(User);
     const [exerciseData, setExerciseData] = useState(INITIAL_STATE);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -58,7 +58,7 @@ export default function AddCardioForm({ date, onClose }) {
         setIsLoading(true);
         setErrorMessage("");
         try {
-            await apiService.addCardioExercise(exerciseData, token);
+            await apiService.addCardioExercise(exerciseData, token, isGuest);
             setExerciseData(INITIAL_STATE);
             onClose();
         } catch (error) {
@@ -72,7 +72,7 @@ export default function AddCardioForm({ date, onClose }) {
     useEffect(() => {
         handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));
         handleInputChange("exerciseUser", user.uuidUser);
-        presetService.getPresets("cardio", null, token)
+        presetService.getPresets("cardio", null, token, isGuest)
             .then(setPresets)
             .catch(console.error)
             .finally(() => setLoadingPresets(false));

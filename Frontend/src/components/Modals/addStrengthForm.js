@@ -8,7 +8,7 @@ import { User } from '../../contexts/UserContext';
 import { colorStyle } from "../../styles/Colors";
 
 export default function AddStrengthForm({ date }) {
-    const { user, token } = useContext(User);
+    const { user, token, isGuest } = useContext(User);
     const [cathegories, setCathegories] = useState([]);
     const [step, setStep] = useState('category');
     const [selectedCathegory, setSelectedCathegory] = useState(null);
@@ -50,10 +50,10 @@ export default function AddStrengthForm({ date }) {
         if (!name) return;
         setAddingCategory(true);
         try {
-            await cathegoryService.addCathegory(name, token);
+            await cathegoryService.addCathegory(name, token, isGuest);
             setNewCategoryName('');
             setShowAddCategory(false);
-            const updated = await cathegoryService.getCathegories(token);
+            const updated = await cathegoryService.getCathegories(token, isGuest);
             setCathegories(updated);
             const newCat = updated.find(c => c.cathegory_name === name);
             if (newCat) {
@@ -73,7 +73,8 @@ export default function AddStrengthForm({ date }) {
                 exerciseData.exerciseDate,
                 exerciseData.exerciseUser,
                 exerciseData.exerciseName,
-                token
+                token,
+                isGuest
             );
             if (data) {
                 setExistingSets(data.sets);
@@ -113,7 +114,7 @@ export default function AddStrengthForm({ date }) {
             await apiService.updateExerciseSet(uuid, {
                 weight: parseFloat(editWeight),
                 repeats: parseInt(editRepeats, 10)
-            }, token);
+            }, token, isGuest);
             setEditingSetUuid(null);
             setEditWeight('');
             setEditRepeats('');
@@ -125,7 +126,7 @@ export default function AddStrengthForm({ date }) {
 
     async function handleDeleteSet(uuid) {
         try {
-            await apiService.deleteExerciseSet(uuid, token);
+            await apiService.deleteExerciseSet(uuid, token, isGuest);
             await loadExistingSets();
         } catch (error) {
             console.error(error);
@@ -134,7 +135,7 @@ export default function AddStrengthForm({ date }) {
 
     async function submitForm() {
         try {
-            const response = await apiService.addStrengthExecise(exerciseData, token);
+            const response = await apiService.addStrengthExecise(exerciseData, token, isGuest);
             if (response.ok) {
                 await loadExistingSets();
                 setExerciseData(prev => ({
@@ -153,7 +154,7 @@ export default function AddStrengthForm({ date }) {
         setStep('presets');
         setLoadingPresets(true);
         try {
-            const data = await presetService.getPresets("strength", cat.uuid_cathegory, user.uuidUser, token);
+            const data = await presetService.getPresets("strength", cat.uuid_cathegory, user.uuidUser, token, isGuest);
             setPresets(data);
         } catch (error) {
             console.error(error);
@@ -176,7 +177,7 @@ export default function AddStrengthForm({ date }) {
     useEffect(() => {
         handleInputChange("exerciseDate", date.format('DD-MM-YYYY'));
         handleInputChange("exerciseUser", user.uuidUser);
-        cathegoryService.getCathegories(token)
+        cathegoryService.getCathegories(token, isGuest)
             .then(setCathegories)
             .catch(console.error);
     }, []);

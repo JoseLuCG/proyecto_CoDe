@@ -8,7 +8,7 @@ import { addFood } from "../../services/FoodService";
 const { height } = Dimensions.get('window');
 
 export default function AddFoodDataModal({ date, onClose }) {
-    const { user, token } = useContext(User);
+    const { user, token, isGuest } = useContext(User);
     const [isLoading, setIsLoading] = useState(false);
     const [foodRecordedData, setFoodRecordedData] = useState({
         nameOrIngredients: "",
@@ -37,7 +37,7 @@ export default function AddFoodDataModal({ date, onClose }) {
         };
 
         try {
-            await addFood(foodData, token);
+            await addFood(foodData, token, isGuest);
             onClose();
         } catch (error) {
             console.error(error);
