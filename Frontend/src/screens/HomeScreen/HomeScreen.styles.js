@@ -38,5 +38,18 @@ import { StyleSheet } from "react-native";
 		height: 200,
 		width: 300,
 		borderRadius: 14,
-	}
+	},
+	guestBanner: {
+		backgroundColor: 'rgba(255, 193, 7, 0.25)',
+		paddingVertical: 6,
+		paddingHorizontal: 14,
+		borderRadius: 8,
+		marginTop: 10,
+		alignSelf: 'center',
+	},
+	guestBannerText: {
+		fontSize: 12,
+		color: '#fff',
+		textAlign: 'center',
+	},
 });

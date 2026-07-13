@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
 	View,
 	Text,
@@ -14,10 +14,12 @@ import SideLeftMenu from '../../components/SideLeftMenu';
 import TrainingTab from '../../components/TrainingTab';
 import { exampleData } from '../../services/dataProves';
 import ExerciseModalScreen from '../ExerciseModalScreen';
+import { User } from '../../contexts/UserContext';
 
 const menuWidth = 250;
 
 const HomeScreen = ({ navigation }) => {
+	const { isGuest } = useContext(User);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const slideAnim = useState(new Animated.Value(-menuWidth))[0];
 
@@ -63,6 +65,12 @@ const HomeScreen = ({ navigation }) => {
 			</TouchableOpacity>
 
 			<SideLeftMenu slideAnim={slideAnim} menuOpen={menuOpen} closeMenu={closeMenu} />
+
+			{isGuest && (
+				<View style={styles.guestBanner}>
+					<Text style={styles.guestBannerText}>Modo invitado — Los datos se guardan solo en este dispositivo</Text>
+				</View>
+			)}
 
 			{/* Contenido principal */}
 			<View style={styles.content}>
