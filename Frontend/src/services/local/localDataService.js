@@ -37,6 +37,15 @@ function generateUUID() {
     });
 }
 
+function normalizeDate(dateStr) {
+    if (!dateStr) return dateStr;
+    const parts = dateStr.split("-");
+    if (parts.length === 3 && parts[0].length === 2) {
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    return dateStr;
+}
+
 async function getCollection(key) {
     const raw = await Storage.getItem(key);
     return raw ? JSON.parse(raw) : [];
@@ -54,7 +63,7 @@ export async function addCardioExercise(newData) {
         uuid_cardio_exercise: generateUUID(),
         uuid_user: "guest-local",
         exercise_name: newData.exerciseName,
-        exercise_date: newData.exerciseDate,
+        exercise_date: normalizeDate(newData.exerciseDate),
         exercise_time: `${newData.exerciseTime?.hours || "00"}:${newData.exerciseTime?.minutes || "00"}:${newData.exerciseTime?.seconds || "00"}`,
         distance: newData.exerciseDistance || "0",
         intensity: newData.exerciseIntensity || "0",
@@ -84,24 +93,30 @@ export async function addStrengthExercise(newData) {
     const exercises = await getCollection(KEYS.strength);
     const sets = await getCollection(KEYS.sets);
 
-    const uuidExercise = generateUUID();
-    exercises.push({
-        uuid_strength_exercise: uuidExercise,
-        uuid_user: "guest-local",
-        exercise_name: newData.exerciseName,
-        exercise_date: newData.exerciseDate,
-        uuid_cathegory: newData.uuidCathegory || null,
-    });
+    let exercise = exercises.find(
+        (e) => e.exercise_name === newData.exerciseName
+            && e.exercise_date === normalizeDate(newData.exerciseDate)
+            && e.uuid_user === "guest-local"
+    );
 
-    if (newData.sets && Array.isArray(newData.sets)) {
-        newData.sets.forEach((set, i) => {
-            sets.push({
-                uuid_exercise_set: generateUUID(),
-                uuid_strength_exercise: uuidExercise,
-                set_number: i + 1,
-                weight: set.weight || 0,
-                repeats: set.repeats || 0,
-            });
+    if (!exercise) {
+        exercise = {
+            uuid_strength_exercise: generateUUID(),
+            uuid_user: "guest-local",
+            exercise_name: newData.exerciseName,
+            exercise_date: normalizeDate(newData.exerciseDate),
+            uuid_cathegory: newData.uuidCathegory || null,
+        };
+        exercises.push(exercise);
+    }
+
+    if (newData.set && newData.set.setWeight) {
+        sets.push({
+            uuid_exercise_set: generateUUID(),
+            uuid_strength_exercise: exercise.uuid_strength_exercise,
+            set_number: newData.set.setNumber || 1,
+            weight: parseFloat(newData.set.setWeight) || 0,
+            repeats: parseInt(newData.set.setRepeats, 10) || 0,
         });
     }
 
@@ -113,14 +128,23 @@ export async function addStrengthExercise(newData) {
 export async function getStrengthExercisesInDate(date) {
     const exercises = await getCollection(KEYS.strength);
     const categories = await getCollection(KEYS.categories);
+    const allSets = await getCollection(KEYS.sets);
     const filtered = exercises.filter((e) => e.exercise_date === date);
     return filtered.map((e) => {
         const cat = categories.find((c) => c.uuid_cathegory === e.uuid_cathegory);
+        const exerciseSets = allSets
+            .filter((s) => s.uuid_strength_exercise === e.uuid_strength_exercise)
+            .map((s) => ({
+                uuid_exercise_set: s.uuid_exercise_set,
+                set_number: s.set_number,
+                weight: s.weight,
+                repeats: s.repeats,
+            }));
         return {
             uuidExercise: e.uuid_strength_exercise,
             date: e.exercise_date,
             name: e.exercise_name,
-            sets: undefined,
+            sets: exerciseSets,
             uuidCathegory: e.uuid_cathegory,
             cathegory_name: cat ? cat.cathegory_name : null,
         };
@@ -131,7 +155,7 @@ export async function getExerciseSetsByName(date, exerciseName) {
     const exercises = await getCollection(KEYS.strength);
     const sets = await getCollection(KEYS.sets);
     const exercise = exercises.find(
-        (e) => e.exercise_date === date && e.exercise_name === exerciseName
+        (e) => e.exercise_date === normalizeDate(date) && e.exercise_name === exerciseName
     );
     if (!exercise) return null;
     const filtered = sets
@@ -173,7 +197,7 @@ export async function addFood(newData) {
         uuid_food_intake: generateUUID(),
         uuid_user: "guest-local",
         food_name: newData.foodName,
-        intake_date: newData.intakeDate,
+        intake_date: normalizeDate(newData.intakeDate),
         kcal: newData.kcal || 0,
         proteins: newData.proteins || 0,
         carbohydrates: newData.carbohydrates || 0,
