@@ -3,8 +3,10 @@ import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 import { authHeaders } from "../utilities/authFunctions";
 import { isOnline } from "../utilities/networkState";
 import { enqueue } from "../utilities/offlineQueue";
+import * as local from "./local/localDataService";
 
-export async function addCardioExercise(newData, token) {
+export async function addCardioExercise(newData, token, isGuest = false) {
+    if (isGuest) return local.addCardioExercise(newData);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.addExercise;
     const adaptedData = cardioAdapter(newData);
     const fetchOptions = {
@@ -32,7 +34,8 @@ export async function addCardioExercise(newData, token) {
     return data;
 }
 
-export async function getCardioExercisesInDate(date, user, token) {
+export async function getCardioExercisesInDate(date, user, token, isGuest = false) {
+    if (isGuest) return local.getCardioExercisesInDate(date);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.getCardioExercisesInDate + date + "/" + user;
     const response = await fetch(apiEndPointDirection, { headers: authHeaders(token) });
     if (!response.ok) {
@@ -43,7 +46,8 @@ export async function getCardioExercisesInDate(date, user, token) {
     return mappedData;
 }
 
-export async function addStrengthExecise(newData, token) {
+export async function addStrengthExecise(newData, token, isGuest = false) {
+    if (isGuest) return local.addStrengthExercise(newData);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.addExercise;
     const fetchOptions = {
         method: "POST",
@@ -69,7 +73,8 @@ export async function addStrengthExecise(newData, token) {
     return response;
 }
 
-export async function getStrengthExercisesInDate(date, user, token) {
+export async function getStrengthExercisesInDate(date, user, token, isGuest = false) {
+    if (isGuest) return local.getStrengthExercisesInDate(date);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.getStrengthExercisesInDate + date + "/" + user;
     const response = await fetch(apiEndPointDirection, { headers: authHeaders(token) });
     if (!response.ok) {
@@ -80,7 +85,8 @@ export async function getStrengthExercisesInDate(date, user, token) {
     return mappedData;
 }
 
-export async function getExerciseSetsByName(date, user, exerciseName, token) {
+export async function getExerciseSetsByName(date, user, exerciseName, token, isGuest = false) {
+    if (isGuest) return local.getExerciseSetsByName(date, exerciseName);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.getExerciseSets + date + "/" + user + "/" + encodeURIComponent(exerciseName);
     const response = await fetch(apiEndPointDirection, { headers: authHeaders(token) });
     if (!response.ok) {
@@ -90,7 +96,8 @@ export async function getExerciseSetsByName(date, user, exerciseName, token) {
     return data;
 }
 
-export async function updateExerciseSet(uuid, setData, token) {
+export async function updateExerciseSet(uuid, setData, token, isGuest = false) {
+    if (isGuest) return local.updateExerciseSet(uuid, setData);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.updateExerciseSet + uuid;
     const fetchOptions = {
         method: "PUT",
@@ -116,7 +123,8 @@ export async function updateExerciseSet(uuid, setData, token) {
     return response;
 }
 
-export async function deleteExerciseSet(uuid, token) {
+export async function deleteExerciseSet(uuid, token, isGuest = false) {
+    if (isGuest) return local.deleteExerciseSet(uuid);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.deleteExerciseSet + uuid;
     const fetchOptions = {
         method: "DELETE",

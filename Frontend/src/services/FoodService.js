@@ -2,8 +2,10 @@ import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 import { authHeaders } from "../utilities/authFunctions";
 import { isOnline } from "../utilities/networkState";
 import { enqueue } from "../utilities/offlineQueue";
+import * as local from "./local/localDataService";
 
-export async function addFood(newData, token) {
+export async function addFood(newData, token, isGuest = false) {
+    if (isGuest) return local.addFood(newData);
     const apiEndPointDirection = HOST_IP + apiRoutes.feeding.addFood;
     const fetchOptions = {
         method: "POST",
@@ -30,7 +32,8 @@ export async function addFood(newData, token) {
     return data;
 }
 
-export async function getFoodsInDate(date, user, token) {
+export async function getFoodsInDate(date, user, token, isGuest = false) {
+    if (isGuest) return local.getFoodsInDate(date);
     const apiEndPointDirection = HOST_IP + apiRoutes.feeding.getFoods + date + "/" + user;
     const response = await fetch(apiEndPointDirection, { headers: authHeaders(token) });
     if (!response.ok) {

@@ -1,7 +1,9 @@
 import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 import { authHeaders } from "../utilities/authFunctions";
+import * as local from "./local/localDataService";
 
-export async function getPresets(type, cathegory, user, token) {
+export async function getPresets(type, cathegory, user, token, isGuest = false) {
+    if (isGuest) return local.getPresets(type, cathegory);
     let apiEndPointDirection = HOST_IP + apiRoutes.exercisePresets + "?type=" + type;
     if (cathegory) {
         apiEndPointDirection += "&cathegory=" + cathegory;

@@ -2,8 +2,10 @@ import { apiRoutes, HOST_IP } from "../utilities/defineConfig";
 import { authHeaders } from "../utilities/authFunctions";
 import { isOnline } from "../utilities/networkState";
 import { enqueue } from "../utilities/offlineQueue";
+import * as local from "./local/localDataService";
 
-export async function getCathegories(token) {
+export async function getCathegories(token, isGuest = false) {
+    if (isGuest) return local.getCathegories();
     const apiEndPointDirection = HOST_IP + apiRoutes.cathegory.getCathegories;
     const response = await fetch(apiEndPointDirection, { headers: authHeaders(token) });
     if (!response.ok) {
@@ -13,7 +15,8 @@ export async function getCathegories(token) {
     return data;
 }
 
-export async function addCathegory(cathegoryName, token) {
+export async function addCathegory(cathegoryName, token, isGuest = false) {
+    if (isGuest) return local.addCathegory(cathegoryName);
     const apiEndPointDirection = HOST_IP + apiRoutes.cathegory.addCathegory;
     const fetchOptions = {
         method: "POST",
@@ -39,7 +42,8 @@ export async function addCathegory(cathegoryName, token) {
     return response;
 }
 
-export async function deleteCathegory(uuid, token) {
+export async function deleteCathegory(uuid, token, isGuest = false) {
+    if (isGuest) return local.deleteCathegory(uuid);
     const apiEndPointDirection = HOST_IP + apiRoutes.cathegory.deleteCathegory + uuid;
     const fetchOptions = {
         method: "DELETE",
