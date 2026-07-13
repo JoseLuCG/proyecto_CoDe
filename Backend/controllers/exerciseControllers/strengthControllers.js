@@ -5,6 +5,7 @@ import setExerciseSet from "./handlers/setExerciseSet.js";
 import setStrengthExerciseData from "./handlers/setStrengthExerciseData.js";
 import updateExerciseSetHandler from "./handlers/updateExerciseSet.js";
 import deleteExerciseSetHandler from "./handlers/deleteExerciseSet.js";
+import deleteStrengthExerciseHandler from "./handlers/deleteStrengthExercise.js";
 import { groupSetByExercise } from "./mappers/strenghtMappers.js";
 
 async function addStrengthExecise(req, res) {
@@ -98,10 +99,26 @@ async function deleteExerciseSet(req, res) {
     }
 }
 
+async function deleteStrengthExercise(req, res) {
+    const { uuid } = req.params;
+
+    try {
+        const result = await deleteStrengthExerciseHandler(uuid);
+        if (result === 'NOT_FOUND') {
+            return res.sendStatus(404);
+        }
+        res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+}
+
 export {
     addStrengthExecise,
     getStrengthExercises,
     getExerciseSets,
     updateExerciseSet,
-    deleteExerciseSet
+    deleteExerciseSet,
+    deleteStrengthExercise
 }

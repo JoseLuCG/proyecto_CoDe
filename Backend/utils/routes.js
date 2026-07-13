@@ -13,7 +13,8 @@ export const strenghtRoutes = {
     getStrengthExercisesInDate: "/strength-exercises/:date/:user",
     getExerciseSets: "/strength-exercise-sets/:date/:user/:exerciseName",
     updateExerciseSet: "/update-exercise-set/:uuid",
-    deleteExerciseSet: "/delete-exercise-set/:uuid"
+    deleteExerciseSet: "/delete-exercise-set/:uuid",
+    deleteStrengthExercise: "/delete-strength-exercise/:uuid"
 }
 
 export const feedingRoutes = {

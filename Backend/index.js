@@ -41,6 +41,7 @@ app.get(strenghtRoutes.getStrengthExercisesInDate, authenticateToken, strengthCo
 app.get(strenghtRoutes.getExerciseSets, authenticateToken, strengthControllers.getExerciseSets);
 app.put(strenghtRoutes.updateExerciseSet, jsonParser, authenticateToken, strengthControllers.updateExerciseSet);
 app.delete(strenghtRoutes.deleteExerciseSet, authenticateToken, strengthControllers.deleteExerciseSet);
+app.delete(strenghtRoutes.deleteStrengthExercise, authenticateToken, strengthControllers.deleteStrengthExercise);
 
 // ---------- Feeding Endpoints ----------
 app.post(feedingRoutes.addFood, jsonParser, authenticateToken, feedingControllers.addFood);
