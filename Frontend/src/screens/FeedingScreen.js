@@ -17,7 +17,7 @@ import AddButton from '../components/AddButton';
 const { width } = Dimensions.get('window');
 
 const FeedingScreen = ({ navigation }) => {
-    const { user, token } = useContext(User);
+    const { user, token, isGuest } = useContext(User);
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
     const [foods, setFoods] = useState(null);
@@ -25,7 +25,7 @@ const FeedingScreen = ({ navigation }) => {
     async function getFoods() {
         try {
             if (selectedDate != null) {
-                const response = await getFoodsInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token);
+                const response = await getFoodsInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token, isGuest);
                 setFoods(response);
             }
         } catch (error) {

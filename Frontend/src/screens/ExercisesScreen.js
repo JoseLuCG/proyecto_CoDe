@@ -22,7 +22,7 @@ const { width } = Dimensions.get('window');
 
 const ExercisesScreen = ({ navigation }) => {
     // States:
-    const { user, token } = useContext(User);
+    const { user, token, isGuest } = useContext(User);
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
     const [cardioExercises, setCardioExercises] = useState(null);
@@ -64,8 +64,8 @@ const ExercisesScreen = ({ navigation }) => {
     async function getExercises() {
         try {
             if (selectedDate != null) {
-                const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token);
-                const responseStrenghtExercises = await apiService.getStrengthExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token);
+                const response = await apiService.getCardioExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token, isGuest);
+                const responseStrenghtExercises = await apiService.getStrengthExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token, isGuest);
                 setCardioExercises(response);
                 setStrenghtExercises(responseStrenghtExercises);
             }
