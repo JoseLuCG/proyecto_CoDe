@@ -10,7 +10,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { defaultBRadius } from '../styles/DefaultVaules';
 
 const LoginScreen = ({ navigation }) => {
-	const { user, setUser } = useContext(User);
+	const { user, setUser, enterGuestMode } = useContext(User);
 	const [userToLogIn, setUserToLogIn] = useState({
 		userLoginData: "",
 		userPassword: ""
@@ -21,6 +21,7 @@ const LoginScreen = ({ navigation }) => {
 
 	const loginScaleAnim = useRef(new Animated.Value(1)).current;
 	const registerScaleAnim = useRef(new Animated.Value(1)).current;
+	const guestScaleAnim = useRef(new Animated.Value(1)).current;
 
 	const handleLoginPressIn = () => {
 		Animated.spring(loginScaleAnim, {
@@ -46,6 +47,21 @@ const LoginScreen = ({ navigation }) => {
 
 	const handleRegisterPressOut = () => {
 		Animated.spring(registerScaleAnim, {
+			toValue: 1,
+			friction: 3,
+			useNativeDriver: true,
+		}).start();
+	};
+
+	const handleGuestPressIn = () => {
+		Animated.spring(guestScaleAnim, {
+			toValue: 0.95,
+			useNativeDriver: true,
+		}).start();
+	};
+
+	const handleGuestPressOut = () => {
+		Animated.spring(guestScaleAnim, {
 			toValue: 1,
 			friction: 3,
 			useNativeDriver: true,
@@ -93,6 +109,10 @@ const LoginScreen = ({ navigation }) => {
 
 	function handleRegister() {
 		navigation.navigate('Register');
+	}
+
+	function handleGuest() {
+		enterGuestMode();
 	}
 
 	useEffect(() => {
@@ -175,6 +195,17 @@ const LoginScreen = ({ navigation }) => {
 							<Text style={styles.buttonText}>Regístrate</Text>
 						</Animated.View>
 					</Pressable>
+
+					<Pressable
+						onPress={handleGuest}
+						onPressIn={handleGuestPressIn}
+						onPressOut={handleGuestPressOut}
+						style={styles.guestButton}
+					>
+						<Animated.View style={{ transform: [{ scale: guestScaleAnim }] }}>
+							<Text style={styles.guestButtonText}>Continuar como invitado</Text>
+						</Animated.View>
+					</Pressable>
 				</View>
 			</LinearGradient>
 		</KeyboardAwareScrollView>
@@ -251,6 +282,22 @@ const styles = StyleSheet.create({
 		fontSize: 13,
 		marginTop: -4,
 		marginBottom: 8,
+	},
+	guestButton: {
+		padding: 10,
+		marginTop: 8,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: colorStyle.textSecondary,
+		borderRadius: defaultBRadius,
+		width: '100%',
+		maxWidth: 220,
+	},
+	guestButtonText: {
+		fontSize: 14,
+		color: colorStyle.textSecondary,
+		textAlign: 'center',
 	},
 });
 
