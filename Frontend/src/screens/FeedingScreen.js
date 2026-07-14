@@ -9,6 +9,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
 import { DaysCarousel } from '../components/DaysCarousel';
 import AddDataModal from '../components/Modals/AddDataModal';
+import FoodModalScreen from './FoodModalScreen';
 import { User } from '../contexts/UserContext';
 import { getFoodsInDate } from '../services/FoodService';
 import FoodTab from '../components/FoodTab';
@@ -20,6 +21,8 @@ const FeedingScreen = ({ navigation }) => {
     const { user, token, isGuest } = useContext(User);
     const [selectedDate, setSelectedDate] = useState(null);
     const [addModalVisible, setAddModalVisible] = useState(false);
+    const [foodModalVisible, setFoodModalVisible] = useState(false);
+    const [selectedFood, setSelectedFood] = useState(null);
     const [foods, setFoods] = useState(null);
 
     async function getFoods() {
@@ -46,6 +49,17 @@ const FeedingScreen = ({ navigation }) => {
         getFoods();
     }
 
+    function handleEditFood(food) {
+        setSelectedFood(food);
+        setFoodModalVisible(true);
+    }
+
+    function closeFoodModal() {
+        setFoodModalVisible(false);
+        setSelectedFood(null);
+        getFoods();
+    }
+
     return (
         <LinearGradient
             style={styles.mainContainer}
@@ -56,7 +70,7 @@ const FeedingScreen = ({ navigation }) => {
                 {
                     foods != null ?
                         foods.map(
-                            (food, index) => <FoodTab key={food.uuid_food_intake || index} data={food} />
+                            (food, index) => <FoodTab key={food.uuid_food_intake || index} data={food} onPress={() => handleEditFood(food)} />
                         )
                         :
                         null
@@ -70,6 +84,13 @@ const FeedingScreen = ({ navigation }) => {
                 onClose={closeTabToAddExercise}
                 date={selectedDate}
                 screen={"Feeding"}
+            />
+
+            <FoodModalScreen
+                isVisible={foodModalVisible}
+                onClose={closeFoodModal}
+                food={selectedFood}
+                onDelete={closeFoodModal}
             />
         </LinearGradient>
     );

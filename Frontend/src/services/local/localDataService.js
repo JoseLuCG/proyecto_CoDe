@@ -242,6 +242,27 @@ export async function getFoodsInDate(date) {
     return foods.filter((f) => f.intake_date === date);
 }
 
+export async function updateFood(uuid, data) {
+    const foods = await getCollection(KEYS.food);
+    const idx = foods.findIndex((f) => f.uuid_food_intake === uuid);
+    if (idx !== -1) {
+        if (data.foodName !== undefined) foods[idx].food_name = data.foodName;
+        if (data.kcal !== undefined) foods[idx].kcal = data.kcal;
+        if (data.proteins !== undefined) foods[idx].proteins = data.proteins;
+        if (data.carbohydrates !== undefined) foods[idx].carbohydrates = data.carbohydrates;
+        if (data.fat !== undefined) foods[idx].fat = data.fat;
+        await saveCollection(KEYS.food, foods);
+    }
+    return { ok: true };
+}
+
+export async function deleteFood(uuid) {
+    const foods = await getCollection(KEYS.food);
+    const filtered = foods.filter((f) => f.uuid_food_intake !== uuid);
+    await saveCollection(KEYS.food, filtered);
+    return { ok: true };
+}
+
 // ── Categories ──
 
 export async function getCathegories() {

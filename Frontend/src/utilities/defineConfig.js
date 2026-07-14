@@ -24,7 +24,9 @@ const apiRoutes = {
     },
     feeding: {
         addFood: "/record-food",
-        getFoods: "/user-feeding/"
+        getFoods: "/user-feeding/",
+        updateFood: "/update-food/",
+        deleteFood: "/delete-food/"
     },
     cathegory: {
         addCathegory: "/add-cathegory",

@@ -1,9 +1,9 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { colorStyle } from '../styles/Colors';
 
-export default function FoodTab({ data }) {
+export default function FoodTab({ data, onPress }) {
     return (
-        <View style={styles.foodTab}>
+        <TouchableOpacity style={styles.foodTab} onPress={onPress} activeOpacity={0.7}>
             <View style={styles.header}>
                 <Text style={styles.foodName}>{data.food_name}</Text>
                 <Text style={styles.kcal}>{data.kcal} kcal</Text>
@@ -22,7 +22,7 @@ export default function FoodTab({ data }) {
                     <Text style={styles.macroLabel}>Carbs</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
