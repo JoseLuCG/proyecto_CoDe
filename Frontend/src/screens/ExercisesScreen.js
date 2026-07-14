@@ -68,10 +68,23 @@ const ExercisesScreen = ({ navigation }) => {
                 const responseStrenghtExercises = await apiService.getStrengthExercisesInDate(selectedDate.format('YYYY-MM-DD'), user.uuidUser, token, isGuest);
                 setCardioExercises(response);
                 setStrenghtExercises(responseStrenghtExercises);
+                return { cardio: response, strength: responseStrenghtExercises };
             }
         } catch (error) {
-            // TODO: add conditionals for the diferents use cases if the user don't work
             console.error(error);
+        }
+        return null;
+    }
+
+    async function refreshSelectedExercise() {
+        const data = await getExercises();
+        if (selectedExercise && data) {
+            const allExercises = [
+                ...(data.cardio || []),
+                ...(data.strength || [])
+            ];
+            const updated = allExercises.find(ex => ex.uuidExercise === selectedExercise.uuidExercise);
+            if (updated) setSelectedExercise(updated);
         }
     }
 
@@ -137,6 +150,7 @@ const ExercisesScreen = ({ navigation }) => {
                 isVisible={modalVisible}
                 onClose={handleCloseModal}
                 exercise={selectedExercise}
+                onDelete={refreshSelectedExercise}
             />
 
 
