@@ -46,6 +46,59 @@ export async function getCardioExercisesInDate(date, user, token, isGuest = fals
     return mappedData;
 }
 
+export async function updateCardioExercise(uuid, data, token, isGuest = false) {
+    if (isGuest) return local.updateCardioExercise(uuid, data);
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.updateCardioExercise + uuid;
+    const fetchOptions = {
+        method: "PUT",
+        headers: authHeaders(token),
+        body: JSON.stringify(data)
+    };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "PUT",
+            endpoint: apiRoutes.exercise.cardio.updateCardioExercise + uuid,
+            body: data,
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
+    const response = await fetch(apiEndPointDirection, fetchOptions);
+    if (!response.ok) {
+        const errorData = await response.text().catch(() => "Error en la solicitud");
+        throw new Error(errorData);
+    }
+    return response;
+}
+
+export async function deleteCardioExercise(uuid, token, isGuest = false) {
+    if (isGuest) return local.deleteCardioExercise(uuid);
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.cardio.deleteCardioExercise + uuid;
+    const fetchOptions = {
+        method: "DELETE",
+        headers: authHeaders(token)
+    };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "DELETE",
+            endpoint: apiRoutes.exercise.cardio.deleteCardioExercise + uuid,
+            body: null,
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
+    const response = await fetch(apiEndPointDirection, fetchOptions);
+    if (!response.ok) {
+        const errorData = await response.text().catch(() => "Error en la solicitud");
+        throw new Error(errorData);
+    }
+    return response;
+}
+
 export async function addStrengthExecise(newData, token, isGuest = false) {
     if (isGuest) return local.addStrengthExercise(newData);
     const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.addExercise;

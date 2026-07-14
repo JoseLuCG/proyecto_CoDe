@@ -11,6 +11,11 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise, onDe
     const [editingSetUuid, setEditingSetUuid] = useState(null);
     const [editWeight, setEditWeight] = useState('');
     const [editRepeats, setEditRepeats] = useState('');
+    const [editingCardio, setEditingCardio] = useState(false);
+    const [editName, setEditName] = useState('');
+    const [editTime, setEditTime] = useState('');
+    const [editDistance, setEditDistance] = useState('');
+    const [editIntensity, setEditIntensity] = useState('');
     const [loading, setLoading] = useState(false);
 
     const isStrength = exercise?.sets != null;
@@ -62,9 +67,51 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise, onDe
     async function handleDeleteExercise() {
         setLoading(true);
         try {
-            await apiService.deleteStrengthExercise(exercise.uuidExercise, token, isGuest);
+            if (isStrength) {
+                await apiService.deleteStrengthExercise(exercise.uuidExercise, token, isGuest);
+            } else if (isCardio) {
+                await apiService.deleteCardioExercise(exercise.uuidExercise, token, isGuest);
+            }
             if (onDelete) onDelete();
             onClose();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    function handleStartCardioEdit() {
+        setEditingCardio(true);
+        setEditName(exercise.name || '');
+        setEditTime(exercise.time || '');
+        setEditDistance(String(exercise.distance || ''));
+        setEditIntensity(String(exercise.intensity || ''));
+    }
+
+    function handleCancelCardioEdit() {
+        setEditingCardio(false);
+        setEditName('');
+        setEditTime('');
+        setEditDistance('');
+        setEditIntensity('');
+    }
+
+    async function handleSaveCardioEdit() {
+        setLoading(true);
+        try {
+            await apiService.updateCardioExercise(exercise.uuidExercise, {
+                exerciseName: editName,
+                exerciseTime: editTime,
+                exerciseDistance: editDistance,
+                exerciseIntensity: editIntensity
+            }, token, isGuest);
+            setEditingCardio(false);
+            setEditName('');
+            setEditTime('');
+            setEditDistance('');
+            setEditIntensity('');
+            if (onDelete) onDelete();
         } catch (error) {
             console.error(error);
         } finally {
@@ -91,18 +138,82 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise, onDe
 
                 {isCardio ? (
                     <View style={styles.cardioContainer}>
-                        <View style={styles.cardioRow}>
-                            <Text style={styles.cardioLabel}>Tiempo</Text>
-                            <Text style={styles.cardioValue}>{exercise.time}</Text>
-                        </View>
-                        <View style={styles.cardioRow}>
-                            <Text style={styles.cardioLabel}>Distancia</Text>
-                            <Text style={styles.cardioValue}>{exercise.distance} Km</Text>
-                        </View>
-                        <View style={styles.cardioRow}>
-                            <Text style={styles.cardioLabel}>Intensidad</Text>
-                            <Text style={styles.cardioValue}>{exercise.intensity}</Text>
-                        </View>
+                        {editingCardio ? (
+                            <>
+                                <View style={styles.cardioRow}>
+                                    <Text style={styles.cardioLabel}>Nombre</Text>
+                                    <TextInput
+                                        style={styles.editInput}
+                                        value={editName}
+                                        onChangeText={setEditName}
+                                        placeholder="Nombre"
+                                        placeholderTextColor={colorStyle.textInactive}
+                                    />
+                                </View>
+                                <View style={styles.cardioRow}>
+                                    <Text style={styles.cardioLabel}>Tiempo</Text>
+                                    <TextInput
+                                        style={styles.editInput}
+                                        value={editTime}
+                                        onChangeText={setEditTime}
+                                        placeholder="HH:MM:SS"
+                                        placeholderTextColor={colorStyle.textInactive}
+                                    />
+                                </View>
+                                <View style={styles.cardioRow}>
+                                    <Text style={styles.cardioLabel}>Distancia</Text>
+                                    <TextInput
+                                        style={styles.editInput}
+                                        value={editDistance}
+                                        onChangeText={setEditDistance}
+                                        keyboardType="number-pad"
+                                        placeholder="Km"
+                                        placeholderTextColor={colorStyle.textInactive}
+                                    />
+                                </View>
+                                <View style={styles.cardioRow}>
+                                    <Text style={styles.cardioLabel}>Intensidad</Text>
+                                    <TextInput
+                                        style={styles.editInput}
+                                        value={editIntensity}
+                                        onChangeText={setEditIntensity}
+                                        keyboardType="number-pad"
+                                        placeholder="%"
+                                        placeholderTextColor={colorStyle.textInactive}
+                                    />
+                                </View>
+                                <View style={styles.cardioActions}>
+                                    <TouchableOpacity
+                                        style={styles.editConfirmBtn}
+                                        onPress={handleSaveCardioEdit}
+                                        disabled={loading}
+                                    >
+                                        <Text style={styles.editConfirmText}>{loading ? "..." : "OK"}</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.editCancelBtn} onPress={handleCancelCardioEdit}>
+                                        <Text style={styles.editCancelText}>X</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </>
+                        ) : (
+                            <>
+                                <View style={styles.cardioRow}>
+                                    <Text style={styles.cardioLabel}>Tiempo</Text>
+                                    <Text style={styles.cardioValue}>{exercise.time}</Text>
+                                </View>
+                                <View style={styles.cardioRow}>
+                                    <Text style={styles.cardioLabel}>Distancia</Text>
+                                    <Text style={styles.cardioValue}>{exercise.distance} Km</Text>
+                                </View>
+                                <View style={styles.cardioRow}>
+                                    <Text style={styles.cardioLabel}>Intensidad</Text>
+                                    <Text style={styles.cardioValue}>{exercise.intensity}</Text>
+                                </View>
+                                <TouchableOpacity style={styles.editBtn} onPress={handleStartCardioEdit}>
+                                    <Text style={styles.editBtnText}>Edit</Text>
+                                </TouchableOpacity>
+                            </>
+                        )}
                     </View>
                 ) : null}
 
@@ -158,7 +269,7 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise, onDe
                     </ScrollView>
                 ) : null}
 
-                {isStrength ? (
+                {isStrength || isCardio ? (
                     <TouchableOpacity
                         style={styles.deleteExerciseButton}
                         onPress={handleDeleteExercise}
@@ -234,6 +345,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         color: colorStyle.textPrimary,
+    },
+    cardioActions: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 12,
+        marginTop: 8,
     },
     // Strength sets styles
     setsList: {

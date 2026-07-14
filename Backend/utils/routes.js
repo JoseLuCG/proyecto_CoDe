@@ -5,7 +5,9 @@ export const userRoutes = {
 
 export const cardioRoutes = {
     addCardioExercise: "/record-cardio-exercise",
-    getCardioExercisesInDate: "/cardio-exercises/:date/:user"
+    getCardioExercisesInDate: "/cardio-exercises/:date/:user",
+    updateCardioExercise: "/update-cardio-exercise/:uuid",
+    deleteCardioExercise: "/delete-cardio-exercise/:uuid"
 }
 
 export const strenghtRoutes = {

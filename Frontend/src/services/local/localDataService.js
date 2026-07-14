@@ -87,6 +87,26 @@ export async function getCardioExercisesInDate(date) {
     }));
 }
 
+export async function updateCardioExercise(uuid, data) {
+    const exercises = await getCollection(KEYS.cardio);
+    const idx = exercises.findIndex((e) => e.uuid_cardio_exercise === uuid);
+    if (idx !== -1) {
+        if (data.exerciseName !== undefined) exercises[idx].exercise_name = data.exerciseName;
+        if (data.exerciseTime !== undefined) exercises[idx].exercise_time = data.exerciseTime;
+        if (data.exerciseDistance !== undefined) exercises[idx].distance = data.exerciseDistance;
+        if (data.exerciseIntensity !== undefined) exercises[idx].intensity = data.exerciseIntensity;
+        await saveCollection(KEYS.cardio, exercises);
+    }
+    return { ok: true };
+}
+
+export async function deleteCardioExercise(uuid) {
+    const exercises = await getCollection(KEYS.cardio);
+    const filtered = exercises.filter((e) => e.uuid_cardio_exercise !== uuid);
+    await saveCollection(KEYS.cardio, filtered);
+    return { ok: true };
+}
+
 // ── Strength ──
 
 export async function addStrengthExercise(newData) {

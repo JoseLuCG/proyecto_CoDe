@@ -34,6 +34,8 @@ app.post(userRoutes.loginUser, jsonParser, userControllers.checkLogin);
 // ---------- Cardio Endpoints ----------
 app.post(cardioRoutes.addCardioExercise, jsonParser, authenticateToken, cardioControllers.addCardioExercise);
 app.get(cardioRoutes.getCardioExercisesInDate, authenticateToken, cardioControllers.getCardioExercises);
+app.put(cardioRoutes.updateCardioExercise, jsonParser, authenticateToken, cardioControllers.updateCardioExercise);
+app.delete(cardioRoutes.deleteCardioExercise, authenticateToken, cardioControllers.deleteCardioExercise);
 
 // ---------- Strenght Endpoints ----------
 app.post(strenghtRoutes.addStrengthExercise, jsonParser, authenticateToken, strengthControllers.addStrengthExecise);

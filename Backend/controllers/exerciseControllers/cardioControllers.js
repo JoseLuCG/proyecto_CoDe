@@ -1,5 +1,7 @@
 import setCardioExerciseData from "./handlers/setCardioExerciseData.js";
 import getCardioExercisesInDate from "./handlers/getCardioExerciseData.js";
+import updateCardioExerciseHandler from "./handlers/updateCardioExercise.js";
+import deleteCardioExerciseHandler from "./handlers/deleteCardioExercise.js";
 
 async function addCardioExercise(req, res) {
     const exerciseData = {
@@ -35,7 +37,40 @@ async function getCardioExercises(req, res) {
     }
 }
 
+async function updateCardioExercise(req, res) {
+    const { uuid } = req.params;
+    const { exerciseName, exerciseTime, exerciseDistance, exerciseIntensity } = req.body;
+
+    try {
+        const result = await updateCardioExerciseHandler(uuid, exerciseName, exerciseTime, exerciseDistance, exerciseIntensity);
+        if (result === 'NOT_FOUND') {
+            return res.sendStatus(404);
+        }
+        res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+}
+
+async function deleteCardioExercise(req, res) {
+    const { uuid } = req.params;
+
+    try {
+        const result = await deleteCardioExerciseHandler(uuid);
+        if (result === 'NOT_FOUND') {
+            return res.sendStatus(404);
+        }
+        res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+}
+
 export {
     addCardioExercise,
-    getCardioExercises
+    getCardioExercises,
+    updateCardioExercise,
+    deleteCardioExercise
 }
