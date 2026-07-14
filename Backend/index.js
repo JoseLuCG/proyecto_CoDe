@@ -48,6 +48,8 @@ app.delete(strenghtRoutes.deleteStrengthExercise, authenticateToken, strengthCon
 // ---------- Feeding Endpoints ----------
 app.post(feedingRoutes.addFood, jsonParser, authenticateToken, feedingControllers.addFood);
 app.get(feedingRoutes.getFoods, authenticateToken, feedingControllers.getFoods);
+app.put(feedingRoutes.updateFood, jsonParser, authenticateToken, feedingControllers.updateFood);
+app.delete(feedingRoutes.deleteFood, authenticateToken, feedingControllers.deleteFood);
 
 // ---------- Cathegory Endpoints ----------
 app.post(cathegoryRoutes.addCathegory, jsonParser, authenticateToken, cathegoryControllers.addCathegory);

@@ -1,5 +1,7 @@
 import setFoodData from "./handlers/setFoodData.js";
 import getFoodsInDate from "./handlers/getFoodData.js";
+import updateFoodDataHandler from "./handlers/updateFoodData.js";
+import deleteFoodDataHandler from "./handlers/deleteFoodData.js";
 
 async function addFood(req, res) {
     const foodData = {
@@ -36,7 +38,40 @@ async function getFoods(req, res) {
     }
 }
 
+async function updateFood(req, res) {
+    const { uuid } = req.params;
+    const { foodName, kcal, proteins, carbohydrates, fat } = req.body;
+
+    try {
+        const result = await updateFoodDataHandler(uuid, foodName, kcal, proteins, carbohydrates, fat);
+        if (result === 'NOT_FOUND') {
+            return res.sendStatus(404);
+        }
+        res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+}
+
+async function deleteFood(req, res) {
+    const { uuid } = req.params;
+
+    try {
+        const result = await deleteFoodDataHandler(uuid);
+        if (result === 'NOT_FOUND') {
+            return res.sendStatus(404);
+        }
+        res.sendStatus(200);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+    }
+}
+
 export {
     addFood,
-    getFoods
+    getFoods,
+    updateFood,
+    deleteFood
 }

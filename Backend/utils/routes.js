@@ -21,7 +21,9 @@ export const strenghtRoutes = {
 
 export const feedingRoutes = {
     addFood: "/record-food",
-    getFoods: "/user-feeding/:date/:user"
+    getFoods: "/user-feeding/:date/:user",
+    updateFood: "/update-food/:uuid",
+    deleteFood: "/delete-food/:uuid"
 }
 
 export const cathegoryRoutes = {
