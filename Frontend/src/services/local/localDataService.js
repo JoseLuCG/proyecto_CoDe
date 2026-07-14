@@ -189,6 +189,16 @@ export async function deleteExerciseSet(uuid) {
     return { ok: true };
 }
 
+export async function deleteExercise(uuidExercise) {
+    const exercises = await getCollection(KEYS.strength);
+    const sets = await getCollection(KEYS.sets);
+    const filteredExercises = exercises.filter((e) => e.uuid_strength_exercise !== uuidExercise);
+    const filteredSets = sets.filter((s) => s.uuid_strength_exercise !== uuidExercise);
+    await saveCollection(KEYS.strength, filteredExercises);
+    await saveCollection(KEYS.sets, filteredSets);
+    return { ok: true };
+}
+
 // ── Food ──
 
 export async function addFood(newData) {
