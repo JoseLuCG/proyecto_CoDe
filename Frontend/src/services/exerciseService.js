@@ -148,3 +148,29 @@ export async function deleteExerciseSet(uuid, token, isGuest = false) {
     }
     return response;
 }
+
+export async function deleteStrengthExercise(uuid, token, isGuest = false) {
+    if (isGuest) return local.deleteExercise(uuid);
+    const apiEndPointDirection = HOST_IP + apiRoutes.exercise.strength.deleteStrengthExercise + uuid;
+    const fetchOptions = {
+        method: "DELETE",
+        headers: authHeaders(token)
+    };
+
+    if (!(await isOnline())) {
+        await enqueue({
+            method: "DELETE",
+            endpoint: apiRoutes.exercise.strength.deleteStrengthExercise + uuid,
+            body: null,
+            headers: authHeaders(token)
+        });
+        return { ok: true };
+    }
+
+    const response = await fetch(apiEndPointDirection, fetchOptions);
+    if (!response.ok) {
+        const errorData = await response.text().catch(() => "Error en la solicitud");
+        throw new Error(errorData);
+    }
+    return response;
+}

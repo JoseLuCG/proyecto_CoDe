@@ -16,7 +16,8 @@ const apiRoutes = {
             getStrengthExercisesInDate: "/strength-exercises/",
             getExerciseSets: "/strength-exercise-sets/",
             updateExerciseSet: "/update-exercise-set/",
-            deleteExerciseSet: "/delete-exercise-set/"
+            deleteExerciseSet: "/delete-exercise-set/",
+            deleteStrengthExercise: "/delete-strength-exercise/"
         }
     },
     feeding: {
