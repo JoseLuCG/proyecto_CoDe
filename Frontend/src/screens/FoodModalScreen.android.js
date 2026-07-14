@@ -227,26 +227,29 @@ const styles = StyleSheet.create({
     // Food styles
     foodContainer: {
         width: '85%',
-        gap: 12,
+        gap: 10,
     },
     foodRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: colorStyle.mainGradient[0] + '30',
         paddingVertical: 14,
         paddingHorizontal: 16,
         borderRadius: 12,
+        overflow: 'hidden',
     },
     foodLabel: {
         fontSize: 15,
         fontWeight: '600',
         color: colorStyle.textMuted,
+        width: 100,
     },
     foodValue: {
         fontSize: 16,
         fontWeight: '500',
         color: colorStyle.textPrimary,
+        flex: 1,
+        textAlign: 'right',
     },
     foodActions: {
         flexDirection: 'row',
@@ -260,10 +263,10 @@ const styles = StyleSheet.create({
         height: 36,
         backgroundColor: colorStyle.bgCard,
         borderRadius: 12,
-        paddingHorizontal: 8,
-        fontSize: 13,
+        paddingHorizontal: 10,
+        fontSize: 14,
         color: colorStyle.textPrimary,
-        textAlign: 'center',
+        textAlign: 'right',
     },
     editConfirmBtn: {
         paddingVertical: 4,
