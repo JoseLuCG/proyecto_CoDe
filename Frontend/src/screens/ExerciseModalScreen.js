@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
     // Inline edit
     editInput: {
         flex: 1,
-        height: 32,
+        height: 36,
         backgroundColor: colorStyle.bgCard,
         borderRadius: 12,
         paddingHorizontal: 8,
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
     },
     // Set action buttons
     editBtn: {
-        paddingVertical: 4,
+        paddingVertical: 8,
         paddingHorizontal: 10,
         borderRadius: 12,
         backgroundColor: colorStyle.mainGradient[0] + '60',
