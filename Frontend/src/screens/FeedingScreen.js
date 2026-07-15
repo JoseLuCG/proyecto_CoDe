@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
-import { DaysCarousel } from '../components/DaysCarousel';
+import { CalendarComponent } from '../components/CalendarComponent';
 import AddDataModal from '../components/Modals/AddDataModal';
 import FoodModalScreen from './FoodModalScreen';
 import { User } from '../contexts/UserContext';
@@ -65,7 +65,7 @@ const FeedingScreen = ({ navigation }) => {
             style={styles.mainContainer}
             colors={colorStyle.mainGradient}
         >
-            <DaysCarousel setSelectedDate={setSelectedDate} />
+            <CalendarComponent setSelectedDate={setSelectedDate} />
             <View style={styles.foodsContainer}>
                 {
                     foods != null ?

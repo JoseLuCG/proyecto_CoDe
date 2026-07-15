@@ -7,7 +7,7 @@ import { defaultBRadius } from '../styles/DefaultVaules';
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-export const DaysCarousel = ({ setSelectedDate }) => {
+export const CalendarComponent = ({ setSelectedDate }) => {
     const [selectedDay, setSelectedDay] = useState(dayjs());
     const [currentDate, setCurrentDate] = useState(dayjs());
     const [isOpen, setIsOpen] = useState(false);

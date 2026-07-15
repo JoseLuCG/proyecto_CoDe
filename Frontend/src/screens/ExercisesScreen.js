@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colorStyle } from '../styles/Colors';
-import { DaysCarousel } from '../components/DaysCarousel';
+import { CalendarComponent } from '../components/CalendarComponent';
 import { CathegoriesDropdown } from '../components/CathegoriesDropdown';
 import { defaultBRadius } from '../styles/DefaultVaules';
 import AddDataModal from '../components/Modals/AddDataModal';
@@ -99,7 +99,7 @@ const ExercisesScreen = ({ navigation }) => {
         >
             <View style={Platform.OS === 'web' ? styles.webRow : styles.mobileColumn}>
                 <View style={Platform.OS === 'web' ? styles.calendarColumn : null}>
-                    <DaysCarousel setSelectedDate={setSelectedDate} />
+                    <CalendarComponent setSelectedDate={setSelectedDate} />
                 </View>
                 <View style={Platform.OS === 'web' ? styles.exercisesColumn : styles.exercisesContainer}>
                     <CathegoriesDropdown onCategorySelect={setSelectedCategory} selectedCategory={selectedCategory} />
