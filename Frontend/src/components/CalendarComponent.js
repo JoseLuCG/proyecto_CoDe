@@ -135,6 +135,7 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 									<DayCard
 										day={item}
 										isSelected={item.isSame(selectedDay, 'day')}
+										isToday={item.isSame(dayjs(), 'day')}
 										onPress={handleSelectDay}
 									/>
 								)}
@@ -160,6 +161,7 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 										key={day.format('YYYY-MM-DD')}
 										day={day}
 										isSelected={day.isSame(selectedDay, 'day')}
+										isToday={day.isSame(dayjs(), 'day')}
 										onPress={handleSelectDay}
 										compact
 									/>

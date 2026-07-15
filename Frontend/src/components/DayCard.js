@@ -4,7 +4,7 @@ import { colorStyle } from '../styles/Colors';
 
 const { width } = Dimensions.get('window');
 
-const DayCard = ({ day, isSelected, onPress, compact }) => {
+const DayCard = ({ day, isSelected, onPress, compact, isToday }) => {
     const scaleAnim = useRef(new Animated.Value(1)).current;
 
     const handlePressIn = () => {
@@ -30,7 +30,7 @@ const DayCard = ({ day, isSelected, onPress, compact }) => {
             activeOpacity={1}
         >
             <Animated.View
-                style={[styles.card, compact && styles.cardCompact, isSelected && styles.cardSelected, { transform: [{ scale: scaleAnim }] }]}
+                style={[styles.card, compact && styles.cardCompact, isSelected && styles.cardSelected, isToday && !isSelected && styles.cardToday, { transform: [{ scale: scaleAnim }] }]}
             >
                 <Text style={[styles.dayText, compact && styles.dayTextCompact, isSelected && styles.dayTextSelected]}>
                     {day.format('DD')}
@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
     },
     cardSelected: {
         backgroundColor: colorStyle.mainGradient[0],
+    },
+    cardToday: {
+        borderWidth: 2,
+        borderColor: colorStyle.mainGradient[0],
     },
     cardCompact: {
         width: width * 0.09,
