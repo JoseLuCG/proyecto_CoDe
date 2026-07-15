@@ -4,7 +4,7 @@ import { colorStyle } from '../styles/Colors';
 
 const { width } = Dimensions.get('window');
 
-const DayCard = ({ day, isSelected, onPress }) => {
+const DayCard = ({ day, isSelected, onPress, compact }) => {
     const scaleAnim = useRef(new Animated.Value(1)).current;
 
     const handlePressIn = () => {
@@ -30,12 +30,12 @@ const DayCard = ({ day, isSelected, onPress }) => {
             activeOpacity={1}
         >
             <Animated.View
-                style={[styles.card, isSelected && styles.cardSelected, { transform: [{ scale: scaleAnim }] }]}
+                style={[styles.card, compact && styles.cardCompact, isSelected && styles.cardSelected, { transform: [{ scale: scaleAnim }] }]}
             >
-                <Text style={[styles.dayText, isSelected && styles.dayTextSelected]}>
+                <Text style={[styles.dayText, compact && styles.dayTextCompact, isSelected && styles.dayTextSelected]}>
                     {day.format('DD')}
                 </Text>
-                <Text style={[styles.weekdayText, isSelected && styles.dayTextSelected]}>
+                <Text style={[styles.weekdayText, compact && styles.weekdayTextCompact, isSelected && styles.dayTextSelected]}>
                     {day.format('ddd')}
                 </Text>
             </Animated.View>
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         height: 80,
         borderRadius: 16,
         backgroundColor: colorStyle.bgDark,
-        marginHorizontal: 6,
+        marginHorizontal: 4,
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
@@ -65,14 +65,25 @@ const styles = StyleSheet.create({
     cardSelected: {
         backgroundColor: colorStyle.mainGradient[0],
     },
+    cardCompact: {
+        width: width * 0.09,
+        height: 60,
+        marginHorizontal: 3,
+    },
     dayText: {
         fontSize: 22,
         fontWeight: 'bold',
         color: colorStyle.textPrimary,
     },
+    dayTextCompact: {
+        fontSize: 16,
+    },
     weekdayText: {
         fontSize: 14,
         color: colorStyle.textMuted,
+    },
+    weekdayTextCompact: {
+        fontSize: 11,
     },
     dayTextSelected: {
         color: colorStyle.textPrimary,

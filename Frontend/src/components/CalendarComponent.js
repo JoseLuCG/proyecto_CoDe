@@ -161,6 +161,7 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 										day={day}
 										isSelected={day.isSame(selectedDay, 'day')}
 										onPress={handleSelectDay}
+										compact
 									/>
 								))}
 							</View>
