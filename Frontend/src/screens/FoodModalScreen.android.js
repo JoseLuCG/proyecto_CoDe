@@ -1,8 +1,11 @@
 import { useContext, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput, Image } from 'react-native';
 import { colorStyle } from '../styles/Colors';
 import { User } from '../contexts/UserContext';
 import * as foodService from '../services/FoodService';
+import proteinIcon from '../../assets/foodIcons/protein.png';
+import fatsIcon from '../../assets/foodIcons/Fats.png';
+import carbsIcon from '../../assets/foodIcons/carbohydrates.png';
 
 const { height } = Dimensions.get('window');
 
@@ -109,7 +112,7 @@ export default function FoodModalScreen({ isVisible, onClose, food, onDelete }) 
                                 />
                             </View>
                             <View style={styles.foodRow}>
-                                <Text style={styles.foodLabel}>Proteinas</Text>
+                                <Image source={proteinIcon} style={styles.macroIcon} />
                                 <TextInput
                                     style={styles.editInput}
                                     value={editProteins}
@@ -120,7 +123,7 @@ export default function FoodModalScreen({ isVisible, onClose, food, onDelete }) 
                                 />
                             </View>
                             <View style={styles.foodRow}>
-                                <Text style={styles.foodLabel}>Grasas</Text>
+                                <Image source={fatsIcon} style={styles.macroIcon} />
                                 <TextInput
                                     style={styles.editInput}
                                     value={editFat}
@@ -131,7 +134,7 @@ export default function FoodModalScreen({ isVisible, onClose, food, onDelete }) 
                                 />
                             </View>
                             <View style={styles.foodRow}>
-                                <Text style={styles.foodLabel}>Carbohidratos</Text>
+                                <Image source={carbsIcon} style={styles.macroIcon} />
                                 <TextInput
                                     style={styles.editInput}
                                     value={editCarbs}
@@ -161,15 +164,15 @@ export default function FoodModalScreen({ isVisible, onClose, food, onDelete }) 
                                 <Text style={styles.foodValue}>{food?.kcal}</Text>
                             </View>
                             <View style={styles.foodRow}>
-                                <Text style={styles.foodLabel}>Proteinas</Text>
+                                <Image source={proteinIcon} style={styles.macroIcon} />
                                 <Text style={styles.foodValue}>{food?.proteins}g</Text>
                             </View>
                             <View style={styles.foodRow}>
-                                <Text style={styles.foodLabel}>Grasas</Text>
+                                <Image source={fatsIcon} style={styles.macroIcon} />
                                 <Text style={styles.foodValue}>{food?.fat}g</Text>
                             </View>
                             <View style={styles.foodRow}>
-                                <Text style={styles.foodLabel}>Carbohidratos</Text>
+                                <Image source={carbsIcon} style={styles.macroIcon} />
                                 <Text style={styles.foodValue}>{food?.carbohydrates}g</Text>
                             </View>
                             <TouchableOpacity style={styles.editBtn} onPress={handleStartEdit}>
@@ -243,6 +246,11 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: colorStyle.textMuted,
         width: 100,
+    },
+    macroIcon: {
+        width: 24,
+        height: 24,
+        resizeMode: 'contain',
     },
     foodValue: {
         fontSize: 16,
