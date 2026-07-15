@@ -245,10 +245,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: '600',
         color: colorStyle.textMuted,
-        width: 100,
+        width: 56,
     },
     macroIcon: {
-        width: 24,
+        width: 56,
         height: 24,
         resizeMode: 'contain',
     },
