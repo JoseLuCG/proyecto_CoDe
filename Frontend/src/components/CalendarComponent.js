@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import Animated, { FadeInDown, FadeOutUp, useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 import dayjs from 'dayjs';
@@ -8,10 +8,13 @@ import { defaultBRadius } from '../styles/DefaultVaules';
 
 const { width } = Dimensions.get('window');
 
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 export const CalendarComponent = ({ setSelectedDate }) => {
 	const [selectedDay, setSelectedDay] = useState(dayjs());
 	const [currentDate, setCurrentDate] = useState(dayjs());
 	const [isOpen, setIsOpen] = useState(false);
+	const [viewMode, setViewMode] = useState('day');
 	const flatListRef = useRef(null);
 	const animProgress = useSharedValue(0);
 
@@ -31,11 +34,39 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 	const days = Array.from({ length: daysInMonth }, (_, i) => currentDate.date(i + 1));
 	const todayIndex = currentDate.isSame(dayjs(), 'month') ? dayjs().date() - 1 : -1;
 
+	const weekStart = currentDate.startOf('week');
+	const weekDays = Array.from({ length: 7 }, (_, i) => weekStart.add(i, 'day'));
+	const weekLabel = `${weekStart.format('DD MMM')} – ${weekStart.add(6, 'day').format('DD MMM')}`;
+
 	const goToPreviousMonth = () => setCurrentDate(currentDate.subtract(1, 'month'));
 	const goToNextMonth = () => setCurrentDate(currentDate.add(1, 'month'));
+	const goToPreviousWeek = () => setCurrentDate(currentDate.subtract(1, 'week'));
+	const goToNextWeek = () => setCurrentDate(currentDate.add(1, 'week'));
 
 	const monthYearLabel = currentDate.format('MMMM YYYY');
 	const displayDate = selectedDay.format('DD MMM YYYY');
+
+	const calendarGrid = useMemo(() => {
+		const startOfMonth = currentDate.startOf('month');
+		const startDayOfWeek = startOfMonth.day() === 0 ? 6 : startOfMonth.day() - 1;
+		const totalDays = currentDate.daysInMonth();
+		const totalCells = Math.ceil((startDayOfWeek + totalDays) / 7) * 7;
+
+		const grid = [];
+		for (let i = 0; i < totalCells; i++) {
+			const dayOffset = i - startDayOfWeek;
+			const date = startOfMonth.add(dayOffset, 'day');
+			grid.push({
+				date,
+				isCurrentMonth: dayOffset >= 0 && dayOffset < totalDays,
+				key: date.format('YYYY-MM-DD'),
+			});
+		}
+		return grid;
+	}, [currentDate]);
+
+	const isToday = (date) => date.isSame(dayjs(), 'day');
+	const isSelected = (date) => date.isSame(selectedDay, 'day');
 
 	useEffect(() => {
 		setSelectedDate(selectedDay);
@@ -54,44 +85,134 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 				activeOpacity={0.8}
 			>
 				<Animated.Text style={[styles.triggerText, animatedTextStyle]}>{displayDate}</Animated.Text>
+				<View style={styles.viewModeGroup}>
+					{['day', 'week', 'month'].map((mode) => (
+						<TouchableOpacity
+							key={mode}
+							style={[styles.viewModeBtn, viewMode === mode && styles.viewModeBtnActive]}
+							onPress={() => setViewMode(mode)}
+							activeOpacity={0.7}
+						>
+							<Text style={[styles.viewModeText, viewMode === mode && styles.viewModeTextActive]}>
+								{mode === 'day' ? 'D' : mode === 'week' ? 'W' : 'M'}
+							</Text>
+						</TouchableOpacity>
+					))}
+				</View>
 				<Text style={styles.triggerArrow}>{isOpen ? '▲' : '▼'}</Text>
 			</TouchableOpacity>
 
 			{isOpen && (
 				<Animated.View entering={FadeInDown.duration(200)} exiting={FadeOutUp.duration(150)} style={styles.dropdown}>
-					<View style={styles.header}>
-						<TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
-							<Text style={styles.navBtnText}>‹</Text>
-						</TouchableOpacity>
-						<Text style={styles.monthYear}>{monthYearLabel}</Text>
-						<TouchableOpacity onPress={goToNextMonth} style={styles.navBtn}>
-							<Text style={styles.navBtnText}>›</Text>
-						</TouchableOpacity>
-					</View>
+					{viewMode === 'day' && (
+						<>
+							<View style={styles.header}>
+								<TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
+									<Text style={styles.navBtnText}>‹</Text>
+								</TouchableOpacity>
+								<Text style={styles.monthYear}>{monthYearLabel}</Text>
+								<TouchableOpacity onPress={goToNextMonth} style={styles.navBtn}>
+									<Text style={styles.navBtnText}>›</Text>
+								</TouchableOpacity>
+							</View>
 
-					<FlatList
-						key={currentDate.format('YYYY-MM')}
-						ref={flatListRef}
-						data={days}
-						horizontal
-						showsHorizontalScrollIndicator={false}
-						snapToAlignment="center"
-						decelerationRate="fast"
-						keyExtractor={(item) => item.format('YYYY-MM-DD')}
-						initialScrollIndex={todayIndex >= 0 ? todayIndex : 0}
-						getItemLayout={(_, index) => ({
-							length: width * 0.18 + 12,
-							offset: (width * 0.18 + 12) * index,
-							index,
-						})}
-						renderItem={({ item }) => (
-							<DayCard
-								day={item}
-								isSelected={item.isSame(selectedDay, 'day')}
-								onPress={handleSelectDay}
+							<FlatList
+								key={currentDate.format('YYYY-MM')}
+								ref={flatListRef}
+								data={days}
+								horizontal
+								showsHorizontalScrollIndicator={false}
+								snapToAlignment="center"
+								decelerationRate="fast"
+								keyExtractor={(item) => item.format('YYYY-MM-DD')}
+								initialScrollIndex={todayIndex >= 0 ? todayIndex : 0}
+								getItemLayout={(_, index) => ({
+									length: width * 0.18 + 12,
+									offset: (width * 0.18 + 12) * index,
+									index,
+								})}
+								renderItem={({ item }) => (
+									<DayCard
+										day={item}
+										isSelected={item.isSame(selectedDay, 'day')}
+										onPress={handleSelectDay}
+									/>
+								)}
 							/>
-						)}
-					/>
+						</>
+					)}
+
+					{viewMode === 'week' && (
+						<>
+							<View style={styles.header}>
+								<TouchableOpacity onPress={goToPreviousWeek} style={styles.navBtn}>
+									<Text style={styles.navBtnText}>‹</Text>
+								</TouchableOpacity>
+								<Text style={styles.monthYear}>{weekLabel}</Text>
+								<TouchableOpacity onPress={goToNextWeek} style={styles.navBtn}>
+									<Text style={styles.navBtnText}>›</Text>
+								</TouchableOpacity>
+							</View>
+
+							<View style={styles.weekRow}>
+								{weekDays.map((day) => (
+									<DayCard
+										key={day.format('YYYY-MM-DD')}
+										day={day}
+										isSelected={day.isSame(selectedDay, 'day')}
+										onPress={handleSelectDay}
+									/>
+								))}
+							</View>
+						</>
+					)}
+
+					{viewMode === 'month' && (
+						<>
+							<View style={styles.header}>
+								<TouchableOpacity onPress={goToPreviousMonth} style={styles.navBtn}>
+									<Text style={styles.navBtnText}>‹</Text>
+								</TouchableOpacity>
+								<Text style={styles.monthYear}>{monthYearLabel}</Text>
+								<TouchableOpacity onPress={goToNextMonth} style={styles.navBtn}>
+									<Text style={styles.navBtnText}>›</Text>
+								</TouchableOpacity>
+							</View>
+
+							<View style={styles.weekdayRow}>
+								{WEEKDAYS.map((d) => (
+									<View key={d} style={styles.weekdayCell}>
+										<Text style={styles.weekdayText}>{d}</Text>
+									</View>
+								))}
+							</View>
+
+							<View style={styles.grid}>
+								{calendarGrid.map(({ date, isCurrentMonth, key }) => (
+									<TouchableOpacity
+										key={key}
+										style={[
+											styles.dayCell,
+											!isCurrentMonth && { opacity: 0.25 },
+											isSelected(date) && styles.dayCellSelected,
+											isToday(date) && !isSelected(date) && styles.dayCellToday,
+										]}
+										onPress={() => handleSelectDay(date)}
+										activeOpacity={0.7}
+									>
+										<Text
+											style={[
+												styles.dayText,
+												isSelected(date) && styles.dayTextSelected,
+											]}
+										>
+											{date.format('D')}
+										</Text>
+									</TouchableOpacity>
+								))}
+							</View>
+						</>
+					)}
 				</Animated.View>
 			)}
 		</View>
@@ -126,6 +247,30 @@ const styles = StyleSheet.create({
 		color: colorStyle.textPrimary,
 		fontSize: 10,
 		marginLeft: 4,
+	},
+	viewModeGroup: {
+		flexDirection: 'row',
+		gap: 4,
+		marginLeft: 8,
+	},
+	viewModeBtn: {
+		width: 26,
+		height: 26,
+		borderRadius: 13,
+		backgroundColor: colorStyle.bgCard,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	viewModeBtnActive: {
+		backgroundColor: colorStyle.mainGradient[0],
+	},
+	viewModeText: {
+		fontSize: 11,
+		fontWeight: '600',
+		color: colorStyle.textInactive,
+	},
+	viewModeTextActive: {
+		color: colorStyle.textPrimary,
 	},
 	triggerButtonOpen: {
 		borderBottomLeftRadius: 0,
@@ -164,5 +309,51 @@ const styles = StyleSheet.create({
 		color: colorStyle.mainGradient[0],
 		lineHeight: 26,
 		fontWeight: '600',
+	},
+	weekRow: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	weekdayRow: {
+		flexDirection: 'row',
+		marginBottom: 8,
+	},
+	weekdayCell: {
+		flex: 1,
+		alignItems: 'center',
+		paddingVertical: 6,
+	},
+	weekdayText: {
+		fontSize: 13,
+		fontWeight: '600',
+		color: colorStyle.textMuted,
+		textTransform: 'uppercase',
+	},
+	grid: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+	},
+	dayCell: {
+		width: '14.28%',
+		aspectRatio: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 10,
+	},
+	dayCellSelected: {
+		backgroundColor: colorStyle.mainGradient[0],
+	},
+	dayCellToday: {
+		borderWidth: 2,
+		borderColor: colorStyle.mainGradient[0],
+	},
+	dayText: {
+		fontSize: 15,
+		fontWeight: '500',
+		color: colorStyle.textPrimary,
+	},
+	dayTextSelected: {
+		color: colorStyle.textPrimary,
+		fontWeight: '700',
 	},
 });
