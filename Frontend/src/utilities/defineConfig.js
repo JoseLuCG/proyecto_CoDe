@@ -33,7 +33,10 @@ const apiRoutes = {
         getCathegories: "/cathegories",
         deleteCathegory: "/delete-cathegory/"
     },
-    exercisePresets: "/exercise-presets"
+    exercisePresets: "/exercise-presets",
+    activity: {
+        getMonthlyActivity: "/monthly-activity/"
+    }
 }
 
 const runnigInBrowser = Platform.OS === "web";
