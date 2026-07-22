@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colorStyle } from "../../styles/Colors";
 
 export const styles = StyleSheet.create({
 	mainContainer: {
@@ -13,15 +14,21 @@ export const styles = StyleSheet.create({
 		top: 40,
 		left: 20,
 		zIndex: 3,
-		backgroundColor: '#ddd',
-		width: 50,
-		height: 50,
-		borderRadius: 15,
+		backgroundColor: colorStyle.bgCard,
+		width: 44,
+		height: 44,
+		borderRadius: 12,
 		alignItems: 'center',
 		justifyContent: 'center',
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.2,
+		shadowRadius: 6,
+		elevation: 5,
 	},
 	menuIcon: {
-		fontSize: 24,
+		fontSize: 20,
+		color: colorStyle.textPrimary,
 	},
 	content: {
 		flex: 1,

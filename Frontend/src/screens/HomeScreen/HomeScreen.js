@@ -151,11 +151,9 @@ const HomeScreen = ({ navigation }) => {
 			colors={colorStyle.mainGradient}
 		>
 			{/* Menu button */}
-			<Animated.View style={[styles.menuButton, { left: slideAnim }]}>
-				<TouchableOpacity onPress={toggleMenu}>
-					<Text style={styles.menuIcon}>☰</Text>
-				</TouchableOpacity>
-			</Animated.View>
+			<TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+				<Text style={styles.menuIcon}>☰</Text>
+			</TouchableOpacity>
 
 			<SideLeftMenu slideAnim={slideAnim} menuOpen={menuOpen} closeMenu={closeMenu} />
 
