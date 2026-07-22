@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import {
 	View,
 	Text,
@@ -129,11 +130,13 @@ const HomeScreen = ({ navigation }) => {
 		}
 	}, [user, token, isGuest, getWeekDates, processCategoryData]);
 
-	useEffect(() => {
-		if (user) {
-			loadDashboardData();
-		}
-	}, [user]);
+	useFocusEffect(
+		useCallback(() => {
+			if (user) {
+				loadDashboardData();
+			}
+		}, [user])
+	);
 
 	// Summary values
 	const totalStrengthCount = weekStrengthExercises.length;
