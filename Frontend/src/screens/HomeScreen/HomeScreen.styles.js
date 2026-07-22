@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
- export const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
 	mainContainer: {
 		flex: 1,
 		justifyContent: 'center',
@@ -23,21 +23,38 @@ import { StyleSheet } from "react-native";
 	menuIcon: {
 		fontSize: 24,
 	},
-
 	content: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+		width: '100%',
+	},
+	summaryContainer: {
+		flex: 1,
+		borderRadius: 14,
+	},
+	scrollContent: {
+		paddingBottom: 20,
+		gap: 14,
 	},
 	title: {
 		fontSize: 22,
 		fontWeight: 'bold',
+		color: '#FFFFFF',
+		marginBottom: 4,
 	},
-	routinesContainer: {
-		backgroundColor: 'rgba(201, 237, 255, 0.76)',
-		height: 200,
-		width: 300,
-		borderRadius: 14,
+	cardsRow: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginBottom: 2,
+	},
+	loadingContainer: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	loadingText: {
+		marginTop: 10,
+		fontSize: 14,
+		color: '#FFFFFF',
 	},
 	guestBanner: {
 		backgroundColor: 'rgba(255, 193, 7, 0.25)',
