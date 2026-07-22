@@ -35,3 +35,7 @@ export const cathegoryRoutes = {
 export const presetRoutes = {
     getExercisePresets: "/exercise-presets"
 }
+
+export const activityRoutes = {
+    getMonthlyActivity: "/monthly-activity/:year/:month/:user"
+}
