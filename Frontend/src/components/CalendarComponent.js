@@ -1,26 +1,49 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import Animated, { FadeInDown, FadeOutUp, useSharedValue, useAnimatedStyle, withTiming, interpolateColor } from 'react-native-reanimated';
 import dayjs from 'dayjs';
 import DayCard from './DayCard';
 import { colorStyle } from '../styles/Colors';
 import { defaultBRadius } from '../styles/DefaultVaules';
+import { User } from '../contexts/UserContext';
+import { getMonthlyActivity } from '../services/activityService';
 
 const { width } = Dimensions.get('window');
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export const CalendarComponent = ({ setSelectedDate }) => {
+	const { user, token, isGuest } = useContext(User);
 	const [selectedDay, setSelectedDay] = useState(dayjs());
 	const [currentDate, setCurrentDate] = useState(dayjs());
 	const [isOpen, setIsOpen] = useState(false);
 	const [viewMode, setViewMode] = useState('day');
+	const [activityMap, setActivityMap] = useState({});
 	const flatListRef = useRef(null);
 	const animProgress = useSharedValue(0);
 
 	useEffect(() => {
 		animProgress.value = withTiming(isOpen ? 1 : 0, { duration: 250 });
 	}, [isOpen]);
+
+	async function fetchActivity() {
+		try {
+			const year = currentDate.year();
+			const month = currentDate.month() + 1;
+			const dates = await getMonthlyActivity(year, month, user.uuidUser, token);
+			const map = {};
+			dates.forEach(({ date, hasExercise, hasFood }) => {
+				map[date] = { hasExercise, hasFood };
+			});
+			setActivityMap(map);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	useEffect(() => {
+		fetchActivity();
+	}, [currentDate]);
 
 	const animatedTextStyle = useAnimatedStyle(() => ({
 		color: interpolateColor(
@@ -75,6 +98,10 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 	const handleSelectDay = (day) => {
 		setSelectedDay(day);
 		setIsOpen(false);
+	};
+
+	const getActivityForDate = (date) => {
+		return activityMap[date.format('YYYY-MM-DD')] || null;
 	};
 
 	return (
@@ -137,6 +164,7 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 										isSelected={item.isSame(selectedDay, 'day')}
 										isToday={item.isSame(dayjs(), 'day')}
 										onPress={handleSelectDay}
+										activity={getActivityForDate(item)}
 									/>
 								)}
 							/>
@@ -164,6 +192,7 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 										isToday={day.isSame(dayjs(), 'day')}
 										onPress={handleSelectDay}
 										compact
+										activity={getActivityForDate(day)}
 									/>
 								))}
 							</View>
@@ -191,28 +220,38 @@ export const CalendarComponent = ({ setSelectedDate }) => {
 							</View>
 
 							<View style={styles.grid}>
-								{calendarGrid.map(({ date, isCurrentMonth, key }) => (
-									<TouchableOpacity
-										key={key}
-										style={[
-											styles.dayCell,
-											!isCurrentMonth && { opacity: 0.25 },
-											isSelected(date) && styles.dayCellSelected,
-											isToday(date) && !isSelected(date) && styles.dayCellToday,
-										]}
-										onPress={() => handleSelectDay(date)}
-										activeOpacity={0.7}
-									>
-										<Text
+								{calendarGrid.map(({ date, isCurrentMonth, key }) => {
+									const activity = getActivityForDate(date);
+									const hasDot = activity && (activity.hasExercise || activity.hasFood);
+									return (
+										<TouchableOpacity
+											key={key}
 											style={[
-												styles.dayText,
-												isSelected(date) && styles.dayTextSelected,
+												styles.dayCell,
+												!isCurrentMonth && { opacity: 0.25 },
+												isSelected(date) && styles.dayCellSelected,
+												isToday(date) && !isSelected(date) && styles.dayCellToday,
 											]}
+											onPress={() => handleSelectDay(date)}
+											activeOpacity={0.7}
 										>
-											{date.format('D')}
-										</Text>
-									</TouchableOpacity>
-								))}
+											<Text
+												style={[
+													styles.dayText,
+													isSelected(date) && styles.dayTextSelected,
+												]}
+											>
+												{date.format('D')}
+											</Text>
+											{hasDot && (
+												<View style={styles.dotContainer}>
+													{activity.hasExercise && <View style={[styles.dot, styles.dotExercise]} />}
+													{activity.hasFood && <View style={[styles.dot, styles.dotFood]} />}
+												</View>
+											)}
+										</TouchableOpacity>
+									);
+								})}
 							</View>
 						</>
 					)}
@@ -358,5 +397,22 @@ const styles = StyleSheet.create({
 	dayTextSelected: {
 		color: colorStyle.textPrimary,
 		fontWeight: '700',
+	},
+	dotContainer: {
+		flexDirection: 'row',
+		position: 'absolute',
+		bottom: 2,
+		gap: 2,
+	},
+	dot: {
+		width: 5,
+		height: 5,
+		borderRadius: 2.5,
+	},
+	dotExercise: {
+		backgroundColor: '#4CAF50',
+	},
+	dotFood: {
+		backgroundColor: '#FF9800',
 	},
 });

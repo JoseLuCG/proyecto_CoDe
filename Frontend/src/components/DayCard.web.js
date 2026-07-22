@@ -1,7 +1,7 @@
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { colorStyle } from '../styles/Colors';
 
-const DayCard = ({ day, isSelected, onPress }) => (
+const DayCard = ({ day, isSelected, onPress, activity }) => (
     <TouchableOpacity
         onPress={() => onPress(day)}
         style={[styles.card, isSelected && styles.cardSelected]}
@@ -12,6 +12,12 @@ const DayCard = ({ day, isSelected, onPress }) => (
         <Text style={[styles.weekdayText, isSelected && styles.dayTextSelected]}>
             {day.format('ddd')}
         </Text>
+        {activity && (activity.hasExercise || activity.hasFood) && (
+            <View style={styles.dotContainer}>
+                {activity.hasExercise && <View style={[styles.dotHalf, styles.dotExercise]} />}
+                {activity.hasFood && <View style={[styles.dotHalf, styles.dotFood]} />}
+            </View>
+        )}
     </TouchableOpacity>
 );
 
@@ -44,6 +50,23 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: 'rgba(255,255,255,0.6)',
         marginTop: 2,
+    },
+    dotContainer: {
+        flexDirection: 'row',
+        position: 'absolute',
+        bottom: 6,
+        gap: 2,
+    },
+    dotHalf: {
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+    },
+    dotExercise: {
+        backgroundColor: '#4CAF50',
+    },
+    dotFood: {
+        backgroundColor: '#FF9800',
     },
 
 });

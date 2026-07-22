@@ -1,10 +1,10 @@
 import { useRef } from 'react';
-import { Text, TouchableOpacity, StyleSheet, Dimensions, Animated } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, Dimensions, Animated, View } from 'react-native';
 import { colorStyle } from '../styles/Colors';
 
 const { width } = Dimensions.get('window');
 
-const DayCard = ({ day, isSelected, onPress, compact, isToday }) => {
+const DayCard = ({ day, isSelected, onPress, compact, isToday, activity }) => {
     const scaleAnim = useRef(new Animated.Value(1)).current;
 
     const handlePressIn = () => {
@@ -38,6 +38,12 @@ const DayCard = ({ day, isSelected, onPress, compact, isToday }) => {
                 <Text style={[styles.weekdayText, compact && styles.weekdayTextCompact, isSelected && styles.dayTextSelected]}>
                     {day.format('ddd')}
                 </Text>
+                {activity && (activity.hasExercise || activity.hasFood) && (
+                    <View style={styles.dotContainer}>
+                        {activity.hasExercise && <View style={[styles.dotHalf, styles.dotExercise]} />}
+                        {activity.hasFood && <View style={[styles.dotHalf, styles.dotFood]} />}
+                    </View>
+                )}
             </Animated.View>
         </TouchableOpacity>
     );
@@ -91,5 +97,22 @@ const styles = StyleSheet.create({
     },
     dayTextSelected: {
         color: colorStyle.textPrimary,
+    },
+    dotContainer: {
+        flexDirection: 'row',
+        position: 'absolute',
+        bottom: 6,
+        gap: 2,
+    },
+    dotHalf: {
+        width: 6,
+        height: 6,
+        borderRadius: 3,
+    },
+    dotExercise: {
+        backgroundColor: '#4CAF50',
+    },
+    dotFood: {
+        backgroundColor: '#FF9800',
     },
 });
