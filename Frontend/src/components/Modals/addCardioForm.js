@@ -74,7 +74,7 @@ export default function AddCardioForm({ date, onClose }) {
         handleInputChange("exerciseUser", user.uuidUser);
         presetService.getPresets("cardio", null, token, isGuest)
             .then(setPresets)
-            .catch(console.error)
+            .catch(() => setPresets([]))
             .finally(() => setLoadingPresets(false));
     }, []);
 
