@@ -298,8 +298,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     saveButton: {
-        width: '90%',
-        height: 52,
+        width: 150,
+        height: 50,
         borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
