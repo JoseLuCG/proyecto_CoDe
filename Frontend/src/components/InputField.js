@@ -1,9 +1,9 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { colorStyle } from '../styles/Colors';
 
-const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType, centered }) => {
+const InputField = ({ label, value, onChangeText, secureTextEntry, keyboardType, centered, containerStyle }) => {
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, containerStyle]}>
       {label ? <Text style={centered ? styles.labelCentered : styles.label}>{label}</Text> : null}
       <TextInput
         style={styles.input}

@@ -112,13 +112,14 @@ export default function AddCardioForm({ date, onClose }) {
                         </View>
                     ) : null}
 
-                    <View style={styles.sectionCard}>
+                    <View style={styles.sectionCardname}>
                         <Text style={styles.sectionLabel}>Exercise name</Text>
                         <InputField
                             label=""
                             value={exerciseData.exerciseName}
                             onChangeText={(text) => handleInputChange("exerciseName", text)}
                             keyboardType="text-pad"
+                            containerStyle={styles.exerciseNameInput}
                         />
                     </View>
 
@@ -216,6 +217,7 @@ const styles = StyleSheet.create({
         paddingTop: 8,
     },
     sectionCard: {
+        width: '100%',
         backgroundColor: colorStyle.bgCard,
         borderRadius: 16,
         padding: 16,
@@ -225,7 +227,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.06,
         shadowRadius: 8,
         elevation: 2,
-        alignItems: 'center',
         alignSelf: 'center',
     },
     sectionLabel: {
@@ -285,6 +286,9 @@ const styles = StyleSheet.create({
     },
     metricSpacer: {
         width: 12,
+    },
+    exerciseNameInput: {
+        width: '100%',
     },
     errorText: {
         color: colorStyle.error,
