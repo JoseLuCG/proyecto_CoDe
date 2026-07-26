@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Modal, TouchableOpacity, ScrollView, TextInput, ActivityIndicator } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { colorStyle } from '../styles/Colors';
 import { User } from '../contexts/UserContext';
 import * as apiService from '../services/exerciseService';
@@ -127,7 +128,13 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise, onDe
             onRequestClose={onClose}
         >
             <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
-            <View style={styles.modalContent}>
+            <KeyboardAwareScrollView
+                style={styles.modalContent}
+                contentContainerStyle={styles.modalScrollContent}
+                bottomOffset={50}
+                enableOnAndroid={true}
+                keyboardShouldPersistTaps="handled"
+            >
                 <View style={styles.modalHandle} />
 
                 <Text style={styles.modalTitle}>{exercise?.name}</Text>
@@ -279,7 +286,7 @@ export default function ExerciseModalScreen({ isVisible, onClose, exercise, onDe
                         <Text style={styles.deleteExerciseButtonText}>Delete Exercise</Text>
                     </TouchableOpacity>
                 ) : null}
-            </View>
+            </KeyboardAwareScrollView>
         </Modal>
     );
 }
@@ -299,8 +306,10 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         padding: 20,
-        alignItems: 'center',
         width: "100%"
+    },
+    modalScrollContent: {
+        alignItems: 'center',
     },
     modalHandle: {
         width: 40,
