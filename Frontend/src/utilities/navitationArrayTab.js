@@ -14,4 +14,9 @@ export const navigationContentArray = [
         iconSource: require("./../../assets/icons/graphic.png"),
         navigateTo: "Home"
     },
+    {
+        labelText: "Opciones",
+        iconSource: require("./../../assets/gear.png"),
+        navigateTo: "Options"
+    },
 ];

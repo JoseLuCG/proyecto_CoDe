@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image, Pressable, Animated } from "react-native";
+import { View, StyleSheet, Text, Image, Pressable, Animated, Platform } from "react-native";
 import { useRef } from "react";
 import { colorStyle } from "../styles/Colors";
 
@@ -51,7 +51,7 @@ export default NavigationTab;
 const styles = StyleSheet.create({
     navigationTab: {
         height: 70,
-        width: 80,
+        width: Platform.OS === 'android' ? 68 : 80,
         alignItems: 'center',
         justifyContent: 'center',
     },

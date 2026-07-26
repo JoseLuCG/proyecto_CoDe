@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import { User } from '../contexts/UserContext';
 import ExercisesScreen from '../screens/ExercisesScreen';
 import FeedingScreen from '../screens/FeedingScreen';
+import OptionsScreen from '../screens/OptionsScreen';
 import NavigationBar from '../components/NavigationBar';
 import { runnigInBrowser } from '../utilities/defineConfig';
 
@@ -27,6 +28,7 @@ function MainTabs() {
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Exercises" component={ExercisesScreen} />
             <Tab.Screen name="Feeding" component={FeedingScreen} />
+            <Tab.Screen name="Options" component={OptionsScreen} />
         </Tab.Navigator>
     );
 }

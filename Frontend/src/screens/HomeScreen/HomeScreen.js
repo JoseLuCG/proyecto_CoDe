@@ -4,16 +4,13 @@ import {
 	View,
 	Text,
 	ScrollView,
-	Animated,
 	ActivityIndicator,
-	TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { colorStyle } from '../../styles/Colors';
 import { styles } from './HomeScreen.styles';
-import SideLeftMenu from '../../components/SideLeftMenu';
 import { User } from '../../contexts/UserContext';
 import { getFoodsInDate } from '../../services/FoodService';
 import {
@@ -27,13 +24,10 @@ import StrengthCategoryChart from '../../components/StrengthCategoryChart';
 
 dayjs.extend(isoWeek);
 
-const menuWidth = 250;
 const DAILY_KCAL_TARGET = 2000;
 
 const HomeScreen = ({ navigation }) => {
 	const { user, token, isGuest } = useContext(User);
-	const [menuOpen, setMenuOpen] = useState(false);
-	const slideAnim = useState(new Animated.Value(-menuWidth))[0];
 
 	const [loading, setLoading] = useState(true);
 	const [weekKcal, setWeekKcal] = useState([0, 0, 0, 0, 0, 0, 0]);
@@ -41,24 +35,6 @@ const HomeScreen = ({ navigation }) => {
 	const [weekCardioCount, setWeekCardioCount] = useState(0);
 	const [categories, setCategories] = useState([]);
 	const [categoryData, setCategoryData] = useState([]);
-
-	const toggleMenu = () => {
-		Animated.timing(slideAnim, {
-			toValue: menuOpen ? -menuWidth : 0,
-			duration: 300,
-			useNativeDriver: false,
-		}).start();
-		setMenuOpen(!menuOpen);
-	};
-
-	const closeMenu = () => {
-		Animated.timing(slideAnim, {
-			toValue: -menuWidth,
-			duration: 300,
-			useNativeDriver: false,
-		}).start();
-		setMenuOpen(false);
-	};
 
 	const getWeekDates = useCallback(() => {
 		const today = dayjs();
@@ -150,13 +126,6 @@ const HomeScreen = ({ navigation }) => {
 			style={styles.mainContainer}
 			colors={colorStyle.mainGradient}
 		>
-			{/* Menu button */}
-			<TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
-				<Text style={styles.menuIcon}>☰</Text>
-			</TouchableOpacity>
-
-			<SideLeftMenu slideAnim={slideAnim} menuOpen={menuOpen} closeMenu={closeMenu} />
-
 			{isGuest && (
 				<View style={styles.guestBanner}>
 					<Text style={styles.guestBannerText}>Modo invitado — Los datos se guardan solo en este dispositivo</Text>
