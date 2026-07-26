@@ -208,15 +208,14 @@ const styles = StyleSheet.create({
     scrollContent: {
         flexGrow: 1,
         paddingBottom: 20,
-        width: width
+        width: "100%"
     },
     container: {
-        width: '95%',
+        width: '100%',
         alignSelf: 'center',
         paddingTop: 8,
     },
     sectionCard: {
-        width: '90%',
         backgroundColor: colorStyle.bgCard,
         borderRadius: 16,
         padding: 16,
